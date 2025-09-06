@@ -2317,6 +2317,7 @@
     </div>
     </div> <!-- end app -->
     <!-- JavaScript -->
+    <script src="filedb.js"></script>
     <script>
         // Simple admin login using document.getElementById
         let isAdmin = false;
@@ -2480,7 +2481,7 @@
 // DATABASE MANAGEMENT (IndexedDB)
         // =====================================
         
-        class OptisparDB {
+        class LegacyOptisparDB {
             constructor() {
                 this.db = null;
                 this.version = 4;
