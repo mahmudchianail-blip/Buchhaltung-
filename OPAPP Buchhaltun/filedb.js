@@ -7,14 +7,25 @@ class OptisparDB {
     }
 
     async init() {
-        this.dirHandle = await window.showDirectoryPicker();
+        try {
+            this.dirHandle = await window.showDirectoryPicker();
+        } catch (err) {
+            console.error('Verzeichniszugriff verweigert oder abgebrochen', err);
+            this.dirHandle = null;
+        }
+
         for (const store of this.stores) {
             try {
-                const fileHandle = await this.dirHandle.getFileHandle(`${store}.json`, { create: true });
-                this.fileHandles[store] = fileHandle;
-                const file = await fileHandle.getFile();
-                const text = await file.text();
-                this.data[store] = text ? JSON.parse(text) : [];
+                if (this.dirHandle) {
+                    const fileHandle = await this.dirHandle.getFileHandle(`${store}.json`, { create: true });
+                    this.fileHandles[store] = fileHandle;
+                    const file = await fileHandle.getFile();
+                    const text = await file.text();
+                    const parsed = text ? JSON.parse(text) : [];
+                    this.data[store] = Array.isArray(parsed) ? parsed : [];
+                } else {
+                    this.data[store] = [];
+                }
             } catch (e) {
                 console.error(`Fehler beim Laden von ${store}.json`, e);
                 this.data[store] = [];
@@ -31,6 +42,18 @@ class OptisparDB {
     }
 
     async add(store, record) {
+        if (!this.data[store]) {
+            this.data[store] = [];
+        }
+
+        if (!this.fileHandles[store] && this.dirHandle) {
+            try {
+                this.fileHandles[store] = await this.dirHandle.getFileHandle(`${store}.json`, { create: true });
+            } catch (e) {
+                console.error(`Fehler beim Zugriff auf ${store}.json`, e);
+            }
+        }
+
         if (record.id === undefined && store !== 'konten') {
             record.id = this.generateUUID();
         }
