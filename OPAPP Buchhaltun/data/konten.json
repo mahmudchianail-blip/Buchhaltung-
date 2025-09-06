@@ -1,0 +1,142 @@
+[
+  {
+    "nummer": 1000,
+    "name": "Kasse",
+    "typ": "Aktiv",
+    "kategorie": "Zahlungsmittel",
+    "aktiv": true
+  },
+  {
+    "nummer": 1200,
+    "name": "Bank",
+    "typ": "Aktiv",
+    "kategorie": "Zahlungsmittel",
+    "aktiv": true
+  },
+  {
+    "nummer": 1400,
+    "name": "Forderungen aus Lieferungen und Leistungen",
+    "typ": "Aktiv",
+    "kategorie": "Forderungen",
+    "aktiv": true
+  },
+  {
+    "nummer": 1600,
+    "name": "Vorräte",
+    "typ": "Aktiv",
+    "kategorie": "Umlaufvermögen",
+    "aktiv": true
+  },
+  {
+    "nummer": 1576,
+    "name": "Vorsteuer 19%",
+    "typ": "Aktiv",
+    "kategorie": "Steuer",
+    "aktiv": true
+  },
+  {
+    "nummer": 1571,
+    "name": "Vorsteuer 7%",
+    "typ": "Aktiv",
+    "kategorie": "Steuer",
+    "aktiv": true
+  },
+  {
+    "nummer": 1776,
+    "name": "Umsatzsteuer 19%",
+    "typ": "Passiv",
+    "kategorie": "Steuer",
+    "aktiv": true
+  },
+  {
+    "nummer": 1771,
+    "name": "Umsatzsteuer 7%",
+    "typ": "Passiv",
+    "kategorie": "Steuer",
+    "aktiv": true
+  },
+  {
+    "nummer": 1600,
+    "name": "Verbindlichkeiten aus Lieferungen und Leistungen",
+    "typ": "Passiv",
+    "kategorie": "Verbindlichkeiten",
+    "aktiv": true
+  },
+  {
+    "nummer": 4000,
+    "name": "Umsatzerlöse 19%",
+    "typ": "Ertrag",
+    "kategorie": "Erträge",
+    "aktiv": true
+  },
+  {
+    "nummer": 4007,
+    "name": "Umsatzerlöse 7%",
+    "typ": "Ertrag",
+    "kategorie": "Erträge",
+    "aktiv": true
+  },
+  {
+    "nummer": 4020,
+    "name": "Erlöse steuerfreie Umsätze",
+    "typ": "Ertrag",
+    "kategorie": "Erträge",
+    "aktiv": true
+  },
+  {
+    "nummer": 5000,
+    "name": "Wareneingang",
+    "typ": "Aufwand",
+    "kategorie": "Aufwendungen",
+    "aktiv": true
+  },
+  {
+    "nummer": 4200,
+    "name": "Personalkosten",
+    "typ": "Aufwand",
+    "kategorie": "Aufwendungen",
+    "aktiv": true
+  },
+  {
+    "nummer": 4300,
+    "name": "Miete",
+    "typ": "Aufwand",
+    "kategorie": "Aufwendungen",
+    "aktiv": true
+  },
+  {
+    "nummer": 4400,
+    "name": "Bürokosten",
+    "typ": "Aufwand",
+    "kategorie": "Aufwendungen",
+    "aktiv": true
+  },
+  {
+    "nummer": 4500,
+    "name": "Reisekosten",
+    "typ": "Aufwand",
+    "kategorie": "Aufwendungen",
+    "aktiv": true
+  },
+  {
+    "nummer": 4600,
+    "name": "Werbekosten",
+    "typ": "Aufwand",
+    "kategorie": "Aufwendungen",
+    "aktiv": true
+  },
+  {
+    "nummer": 4800,
+    "name": "Sonstige Betriebsausgaben",
+    "typ": "Aufwand",
+    "kategorie": "Aufwendungen",
+    "aktiv": true
+  },
+  {
+    "nummer": 200,
+    "name": "Maschinen und Anlagen",
+    "typ": "Aktiv",
+    "kategorie": "Anlagevermögen",
+    "aktiv": true
+  }
+]
