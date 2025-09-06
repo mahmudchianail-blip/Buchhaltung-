@@ -2033,9 +2033,13 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium mb-2">Produkt *</label>
-                        <select id="wareneingang-product" class="form-select" required>
+                        <select id="wareneingang-product" class="form-select" required onchange="updateWareneingangVariants()">
                             <option value="">Produkt auswählen</option>
                         </select>
+                    </div>
+                    <div id="wareneingang-variant-container" class="md:col-span-2 hidden">
+                        <label class="block text-sm font-medium mb-2">Variante</label>
+                        <select id="wareneingang-variant" class="form-select"></select>
                     </div>
                     
                     <div>
@@ -2107,9 +2111,13 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium mb-2">Produkt *</label>
-                        <select id="warenausgang-product" class="form-select" required onchange="updateAvailableStock()">
+                        <select id="warenausgang-product" class="form-select" required onchange="updateWarenausgangVariants()">
                             <option value="">Produkt auswählen</option>
                         </select>
+                    </div>
+                    <div id="warenausgang-variant-container" class="md:col-span-2 hidden">
+                        <label class="block text-sm font-medium mb-2">Variante</label>
+                        <select id="warenausgang-variant" class="form-select" onchange="updateAvailableStock()"></select>
                     </div>
                     
                     <div>
@@ -5124,14 +5132,16 @@
         function openWareneingangModal() {
             const modal = document.getElementById('wareneingang-modal');
             const form = document.getElementById('wareneingang-form');
-            
+
             // Reset form
             form.reset();
             document.getElementById('warenausgang-auto-booking').checked = true;
+            document.getElementById('wareneingang-variant-container').classList.add('hidden');
+            document.getElementById('wareneingang-variant').innerHTML = '';
 
             // Load products
             app.loadProductFilters();
-            
+
             modal.classList.add('active');
         }
 
@@ -5139,6 +5149,8 @@
             const modal = document.getElementById('wareneingang-modal');
             modal.classList.remove('active');
             document.getElementById('wareneingang-form').reset();
+            document.getElementById('wareneingang-variant-container').classList.add('hidden');
+            document.getElementById('wareneingang-variant').innerHTML = '';
             // Clear calculated fields
             document.getElementById('wareneingang-total').value = '';
         }
@@ -5147,16 +5159,18 @@
         function openWarenausgangModal() {
             const modal = document.getElementById('warenausgang-modal');
             const form = document.getElementById('warenausgang-form');
-            
+
             // Reset form
             form.reset();
-            
+            document.getElementById('warenausgang-variant-container').classList.add('hidden');
+            document.getElementById('warenausgang-variant').innerHTML = '';
+
             // Load products
             app.loadProductFilters();
-            
+
             // Clear stock info
             document.getElementById('available-stock').textContent = '';
-            
+
             modal.classList.add('active');
         }
 
@@ -5164,6 +5178,8 @@
             const modal = document.getElementById('warenausgang-modal');
             modal.classList.remove('active');
             document.getElementById('warenausgang-form').reset();
+            document.getElementById('warenausgang-variant-container').classList.add('hidden');
+            document.getElementById('warenausgang-variant').innerHTML = '';
             document.getElementById('available-stock').textContent = '';
             // Clear calculated fields
             document.getElementById('warenausgang-total').value = '';
@@ -5184,8 +5200,14 @@
     try {
         const product = await app.db.get('waren', productSelect.value);
         if (product) {
-            // Use the canonical field 'bestand' for stock
-            const stock = product.bestand || 0;
+            let stock = product.bestand || 0;
+            const variantSelect = document.getElementById('warenausgang-variant');
+            if (variantSelect && variantSelect.value !== '') {
+                const variant = product.varianten && product.varianten[variantSelect.value];
+                if (variant) {
+                    stock = parseInt(variant.stock) || 0;
+                }
+            }
             stockDiv.textContent = `Verfügbar: ${stock} Stück`;
             quantityInput.max = stock;
             const submitBtn = document.querySelector('#warenausgang-form [type="submit"]');
@@ -5212,6 +5234,48 @@
                 }
             }
         }
+
+        async function updateWareneingangVariants() {
+            const productId = document.getElementById('wareneingang-product').value;
+            const container = document.getElementById('wareneingang-variant-container');
+            const select = document.getElementById('wareneingang-variant');
+            if (!productId) {
+                select.innerHTML = '';
+                container.classList.add('hidden');
+                return;
+            }
+            const product = await app.db.get('waren', productId);
+            if (product && Array.isArray(product.varianten) && product.varianten.length) {
+                select.innerHTML = '<option value="">Variante wählen</option>' +
+                    product.varianten.map((v, i) => `<option value="${i}">${v.name}</option>`).join('');
+                container.classList.remove('hidden');
+            } else {
+                select.innerHTML = '';
+                container.classList.add('hidden');
+            }
+        }
+
+        async function updateWarenausgangVariants() {
+            const productId = document.getElementById('warenausgang-product').value;
+            const container = document.getElementById('warenausgang-variant-container');
+            const select = document.getElementById('warenausgang-variant');
+            if (!productId) {
+                select.innerHTML = '';
+                container.classList.add('hidden');
+                updateAvailableStock();
+                return;
+            }
+            const product = await app.db.get('waren', productId);
+            if (product && Array.isArray(product.varianten) && product.varianten.length) {
+                select.innerHTML = '<option value="">Variante wählen</option>' +
+                    product.varianten.map((v, i) => `<option value="${i}">${v.name}</option>`).join('');
+                container.classList.remove('hidden');
+            } else {
+                select.innerHTML = '';
+                container.classList.add('hidden');
+            }
+            updateAvailableStock();
+        }
     } catch (error) {
         console.error('Error loading product stock:', error);
         stockDiv.textContent = 'Fehler beim Laden der Bestandsinformationen';
@@ -5225,6 +5289,7 @@
             
             try {
                 const productId = document.getElementById('wareneingang-product').value;
+                const variantIndex = document.getElementById('wareneingang-variant').value;
                 const quantity = parseInt(document.getElementById('wareneingang-quantity').value);
                 let price = parseFloat(document.getElementById('wareneingang-price').value) || 0;
                 const totalPrice = parseFloat(document.getElementById('wareneingang-total').value) || 0;
@@ -5249,7 +5314,7 @@
                     };
                 }
 
-                console.log('Wareneingang data:', { productId, quantity, price, totalPrice, supplier, reference, notes, autoBooking });
+                console.log('Wareneingang data:', { productId, variantIndex, quantity, price, totalPrice, supplier, reference, notes, autoBooking });
                 
                 // Validation
                 if (!productId) {
@@ -5276,13 +5341,25 @@
                     showNotification('Produkt nicht gefunden!', 'error');
                     return;
                 }
-                
+
                 console.log('Product found:', product);
-                
-                // Update product stock
+
                 const oldStock = product.bestand || 0;
-                const newStock = oldStock + quantity;
-                product.bestand = newStock;
+                let newStock;
+                if (variantIndex !== '') {
+                    if (!product.varianten || !product.varianten[variantIndex]) {
+                        showNotification('Variante nicht gefunden!', 'error');
+                        return;
+                    }
+                    const variant = product.varianten[variantIndex];
+                    const vOld = parseInt(variant.stock) || 0;
+                    variant.stock = vOld + quantity;
+                    product.bestand = product.varianten.reduce((sum, v) => sum + (parseInt(v.stock) || 0), 0);
+                    newStock = product.bestand;
+                } else {
+                    newStock = oldStock + quantity;
+                    product.bestand = newStock;
+                }
 
                 // Update weighted average price (avg_price_cent) based on entered unit price
                 (function () {
@@ -5314,6 +5391,7 @@
                     type: 'eingang', // For compatibility
                     productId: productId,
                     productName: product.name,
+                    variant: variantIndex !== '' && product.varianten ? (product.varianten[variantIndex]?.name || '') : '',
                     menge: quantity,
                     quantity: quantity, // For compatibility
                     preis_pro_stueck_cent: Math.round(price * 100),
@@ -5366,6 +5444,7 @@
             
             try {
                 const productId = document.getElementById('warenausgang-product').value;
+                const variantIndex = document.getElementById('warenausgang-variant').value;
                 const quantity = parseInt(document.getElementById('warenausgang-quantity').value);
                 let price = parseNumber(document.getElementById('warenausgang-price').value);
                 const totalPrice = parseNumber(document.getElementById('warenausgang-total').value);
@@ -5375,7 +5454,7 @@
                 const notes = document.getElementById('warenausgang-notes').value;
                 const autoBooking = document.getElementById('warenausgang-auto-booking').checked;
                 
-                console.log('Warenausgang data:', { productId, quantity, price, totalPrice, customer, reference, reason, notes, autoBooking });
+                console.log('Warenausgang data:', { productId, variantIndex, quantity, price, totalPrice, customer, reference, reason, notes, autoBooking });
                 
                 // Validation
                 if (!productId) {
@@ -5405,17 +5484,30 @@
                 
                 console.log('Product found:', product);
                 
-                // Check stock availability
-                const currentStock = product.bestand || 0;
-                if (quantity > currentStock) {
-                    const proceed = confirm(`Achtung: Sie möchten ${quantity} Stück ausbuchen, aber nur ${currentStock} sind verfügbar. Trotzdem fortfahren?`);
-                    if (!proceed) return;
+                const oldStock = product.bestand || 0;
+                let newStock;
+                if (variantIndex !== '') {
+                    if (!product.varianten || !product.varianten[variantIndex]) {
+                        showNotification('Variante nicht gefunden!', 'error');
+                        return;
+                    }
+                    const variant = product.varianten[variantIndex];
+                    const vStock = parseInt(variant.stock) || 0;
+                    if (quantity > vStock) {
+                        const proceed = confirm(`Achtung: Sie möchten ${quantity} Stück ausbuchen, aber nur ${vStock} dieser Variante sind verfügbar. Trotzdem fortfahren?`);
+                        if (!proceed) return;
+                    }
+                    variant.stock = Math.max(0, vStock - quantity);
+                    product.bestand = product.varianten.reduce((sum, v) => sum + (parseInt(v.stock) || 0), 0);
+                    newStock = product.bestand;
+                } else {
+                    if (quantity > oldStock) {
+                        const proceed = confirm(`Achtung: Sie möchten ${quantity} Stück ausbuchen, aber nur ${oldStock} sind verfügbar. Trotzdem fortfahren?`);
+                        if (!proceed) return;
+                    }
+                    newStock = Math.max(0, oldStock - quantity);
+                    product.bestand = newStock;
                 }
-                
-                // Update product stock
-                const oldStock = currentStock;
-                const newStock = Math.max(0, currentStock - quantity);
-                product.bestand = newStock;
                 
                 // Save updated product
                 await app.db.put('waren', product);
@@ -5428,6 +5520,7 @@
                     type: 'ausgang', // For compatibility
                     productId: productId,
                     productName: product.name,
+                    variant: variantIndex !== '' && product.varianten ? (product.varianten[variantIndex]?.name || '') : '',
                     menge: quantity,
                     quantity: quantity, // For compatibility
                     preis_pro_stueck_cent: Math.round(price * 100),
