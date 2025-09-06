@@ -527,8 +527,6 @@
         <div class="os-main">
             <main class="os-main-content">
                 <section class="os-dashboard">
-                    <h1>Dashboard – OptiSpar ERP</h1>
-                    <p id="os-date" class="date"></p>
                     <div class="kpi-grid">
                         <div class="kpi-card">
                             <div class="title">Aktueller Cashflow</div>
@@ -563,12 +561,6 @@
                     </div>
                 </section>
                 <script>
-                    document.addEventListener('DOMContentLoaded', () => {
-                        const el = document.getElementById('os-date');
-                        if (el) {
-                            el.textContent = new Date().toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' });
-                        }
-                    });
                     document.addEventListener('DOMContentLoaded', () => {
                         setActiveSidebar('dashboard');
                     });

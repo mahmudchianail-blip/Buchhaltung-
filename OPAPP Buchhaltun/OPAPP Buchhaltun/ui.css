@@ -88,14 +88,6 @@ body {
   overflow: auto;
 }
 
-.os-dashboard h1 {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-.os-dashboard .date {
-  color: var(--color-gray);
-  margin-bottom: 24px;
-}
 
 .kpi-grid {
   display: grid;
