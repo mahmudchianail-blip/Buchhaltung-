@@ -496,10 +496,31 @@
         <aside class="os-sidebar">
             <div class="brand">OptiSpar<span class="subtitle"> ERP System</span></div>
             <nav>
-                <a href="buchhaltung.html" class="active">Dashboard</a>
-                <a href="#">Finanzen</a>
-                <a href="#">Lager</a>
-                <a href="#">Einkauf</a>
+                <a href="#" data-tab="dashboard" onclick="switchTab('dashboard'); setActiveSidebar('dashboard');">Dashboard</a>
+
+                <div class="menu-item" id="menu-finanzen">
+                    <a href="#" onclick="handleMainNav('menu-finanzen','buchungen')">Finanzen</a>
+                    <div class="submenu">
+                        <a href="#" data-tab="buchungen" onclick="switchTab('buchungen'); setActiveSidebar('buchungen');">Buchungen</a>
+                        <a href="#" data-tab="konten" onclick="switchTab('konten'); setActiveSidebar('konten');">Konten</a>
+                        <a href="#" data-tab="berichte" onclick="switchTab('berichte'); setActiveSidebar('berichte');">Berichte</a>
+                    </div>
+                </div>
+
+                <div class="menu-item" id="menu-lager">
+                    <a href="#" onclick="handleMainNav('menu-lager','lager')">Lager</a>
+                    <div class="submenu">
+                        <a href="#" data-tab="lager" onclick="switchTab('lager'); setActiveSidebar('lager');">Lager</a>
+                        <a href="#" data-tab="bewegungen" onclick="switchTab('bewegungen'); setActiveSidebar('bewegungen');">Bewegungen</a>
+                    </div>
+                </div>
+
+                <div class="menu-item" id="menu-einkauf">
+                    <a href="#" onclick="handleMainNav('menu-einkauf','bestellungen')">Einkauf</a>
+                    <div class="submenu">
+                        <a href="#" data-tab="bestellungen" onclick="switchTab('bestellungen'); setActiveSidebar('bestellungen');">Bestellungen</a>
+                    </div>
+                </div>
             </nav>
             <div class="footer">OptiSpar ERP v2.1.0</div>
         </aside>
@@ -557,6 +578,31 @@
                             el.textContent = new Date().toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' });
                         }
                     });
+                    document.addEventListener('DOMContentLoaded', () => {
+                        setActiveSidebar('dashboard');
+                    });
+                    function handleMainNav(menuId, defaultTab) {
+                        document.querySelectorAll('.os-sidebar .menu-item').forEach(i => i.classList.remove('open'));
+                        const item = document.getElementById(menuId);
+                        if (item) item.classList.add('open');
+                        switchTab(defaultTab);
+                        setActiveSidebar(defaultTab);
+                    }
+                    function setActiveSidebar(tab) {
+                        const sidebar = document.querySelector('.os-sidebar');
+                        if (!sidebar) return;
+                        sidebar.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+                        const link = sidebar.querySelector(`nav a[data-tab="${tab}"]`);
+                        if (link) {
+                            link.classList.add('active');
+                            const menuItem = link.closest('.menu-item');
+                            if (menuItem) {
+                                menuItem.classList.add('open');
+                                const parentLink = menuItem.querySelector(':scope > a');
+                                if (parentLink) parentLink.classList.add('active');
+                            }
+                        }
+                    }
                 </script>
                 <div class="os-card os-page-content">
     <!-- Simple Login Modal -->
@@ -610,7 +656,7 @@
     </header>
 
     <!-- Navigation Tabs -->
-    <nav class="bg-white border-b">
+    <nav class="bg-white border-b module-nav">
         <div class="container px-4">
             <div class="flex space-x-0">
                 <button class="tab-button active" onclick="switchTab('dashboard')" id="tab-dashboard">
