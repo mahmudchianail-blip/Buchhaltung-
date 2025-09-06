@@ -5,6 +5,7 @@ Einfacher Node.js-Server für die Buchhaltungs-Anwendung.
 ## Start
 
 ```bash
+npm install
 npm start
 ```
 
