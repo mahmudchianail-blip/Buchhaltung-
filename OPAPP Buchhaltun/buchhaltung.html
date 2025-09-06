@@ -489,8 +489,76 @@
             color: white;
         }
     </style>
+    <link rel="stylesheet" href="ui.css">
 </head>
 <body class="bg-gray-50">
+    <div class="os-layout">
+        <aside class="os-sidebar">
+            <div class="brand">OptiSpar<span class="subtitle"> ERP System</span></div>
+            <nav>
+                <a href="buchhaltung.html" class="active">Dashboard</a>
+                <a href="#">Finanzen</a>
+                <a href="#">Lager</a>
+                <a href="#">Einkauf</a>
+            </nav>
+            <div class="footer">OptiSpar ERP v2.1.0</div>
+        </aside>
+        <div class="os-main">
+            <header class="os-topbar">
+                <div class="search"><input type="text" placeholder="Suchen Sie nach Produkten, Konten, Buchungen"></div>
+                <div class="actions">
+                    <button>+ Neue Buchung</button>
+                    <div class="icon">🔔</div>
+                    <div class="icon">🌓</div>
+                    <div class="avatar"><div class="circle">A</div><span>Administrator / admin</span></div>
+                </div>
+            </header>
+            <main class="os-main-content">
+                <section class="os-dashboard">
+                    <h1>Dashboard – OptiSpar ERP</h1>
+                    <p id="os-date" class="date"></p>
+                    <div class="kpi-grid">
+                        <div class="kpi-card">
+                            <div class="title">Aktueller Cashflow</div>
+                            <div class="value">0,00 €</div>
+                            <div class="delta">0 % vs. Vormonat</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="title">Monatsumsatz</div>
+                            <div class="value">0,00 €</div>
+                            <div class="delta">0 % vs. Vormonat</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="title">USt-Verbindlichkeiten</div>
+                            <div class="value">0,00 €</div>
+                            <div class="delta">0 % vs. Vormonat</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="title">Offene Forderungen</div>
+                            <div class="value">0,00 €</div>
+                            <div class="delta">0 % vs. Vormonat</div>
+                        </div>
+                    </div>
+                    <div class="cards-row">
+                        <div class="os-card">
+                            <h3>Umsatz & Gewinn Entwicklung</h3>
+                            <p>Monatliche Übersicht der letzten 9 Monate</p>
+                        </div>
+                        <div class="os-card">
+                            <h3>Lagerbestand Übersicht</h3>
+                            <p>Aktuelle Bestandsverteilung</p>
+                        </div>
+                    </div>
+                </section>
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const el = document.getElementById('os-date');
+                        if (el) {
+                            el.textContent = new Date().toLocaleString('de-DE', { dateStyle: 'full', timeStyle: 'short' });
+                        }
+                    });
+                </script>
+                <div class="os-card os-page-content">
     <!-- Simple Login Modal -->
     <div id="loginModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
         <div class="bg-white p-6 rounded-lg shadow-lg w-80">
@@ -8637,5 +8705,10 @@ Optispar Buchhaltungssystem
   window.addEventListener('unhandledrejection', removeLoaderSafely);
 })();
 </script>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
 </body>
 </html>
