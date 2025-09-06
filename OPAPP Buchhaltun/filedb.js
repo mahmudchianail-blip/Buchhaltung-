@@ -103,3 +103,52 @@ class OptisparDB {
         });
     }
 }
+
+class OptisparServerDB {
+    constructor(baseUrl) {
+        this.baseUrl = baseUrl.replace(/\/$/, '');
+    }
+
+    async init() {
+        return;
+    }
+
+    async add(store, record) {
+        const res = await fetch(`${this.baseUrl}/${store}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(record)
+        });
+        const data = await res.json();
+        return data.id || data.nummer;
+    }
+
+    async put(store, record) {
+        const key = record.id || record.nummer;
+        await fetch(`${this.baseUrl}/${store}/${key}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(record)
+        });
+        return key;
+    }
+
+    async get(store, key) {
+        const items = await this.getAll(store);
+        return items.find(i => (i.id || i.nummer) === key);
+    }
+
+    async getAll(store) {
+        const res = await fetch(`${this.baseUrl}/${store}`);
+        return await res.json();
+    }
+
+    async delete(store, key) {
+        await fetch(`${this.baseUrl}/${store}/${key}`, { method: 'DELETE' });
+    }
+
+    async count(store) {
+        const items = await this.getAll(store);
+        return items.length;
+    }
+}

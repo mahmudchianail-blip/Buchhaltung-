@@ -2317,6 +2317,10 @@
     </div>
     </div> <!-- end app -->
     <!-- JavaScript -->
+    <script>
+        // Basis-URL für das API-Backend
+        window.OPTISPAR_API_BASE = '/api';
+    </script>
     <script src="filedb.js"></script>
     <script>
         // Simple admin login using document.getElementById
@@ -2485,7 +2489,9 @@
 
         class OptisparApp {
             constructor() {
-                this.db = new OptisparDB();
+                this.db = window.OPTISPAR_API_BASE ?
+                    new OptisparServerDB(window.OPTISPAR_API_BASE) :
+                    new OptisparDB();
                 this.currentBookingType = null;
                 this.currentProduct = null;
                 this.isEditingProduct = false;
