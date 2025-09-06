@@ -744,29 +744,40 @@
 
                 <!-- Bottom Section -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Schnellbuchungen -->
+                    <!-- USt-Voranmeldung -->
                     <div class="card p-6">
-                        <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
-                            <i data-lucide="zap" class="h-5 w-5"></i>
-                            Schnellbuchungen
-                        </h3>
-                        
-                        <div class="space-y-3">
-                            <div class="p-4 bg-red-50 border-l-4 border-red-400 rounded">
-                                <div class="flex items-center gap-2 mb-1">
-                                    <i data-lucide="minus-circle" class="h-4 w-4 text-red-600"></i>
-                                    <span class="font-semibold text-red-800">Ausgabe buchen</span>
-                                </div>
-                                <p class="text-sm text-red-700">Kosten und Ausgaben erfassen</p>
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-lg font-semibold flex items-center gap-2">
+                                    <i data-lucide="percent" class="h-5 w-5"></i>
+                                    USt-Voranmeldung
+                                </h3>
+                                <div id="ust-period" class="text-sm text-gray-500"></div>
                             </div>
-                            
-                            <div class="p-4 bg-green-50 border-l-4 border-green-400 rounded">
-                                <div class="flex items-center gap-2 mb-1">
-                                    <i data-lucide="plus-circle" class="h-4 w-4 text-green-600"></i>
-                                    <span class="font-semibold text-green-800">Einnahme buchen</span>
+                            <div class="text-right">
+                                <div class="text-sm text-gray-500 flex items-center justify-end">
+                                    <span id="ust-days-remaining">0</span>&nbsp;Tage
                                 </div>
-                                <p class="text-sm text-green-700">Umsätze und Erlöse erfassen</p>
+                                <div class="text-sm text-gray-500">Fälligkeitsdatum</div>
+                                <div id="ust-due-date" class="text-lg font-semibold">-</div>
                             </div>
+                        </div>
+
+                        <div class="space-y-1 mb-4">
+                            <div class="flex justify-between"><span>USt 19%</span><span id="ust19">0,00 €</span></div>
+                            <div class="flex justify-between"><span>USt 7%</span><span id="ust7">0,00 €</span></div>
+                            <div class="flex justify-between"><span>USt 0%</span><span id="ust0">0,00 €</span></div>
+                            <div class="border-t pt-2 flex justify-between font-semibold"><span>Gesamt USt</span><span id="ust-total">0,00 €</span></div>
+                        </div>
+
+                        <div>
+                            <label for="ust-frequency" class="block text-sm font-medium text-gray-700 mb-1">Zahlungsintervall</label>
+                            <select id="ust-frequency" class="form-input">
+                                <option value="monthly">Monatlich</option>
+                                <option value="quarterly">Quartal</option>
+                                <option value="semiannual">Halbjährlich</option>
+                                <option value="yearly">Jährlich</option>
+                            </select>
                         </div>
                     </div>
 
@@ -2572,7 +2583,16 @@
                     const today = new Date().toISOString().split('T')[0];
                     const dateInput = document.getElementById('booking-datum');
                     if (dateInput) dateInput.value = today;
-                    
+
+                    const freqSelect = document.getElementById('ust-frequency');
+                    if (freqSelect) {
+                        freqSelect.value = localStorage.getItem('ustFrequency') || 'monthly';
+                        freqSelect.addEventListener('change', () => {
+                            localStorage.setItem('ustFrequency', freqSelect.value);
+                            this.loadDashboard();
+                        });
+                    }
+
                     // Load all data
                     await this.refreshAll();
                     
@@ -2681,7 +2701,10 @@
                     this.updateElement('kpi-produktarten', waren.length.toString());
                     this.updateElement('kpi-gesamtbestand', gesamtbestand + ' Stk.');
                     this.updateElement('kpi-niedrige-bestaende', lowStockWaren.length.toString());
-                    
+
+                    // Update USt summary
+                    this.updateUstSummary(buchungen);
+
                     // Update overview
                     this.updateElement('total-bookings', buchungen.length.toString());
                     this.updateElement('total-products', waren.length.toString());
@@ -3246,6 +3269,63 @@
                 if (element) {
                     element.textContent = value;
                 }
+            }
+
+            getUstPeriodRange(freq) {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = now.getMonth();
+                let start, end, label;
+                if (freq === 'quarterly') {
+                    const qStart = Math.floor(month / 3) * 3;
+                    start = new Date(year, qStart, 1);
+                    end = new Date(year, qStart + 3, 0);
+                    const qNum = qStart / 3 + 1;
+                    label = `${qNum}. Quartal ${year}`;
+                } else if (freq === 'semiannual') {
+                    const hStart = month < 6 ? 0 : 6;
+                    start = new Date(year, hStart, 1);
+                    end = new Date(year, hStart + 6, 0);
+                    label = hStart === 0 ? `1. Halbjahr ${year}` : `2. Halbjahr ${year}`;
+                } else if (freq === 'yearly') {
+                    start = new Date(year, 0, 1);
+                    end = new Date(year, 11, 31);
+                    label = `${year}`;
+                } else {
+                    start = new Date(year, month, 1);
+                    end = new Date(year, month + 1, 0);
+                    label = now.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' });
+                }
+                return { start, end, label };
+            }
+
+            updateUstSummary(buchungen) {
+                const freq = localStorage.getItem('ustFrequency') || 'monthly';
+                const { start, end, label } = this.getUstPeriodRange(freq);
+                const dueDate = new Date(end.getFullYear(), end.getMonth() + 1, 10);
+
+                this.updateElement('ust-period', label);
+                this.updateElement('ust-due-date', dueDate.toLocaleDateString('de-DE'));
+                const diffDays = Math.ceil((dueDate - new Date()) / 86400000);
+                this.updateElement('ust-days-remaining', Math.max(0, diffDays).toString());
+
+                const vat = { 19: 0, 7: 0, 0: 0 };
+                buchungen.forEach(b => {
+                    const dateStr = b.datum || b.date;
+                    if (!dateStr) return;
+                    const d = new Date(dateStr);
+                    if (d < start || d > end) return;
+                    const rate = b.mwst_satz || 0;
+                    let amount = b.mwst_betrag_cent || 0;
+                    if (b.typ === 'ausgabe') amount *= -1;
+                    vat[rate] = (vat[rate] || 0) + amount;
+                });
+
+                this.updateElement('ust19', this.formatCurrency(vat[19] || 0));
+                this.updateElement('ust7', this.formatCurrency(vat[7] || 0));
+                this.updateElement('ust0', this.formatCurrency(vat[0] || 0));
+                const total = (vat[19] || 0) + (vat[7] || 0) + (vat[0] || 0);
+                this.updateElement('ust-total', this.formatCurrency(total));
             }
         }
 
