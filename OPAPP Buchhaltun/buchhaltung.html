@@ -528,7 +528,7 @@
             <header class="os-topbar">
                 <div class="search"><input type="text" placeholder="Suchen Sie nach Produkten, Konten, Buchungen"></div>
                 <div class="actions">
-                    <button>+ Neue Buchung</button>
+                    <button class="hidden">+ Neue Buchung</button>
                     <div class="icon">🔔</div>
                     <div class="icon">🌓</div>
                     <div class="avatar"><div class="circle">A</div><span>Administrator / admin</span></div>
@@ -536,7 +536,31 @@
             </header>
             <main class="os-main-content">
                 <section class="os-dashboard">
-                    <h1>Dashboard – OptiSpar ERP</h1>
+                    <div class="os-page-header">
+                        <h1>Dashboard – OptiSpar ERP</h1>
+                        <div class="header-actions">
+                            <button class="btn btn-red" onclick="openBookingModal('ausgabe')">
+                                <i data-lucide="minus-circle" class="h-4 w-4"></i>
+                                Ausgabe buchen
+                            </button>
+                            <button class="btn btn-green" onclick="openBookingModal('einnahme')">
+                                <i data-lucide="plus-circle" class="h-4 w-4"></i>
+                                Einnahme buchen
+                            </button>
+                            <button class="btn btn-blue" onclick="openUserListModal()" data-admin-only>
+                                <i data-lucide="users" class="h-4 w-4"></i>
+                                Nutzer verwalten
+                            </button>
+                            <button class="btn btn-blue" onclick="openUserModal()" data-admin-only>
+                                <i data-lucide="user-plus" class="h-4 w-4"></i>
+                                Nutzer anlegen
+                            </button>
+                            <button class="btn btn-secondary" onclick="openSettingsModal()">
+                                <i data-lucide="settings" class="h-4 w-4"></i>
+                                Einstellungen
+                            </button>
+                        </div>
+                    </div>
                     <p id="os-date" class="date"></p>
                     <div class="kpi-grid">
                         <div class="kpi-card">
@@ -604,7 +628,7 @@
                         }
                     }
                 </script>
-                <div class="os-card os-page-content">
+                <div class="os-card os-page-content hidden">
     <!-- Simple Login Modal -->
     <div id="loginModal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
         <div class="bg-white p-6 rounded-lg shadow-lg w-80">
@@ -702,7 +726,7 @@
         <div id="content-dashboard" class="tab-content active">
             <div class="space-y-6">
                 <!-- Search Bar -->
-                <div class="relative">
+                <div class="relative hidden">
                     <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4"></i>
                     <input type="text" class="form-input pl-10" placeholder="🔍 Intelligente Suche - Buchungen, Kunden, Produkte...">
                 </div>
