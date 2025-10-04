@@ -74,6 +74,389 @@
       padding-top: 0.5rem;
     }
   }
+
+  @keyframes optispar-fade-in-up {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 20px, 0);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  .optispar-animate {
+    animation: optispar-fade-in-up 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  .optispar-header-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    background: linear-gradient(135deg, #1d4f55, #0e2a30);
+  }
+
+  .optispar-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 72rem;
+    min-height: 6rem;
+    padding: 1rem 1.5rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 24px 50px rgba(8, 59, 61, 0.35);
+    backdrop-filter: blur(24px);
+    transform-style: preserve-3d;
+  }
+
+  .optispar-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle 250px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(220, 255, 255, 0.25), transparent 80%);
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .optispar-header:hover::before {
+    opacity: 1;
+  }
+
+  .optispar-header__logo,
+  .optispar-header__actions {
+    position: relative;
+    z-index: 2;
+  }
+
+  .optispar-header__logo {
+    display: flex;
+    align-items: center;
+  }
+
+  .optispar-header__logo a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 3.25rem;
+    padding: 0 1.5rem;
+    border-radius: 0.75rem;
+    background: rgba(0, 0, 0, 0.1);
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+
+  .optispar-header__logo a:hover,
+  .optispar-header__logo a:focus-visible {
+    background: rgba(0, 0, 0, 0.18);
+    outline: none;
+  }
+
+  .optispar-header__nav {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    z-index: 1;
+  }
+
+  .optispar-nav__list {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    position: relative;
+  }
+
+  .optispar-nav__item {
+    position: relative;
+  }
+
+  .optispar-nav__link {
+    display: inline-block;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 9999px;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.7);
+    transition: color 0.3s ease;
+  }
+
+  .optispar-nav__link:hover,
+  .optispar-nav__link:focus-visible {
+    color: #fff;
+    outline: none;
+  }
+
+  .optispar-nav__link--active {
+    color: #fff;
+  }
+
+  .optispar-nav__divider {
+    user-select: none;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .optispar-nav__indicator {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    height: 2.75rem;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    transition: left 0.4s ease, width 0.4s ease, opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .optispar-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .optispar-mobile-menu {
+    display: none;
+    margin-right: 0.75rem;
+  }
+
+  .optispar-mobile-menu .header__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 9999px;
+    background: rgba(20, 141, 150, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    transition: background 0.3s ease;
+  }
+
+  .optispar-mobile-menu .header__icon:hover,
+  .optispar-mobile-menu .header__icon:focus-visible {
+    background: rgba(20, 141, 150, 0.5);
+    outline: none;
+  }
+
+  .optispar-mobile-menu .header__icon svg {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .optispar-icon-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 9999px;
+    background: rgba(20, 141, 150, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+
+  .optispar-icon-btn svg {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .optispar-icon-btn:hover,
+  .optispar-icon-btn:focus-visible {
+    background: rgba(20, 141, 150, 0.5);
+    transform: translateZ(5px);
+    outline: none;
+  }
+
+  .optispar-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .optispar-search__toggle {
+    width: 3.5rem;
+    height: 3.5rem;
+    flex-shrink: 0;
+  }
+
+  .optispar-search__form {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    width: 0;
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    padding: 0.35rem 0.35rem 0.35rem 1rem;
+    border-radius: 9999px;
+    background: rgba(20, 141, 150, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: width 0.3s ease, opacity 0.3s ease;
+  }
+
+  .optispar-search.is-open .optispar-search__toggle {
+    display: none;
+  }
+
+  .optispar-search.is-open .optispar-search__form {
+    width: 14rem;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .optispar-search__input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: 0.9rem;
+    padding: 0.4rem 0;
+  }
+
+  .optispar-search__input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .optispar-search__input:focus {
+    outline: none;
+  }
+
+  .optispar-search__submit,
+  .optispar-search__close {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .optispar-search__submit svg,
+  .optispar-search__close svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .optispar-search__submit:hover,
+  .optispar-search__submit:focus-visible,
+  .optispar-search__close:hover,
+  .optispar-search__close:focus-visible {
+    background: rgba(255, 255, 255, 0.2);
+    outline: none;
+  }
+
+  .optispar-icon-btn .cart-count-bubble {
+    position: absolute;
+    top: -0.4rem;
+    right: -0.4rem;
+    min-width: 1.5rem;
+    height: 1.5rem;
+    padding: 0 0.35rem;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ef4444;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    border: 2px solid #1d4f55;
+  }
+
+  .optispar-localization {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  @media screen and (max-width: 989px) {
+    .optispar-header {
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .optispar-header__nav {
+      position: static;
+      transform: none;
+      order: 3;
+      width: 100%;
+    }
+
+    .optispar-nav__list {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .optispar-nav__indicator {
+      display: none;
+    }
+
+    .optispar-mobile-menu {
+      display: block;
+    }
+
+    .optispar-header__actions {
+      order: 2;
+      margin-left: auto;
+    }
+
+    .optispar-search.is-open .optispar-search__form {
+      width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .optispar-header-wrapper {
+      padding: 1.5rem 1rem;
+    }
+
+    .optispar-header {
+      border-radius: 2rem;
+    }
+
+    .optispar-header__logo a {
+      padding: 0 1.25rem;
+    }
+
+    .optispar-header__actions {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .optispar-search__toggle,
+    .optispar-icon-btn {
+      width: 3rem;
+      height: 3rem;
+    }
+  }
 </style>
 
 {%- style -%}
@@ -137,172 +520,374 @@
     endif
   -%}
   <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if has_app_block %} header--has-app{% endif %}{% if social_links %} header--has-social{% endif %}{% if shop.customer_accounts_enabled %} header--has-account{% endif %}{% if localization_forms %} header--has-localizations{% endif %}">
-    {%- liquid
-      if section.settings.menu != blank
-        render 'header-drawer'
-      endif
-
-      if section.settings.logo_position == 'top-center' or section.settings.menu == blank
-        render 'header-search', input_id: 'Search-In-Modal-1'
-      endif
-    -%}
-
-    {%- if section.settings.logo_position != 'middle-center' -%}
-      {%- if request.page_type == 'index' -%}
-        <h1 class="header__heading">
-      {%- endif -%}
-      <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
-        {%- if settings.logo != blank -%}
-          <div class="header__heading-logo-wrapper">
-            {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
-            {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
-            {% capture sizes %}(max-width: {{ settings.logo_width | times: 2 }}px) 50vw, {{ settings.logo_width }}px{% endcapture %}
-            {% capture widths %}{{ settings.logo_width }}, {{ settings.logo_width | times: 1.5 | round }}, {{ settings.logo_width | times: 2 }}{% endcapture %}
-            {{
-              settings.logo
-              | image_url: width: 600
-              | image_tag:
-                class: 'header__heading-logo motion-reduce',
-                widths: widths,
-                height: logo_height,
-                width: settings.logo_width,
-                alt: logo_alt,
-                sizes: sizes,
-                preload: true
-            }}
+    <div class="optispar-header-wrapper optispar-animate">
+      <div class="optispar-header" data-optispar-header>
+        {%- if section.settings.menu != blank -%}
+          <div class="optispar-mobile-menu">
+            {% render 'header-drawer' %}
           </div>
-        {%- else -%}
-          <span class="h2">{{ shop.name }}</span>
         {%- endif -%}
-      </a>
-      {%- if request.page_type == 'index' -%}
-        </h1>
-      {%- endif -%}
-    {%- endif -%}
 
-    {%- liquid
-      if section.settings.menu != blank
-        if section.settings.menu_type_desktop == 'dropdown'
-          render 'header-dropdown-menu'
-        elsif section.settings.menu_type_desktop != 'drawer'
-          render 'header-mega-menu'
-        endif
-      endif
-    %}
-
-    {%- if section.settings.logo_position == 'middle-center' -%}
-      {%- if request.page_type == 'index' -%}
-        <h1 class="header__heading">
-      {%- endif -%}
-      <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
-        {%- if settings.logo != blank -%}
-          <div class="header__heading-logo-wrapper">
-            {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
-            {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
-            {% capture sizes %}(min-width: 750px) {{ settings.logo_width }}px, 50vw{% endcapture %}
-            {% capture widths %}{{ settings.logo_width }}, {{ settings.logo_width | times: 1.5 | round }}, {{ settings.logo_width | times: 2 }}{% endcapture %}
-            {{
-              settings.logo
-              | image_url: width: 600
-              | image_tag:
-                class: 'header__heading-logo',
-                widths: widths,
-                height: logo_height,
-                width: settings.logo_width,
-                alt: logo_alt,
-                sizes: sizes,
-                preload: true
-            }}
-          </div>
-        {%- else -%}
-          <span class="h2">{{ shop.name }}</span>
-        {%- endif -%}
-      </a>
-      {%- if request.page_type == 'index' -%}
-        </h1>
-      {%- endif -%}
-    {%- endif -%}
-
-    <div class="header__icons{% if section.settings.enable_country_selector or section.settings.enable_language_selector %} header__icons--localization header-localization{% endif %}">
-      <div class="desktop-localization-wrapper">
-        {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
-          <localization-form class="small-hide medium-hide" data-prevent-hide>
-            {%- form 'localization', id: 'HeaderCountryForm', class: 'localization-form' -%}
-              <div>
-                <h2 class="visually-hidden" id="HeaderCountryLabel">{{ 'localization.country_label' | t }}</h2>
-                {%- render 'country-localization', localPosition: 'HeaderCountry' -%}
-              </div>
-            {%- endform -%}
-          </localization-form>
-        {% endif %}
-
-        {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
-          <localization-form class="small-hide medium-hide" data-prevent-hide>
-            {%- form 'localization', id: 'HeaderLanguageForm', class: 'localization-form' -%}
-              <div>
-                <h2 class="visually-hidden" id="HeaderLanguageLabel">{{ 'localization.language_label' | t }}</h2>
-                {%- render 'language-localization', localPosition: 'HeaderLanguage' -%}
-              </div>
-            {%- endform -%}
-          </localization-form>
-        {%- endif -%}
-      </div>
-      {% render 'header-search', input_id: 'Search-In-Modal' %}
-
-      {%- if shop.customer_accounts_enabled -%}
-        <a
-          href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
-          class="header__icon header__icon--account link focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}"
-          rel="nofollow"
-        >
-          {%- if section.settings.enable_customer_avatar -%}
-            <account-icon>
-              {%- if customer and customer.has_avatar? -%}
-                {{ customer | avatar }}
-              {%- else -%}
-                <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
-              {%- endif -%}
-            </account-icon>
-          {%- else -%}
-            <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
+        <div class="optispar-header__logo">
+          {%- if request.page_type == 'index' -%}
+            <h1 class="header__heading">
           {%- endif -%}
-          <span class="visually-hidden">
-            {%- liquid
-              if customer
-                echo 'customer.account_fallback' | t
-              else
-                echo 'customer.log_in' | t
-              endif
-            -%}
-          </span>
-        </a>
-      {%- endif -%}
-
-      {%- for block in section.blocks -%}
-        {%- case block.type -%}
-          {%- when '@app' -%}
-            {% render block %}
-        {%- endcase -%}
-      {%- endfor -%}
-
-      <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
-        {% if cart == empty %}
-          <span class="svg-wrapper">{{ 'icon-cart-empty.svg' | inline_asset_content }}</span>
-        {% else %}
-          <span class="svg-wrapper">{{ 'icon-cart.svg' | inline_asset_content }}</span>
-        {% endif %}
-        <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
-        {%- if cart != empty -%}
-          <div class="cart-count-bubble">
-            {%- if cart.item_count < 100 -%}
-              <span aria-hidden="true">{{ cart.item_count }}</span>
+          <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
+            {%- if settings.logo != blank -%}
+              <div class="header__heading-logo-wrapper">
+                {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
+                {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
+                {% capture sizes %}(max-width: {{ settings.logo_width | times: 2 }}px) 50vw, {{ settings.logo_width }}px{% endcapture %}
+                {% capture widths %}{{ settings.logo_width }}, {{ settings.logo_width | times: 1.5 | round }}, {{ settings.logo_width | times: 2 }}{% endcapture %}
+                {{
+                  settings.logo
+                  | image_url: width: 600
+                  | image_tag:
+                    class: 'header__heading-logo motion-reduce',
+                    widths: widths,
+                    height: logo_height,
+                    width: settings.logo_width,
+                    alt: logo_alt,
+                    sizes: sizes,
+                    preload: true
+                }}
+              </div>
+            {%- else -%}
+              <span class="h2">{{ shop.name }}</span>
             {%- endif -%}
-            <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
-          </div>
+          </a>
+          {%- if request.page_type == 'index' -%}
+            </h1>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.menu != blank and section.settings.menu.links.size > 0 -%}
+          <nav class="optispar-header__nav" data-optispar-nav aria-label="{{ 'sections.header.menu' | t }}">
+            <ul class="optispar-nav__list" role="list">
+              {%- for link in section.settings.menu.links -%}
+                <li class="optispar-nav__item">
+                  <a
+                    href="{{ link.url }}"
+                    class="optispar-nav__link{% if link.current %} optispar-nav__link--active{% endif %}"
+                    {% if link.current %}aria-current="page"{% endif %}
+                  >
+                    {{ link.title | escape }}
+                  </a>
+                </li>
+                {%- unless forloop.last -%}
+                  <li class="optispar-nav__divider" aria-hidden="true" role="presentation">|</li>
+                {%- endunless -%}
+              {%- endfor -%}
+            </ul>
+            <span class="optispar-nav__indicator" aria-hidden="true"></span>
+          </nav>
         {%- endif -%}
-      </a>
+
+        <div class="optispar-header__actions header__icons{% if section.settings.enable_country_selector or section.settings.enable_language_selector %} header__icons--localization header-localization{% endif %}">
+          {%- if localization_forms -%}
+            <div class="desktop-localization-wrapper optispar-localization">
+              {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
+                <localization-form class="small-hide medium-hide" data-prevent-hide>
+                  {%- form 'localization', id: 'HeaderCountryForm', class: 'localization-form' -%}
+                    <div>
+                      <h2 class="visually-hidden" id="HeaderCountryLabel">{{ 'localization.country_label' | t }}</h2>
+                      {%- render 'country-localization', localPosition: 'HeaderCountry' -%}
+                    </div>
+                  {%- endform -%}
+                </localization-form>
+              {%- endif -%}
+
+              {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
+                <localization-form class="small-hide medium-hide" data-prevent-hide>
+                  {%- form 'localization', id: 'HeaderLanguageForm', class: 'localization-form' -%}
+                    <div>
+                      <h2 class="visually-hidden" id="HeaderLanguageLabel">{{ 'localization.language_label' | t }}</h2>
+                      {%- render 'language-localization', localPosition: 'HeaderLanguage' -%}
+                    </div>
+                  {%- endform -%}
+                </localization-form>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
+          <div class="optispar-search" data-optispar-search>
+            <div class="optispar-search__toggle">
+              <button type="button" class="optispar-icon-btn" data-optispar-search-toggle aria-expanded="false">
+                <span class="visually-hidden">{{ 'general.search.search' | t }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+              </button>
+            </div>
+            <form action="{{ routes.search_url }}" method="get" role="search" class="optispar-search__form" data-optispar-search-form>
+              <label class="visually-hidden" for="OptisparHeaderSearch">{{ 'general.search.search' | t }}</label>
+              <input
+                id="OptisparHeaderSearch"
+                class="optispar-search__input"
+                type="search"
+                name="q"
+                placeholder="{{ 'general.search.search' | t }}"
+                value="{{ search.terms | escape }}"
+              >
+              <input type="hidden" name="options[prefix]" value="last">
+              <button type="submit" class="optispar-search__submit" aria-label="{{ 'general.search.search' | t }}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                </svg>
+              </button>
+              <button type="button" class="optispar-search__close" data-optispar-search-close aria-label="{{ 'accessibility.close' | t }}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </form>
+          </div>
+
+          {%- if shop.customer_accounts_enabled -%}
+            <a
+              href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+              class="optispar-icon-btn header__icon header__icon--account link focus-inset"
+              rel="nofollow"
+            >
+              {%- if section.settings.enable_customer_avatar -%}
+                <account-icon>
+                  {%- if customer and customer.has_avatar? -%}
+                    {{ customer | avatar }}
+                  {%- else -%}
+                    <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
+                  {%- endif -%}
+                </account-icon>
+              {%- else -%}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                </svg>
+              {%- endif -%}
+              <span class="visually-hidden">
+                {%- liquid
+                  if customer
+                    echo 'customer.account_fallback' | t
+                  else
+                    echo 'customer.log_in' | t
+                  endif
+                -%}
+              </span>
+            </a>
+          {%- endif -%}
+
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when '@app' -%}
+                {% render block %}
+            {%- endcase -%}
+          {%- endfor -%}
+
+          <a href="{{ routes.cart_url }}" class="optispar-icon-btn header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
+            {% if cart == empty %}
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386a1.125 1.125 0 0 1 1.089.867l.383 1.718M7.5 14.25a3 3 0 0 0-3 3h15.75M7.5 14.25h11.218c.51 0 .955-.343 1.087-.835l1.35-5.062a.563.563 0 0 0-.546-.715H4.72m2.78 6.612L4.72 5.718m0 0L4.11 3.183A.562.562 0 0 0 3.563 2.75H2.25" />
+              </svg>
+            {% else %}
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386a1.125 1.125 0 0 1 1.089.867l.383 1.718M7.5 14.25a3 3 0 0 0-3 3h15.75M7.5 14.25l-2.78-8.532m2.78 8.532 9.968.003c.51 0 .955-.343 1.087-.835l1.35-5.062a.563.563 0 0 0-.546-.715H4.72" />
+              </svg>
+            {% endif %}
+            <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
+            {%- if cart != empty -%}
+              <div class="cart-count-bubble">
+                {%- if cart.item_count < 100 -%}
+                  <span aria-hidden="true">{{ cart.item_count }}</span>
+                {%- endif -%}
+                <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+              </div>
+            {%- endif -%}
+          </a>
+        </div>
+      </div>
     </div>
   </header>
+
+  <script>
+    (function () {
+      if (typeof document === 'undefined') return;
+
+      const initHeader = (root) => {
+        const header = root.querySelector('[data-optispar-header]');
+        if (!header || header.dataset.optisparInit === 'true') {
+          return;
+        }
+
+        header.dataset.optisparInit = 'true';
+
+        const interactive = header;
+        if (interactive) {
+          const handleMouseMove = (event) => {
+            const rect = interactive.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const rotateY = rect.width ? 20 * ((x - rect.width / 2) / (rect.width / 2)) : 0;
+            const rotateX = rect.height ? -20 * ((y - rect.height / 2) / (rect.height / 2)) : 0;
+
+            interactive.style.setProperty('--mouse-x', `${x}px`);
+            interactive.style.setProperty('--mouse-y', `${y}px`);
+            interactive.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+          };
+
+          const handleMouseLeave = () => {
+            interactive.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+          };
+
+          interactive.addEventListener('mousemove', handleMouseMove);
+          interactive.addEventListener('mouseleave', handleMouseLeave);
+          header.optisparTiltHandlers = { handleMouseMove, handleMouseLeave };
+        }
+
+        const nav = header.querySelector('[data-optispar-nav]');
+        if (nav) {
+          const indicator = nav.querySelector('.optispar-nav__indicator');
+          const links = Array.from(nav.querySelectorAll('.optispar-nav__link'));
+          let activeLink = links.find((link) => link.classList.contains('optispar-nav__link--active')) || links[0];
+
+          const updateIndicator = (link) => {
+            if (!indicator || !link) {
+              return;
+            }
+
+            const navRect = nav.getBoundingClientRect();
+            const linkRect = link.getBoundingClientRect();
+            indicator.style.width = `${linkRect.width}px`;
+            indicator.style.left = `${linkRect.left - navRect.left}px`;
+            indicator.style.opacity = '1';
+          };
+
+          if (activeLink) {
+            updateIndicator(activeLink);
+          }
+
+          const handleResize = () => {
+            if (activeLink && document.body.contains(activeLink)) {
+              updateIndicator(activeLink);
+            }
+          };
+
+          window.addEventListener('resize', handleResize);
+          header.optisparResizeHandler = handleResize;
+
+          links.forEach((link) => {
+            link.addEventListener('mouseenter', () => updateIndicator(link));
+            link.addEventListener('focus', () => updateIndicator(link));
+            link.addEventListener('click', () => {
+              activeLink = link;
+              updateIndicator(activeLink);
+            });
+          });
+
+          nav.addEventListener('mouseleave', () => updateIndicator(activeLink));
+        }
+
+        const searchContainer = header.querySelector('[data-optispar-search]');
+        if (searchContainer) {
+          const toggleButton = searchContainer.querySelector('[data-optispar-search-toggle]');
+          const closeButton = searchContainer.querySelector('[data-optispar-search-close]');
+          const form = searchContainer.querySelector('[data-optispar-search-form]');
+          const input = form ? form.querySelector('.optispar-search__input') : null;
+
+          const openSearch = () => {
+            searchContainer.classList.add('is-open');
+            if (toggleButton) {
+              toggleButton.setAttribute('aria-expanded', 'true');
+            }
+            window.requestAnimationFrame(() => {
+              input && input.focus();
+            });
+          };
+
+          const closeSearch = () => {
+            searchContainer.classList.remove('is-open');
+            if (toggleButton) {
+              toggleButton.setAttribute('aria-expanded', 'false');
+            }
+          };
+
+          if (toggleButton) {
+            toggleButton.addEventListener('click', (event) => {
+              event.preventDefault();
+              openSearch();
+            });
+          }
+
+          if (closeButton) {
+            closeButton.addEventListener('click', (event) => {
+              event.preventDefault();
+              closeSearch();
+              toggleButton && toggleButton.focus();
+            });
+          }
+
+          if (input) {
+            input.addEventListener('keydown', (event) => {
+              if (event.key === 'Escape') {
+                closeSearch();
+                toggleButton && toggleButton.focus();
+              }
+            });
+          }
+
+          const handleDocumentInteraction = (event) => {
+            if (!searchContainer.contains(event.target)) {
+              closeSearch();
+            }
+          };
+
+          document.addEventListener('mousedown', handleDocumentInteraction);
+          document.addEventListener('touchstart', handleDocumentInteraction, { passive: true });
+          header.optisparSearchHandler = handleDocumentInteraction;
+        }
+      };
+
+      const destroyHeader = (root) => {
+        const header = root.querySelector('[data-optispar-header]');
+        if (!header || header.dataset.optisparInit !== 'true') {
+          return;
+        }
+
+        header.dataset.optisparInit = 'false';
+
+        if (header.optisparTiltHandlers) {
+          const { handleMouseMove, handleMouseLeave } = header.optisparTiltHandlers;
+          header.removeEventListener('mousemove', handleMouseMove);
+          header.removeEventListener('mouseleave', handleMouseLeave);
+          delete header.optisparTiltHandlers;
+        }
+
+        if (header.optisparResizeHandler) {
+          window.removeEventListener('resize', header.optisparResizeHandler);
+          delete header.optisparResizeHandler;
+        }
+
+        if (header.optisparSearchHandler) {
+          document.removeEventListener('mousedown', header.optisparSearchHandler);
+          document.removeEventListener('touchstart', header.optisparSearchHandler);
+          delete header.optisparSearchHandler;
+        }
+      };
+
+      const initContext = (context) => {
+        if (!context) return;
+        initHeader(context);
+      };
+
+      const ready = () => initContext(document);
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', ready, { once: true });
+      } else {
+        ready();
+      }
+
+      document.addEventListener('shopify:section:load', (event) => initContext(event.target));
+      document.addEventListener('shopify:section:unload', (event) => destroyHeader(event.target));
+    })();
+  </script>
 </{{ header_tag }}>
 
 {%- if settings.cart_type == 'notification' -%}
