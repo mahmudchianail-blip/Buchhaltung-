@@ -157,23 +157,6 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 24px 50px rgba(8, 59, 61, 0.35);
     backdrop-filter: blur(24px);
-    transform-style: preserve-3d;
-  }
-
-  .optispar-header::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: radial-gradient(circle 250px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(220, 255, 255, 0.25), transparent 80%);
-    opacity: 0;
-    transition: opacity 0.4s ease-out;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .optispar-header:hover::before {
-    opacity: 1;
   }
 
   .optispar-header__logo,
@@ -318,7 +301,7 @@
     background: rgba(20, 141, 150, 0.35);
     border: 1px solid rgba(255, 255, 255, 0.15);
     color: #fff;
-    transition: background 0.3s ease, transform 0.3s ease;
+    transition: background 0.3s ease;
   }
 
   .optispar-icon-btn svg {
@@ -329,7 +312,6 @@
   .optispar-icon-btn:hover,
   .optispar-icon-btn:focus-visible {
     background: rgba(20, 141, 150, 0.5);
-    transform: translateZ(5px);
     outline: none;
   }
 
@@ -762,29 +744,6 @@
 
         header.dataset.optisparInit = 'true';
 
-        const interactive = header;
-        if (interactive) {
-          const handleMouseMove = (event) => {
-            const rect = interactive.getBoundingClientRect();
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
-            const rotateY = rect.width ? 20 * ((x - rect.width / 2) / (rect.width / 2)) : 0;
-            const rotateX = rect.height ? -20 * ((y - rect.height / 2) / (rect.height / 2)) : 0;
-
-            interactive.style.setProperty('--mouse-x', `${x}px`);
-            interactive.style.setProperty('--mouse-y', `${y}px`);
-            interactive.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-          };
-
-          const handleMouseLeave = () => {
-            interactive.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-          };
-
-          interactive.addEventListener('mousemove', handleMouseMove);
-          interactive.addEventListener('mouseleave', handleMouseLeave);
-          header.optisparTiltHandlers = { handleMouseMove, handleMouseLeave };
-        }
-
         const nav = header.querySelector('[data-optispar-nav]');
         if (nav) {
           const indicator = nav.querySelector('.optispar-nav__indicator');
@@ -895,13 +854,6 @@
         }
 
         header.dataset.optisparInit = 'false';
-
-        if (header.optisparTiltHandlers) {
-          const { handleMouseMove, handleMouseLeave } = header.optisparTiltHandlers;
-          header.removeEventListener('mousemove', handleMouseMove);
-          header.removeEventListener('mouseleave', handleMouseLeave);
-          delete header.optisparTiltHandlers;
-        }
 
         if (header.optisparResizeHandler) {
           window.removeEventListener('resize', header.optisparResizeHandler);
