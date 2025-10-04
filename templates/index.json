@@ -1,21 +1,82 @@
 {
   "sections": {
-    "image_banner": {
+    "hero": {
       "type": "image-banner",
       "blocks": {
-        "heading": {
+        "hero_heading": {
           "type": "heading",
           "settings": {
-            "heading": "Browse our latest products",
+            "heading": "Digitale Buchhaltung, die mitdenkt",
             "heading_size": "h0"
           }
         },
-        "button": {
+        "hero_text": {
+          "type": "text",
+          "settings": {
+            "text": "Behalte Finanzen, Steuertermine und Workflows in einem klaren Dashboard im Blick. Unsere Automatisierung erledigt Routinen, damit du dich auf dein Business konzentrieren kannst.",
+            "text_style": "subtitle"
+          }
+        },
+        "hero_buttons": {
           "type": "buttons",
           "settings": {
-            "button_label_1": "Shop all",
+            "button_label_1": "Jetzt entdecken",
             "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
+            "button_style_secondary_1": false,
+            "button_label_2": "Demo anfordern",
+            "button_link_2": "shopify://pages/contact",
+            "button_style_secondary_2": true
+          }
+        }
+      },
+      "block_order": [
+        "hero_heading",
+        "hero_text",
+        "hero_buttons"
+      ],
+      "settings": {
+        "image_overlay_opacity": 45,
+        "image_height": "large",
+        "desktop_content_position": "middle-left",
+        "show_text_box": false,
+        "image_behavior": "none",
+        "desktop_content_alignment": "left",
+        "color_scheme": "scheme-3",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": false,
+        "show_text_below": false
+      }
+    },
+    "intro": {
+      "type": "rich-text",
+      "blocks": {
+        "intro_caption": {
+          "type": "caption",
+          "settings": {
+            "caption": "Mehr Zeit für das Wesentliche",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "intro_heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Automatisiere deine Buchhaltung mit wenigen Klicks.",
+            "heading_size": "h1"
+          }
+        },
+        "intro_text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Mit Buchhaltung- bündelst du Belege, Zahlungen und Analysen in einer modernen Oberfläche. Intelligente Workflows geben dir proaktive Empfehlungen und erinnern dich an wichtige Fristen, bevor sie zur Herausforderung werden.</p>"
+          }
+        },
+        "intro_button": {
+          "type": "button",
+          "settings": {
+            "button_label": "Mehr erfahren",
+            "button_link": "shopify://pages/contact",
+            "button_style_secondary": false,
             "button_label_2": "",
             "button_link_2": "",
             "button_style_secondary_2": false
@@ -23,53 +84,161 @@
         }
       },
       "block_order": [
-        "heading",
-        "button"
+        "intro_caption",
+        "intro_heading",
+        "intro_text",
+        "intro_button"
       ],
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
+        "desktop_content_position": "left",
+        "content_alignment": "left",
+        "color_scheme": "scheme-1",
+        "full_width": true,
+        "padding_top": 48,
+        "padding_bottom": 40
+      }
+    },
+    "features": {
+      "type": "multicolumn",
+      "blocks": {
+        "feature_automation": {
+          "type": "column",
+          "settings": {
+            "image": "",
+            "title": "Automatisierte Workflows",
+            "text": "<p>Regelmäßige Buchungen, Rechnungsimporte und Mahnwesen laufen automatisch im Hintergrund.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "feature_dashboard": {
+          "type": "column",
+          "settings": {
+            "image": "",
+            "title": "Echtzeit-Dashboards",
+            "text": "<p>Visualisiere Umsatz, Liquidität und Forecasts in klaren Diagrammen – jederzeit und auf jedem Gerät.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "feature_support": {
+          "type": "column",
+          "settings": {
+            "image": "",
+            "title": "Persönlicher Support",
+            "text": "<p>Unsere Expert:innen begleiten dich vom Onboarding bis zum Monatsabschluss mit hilfreichen Tipps.</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "feature_automation",
+        "feature_dashboard",
+        "feature_support"
+      ],
+      "settings": {
+        "title": "Warum Buchhaltung- begeistert",
+        "heading_size": "h2",
+        "image_width": "third",
+        "image_ratio": "circle",
+        "button_label": "",
+        "button_link": "",
+        "columns_desktop": 3,
+        "column_alignment": "left",
+        "background_style": "primary",
+        "color_scheme": "scheme-2",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 40
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "title": "Featured products",
+        "title": "Beliebte Pakete",
         "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
+        "description": "Skalierbare Lösungen für Gründer:innen, Agenturen und Steuerkanzleien – flexibel kombinierbar mit Add-ons.",
+        "show_description": true,
+        "description_style": "subtitle",
         "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
+        "products_to_show": 6,
+        "columns_desktop": 3,
         "color_scheme": "scheme-1",
         "full_width": false,
         "show_view_all": true,
-        "view_all_style": "solid",
+        "view_all_style": "outline",
         "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "image_shape": "default",
+        "swipe_on_mobile": true,
+        "image_ratio": "portrait",
+        "image_shape": "round",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
         "quick_add": "none",
         "columns_mobile": "2",
         "padding_top": 44,
-        "padding_bottom": 36
+        "padding_bottom": 52
+      }
+    },
+    "cta": {
+      "type": "rich-text",
+      "blocks": {
+        "cta_caption": {
+          "type": "caption",
+          "settings": {
+            "caption": "Bereit für den nächsten Schritt?",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "cta_heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Starte heute mit einer persönlichen Onboarding-Session.",
+            "heading_size": "h1"
+          }
+        },
+        "cta_text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Buche eine unverbindliche Beratung und erhalte einen maßgeschneiderten Implementierungsplan für dein Team.</p>"
+          }
+        },
+        "cta_button": {
+          "type": "button",
+          "settings": {
+            "button_label": "Beratung buchen",
+            "button_link": "shopify://pages/contact",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "cta_caption",
+        "cta_heading",
+        "cta_text",
+        "cta_button"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "scheme-3",
+        "full_width": true,
+        "padding_top": 56,
+        "padding_bottom": 64
       }
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "hero",
+    "intro",
+    "features",
+    "featured_collection",
+    "cta"
   ]
 }
