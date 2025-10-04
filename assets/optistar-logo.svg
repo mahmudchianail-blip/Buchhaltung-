@@ -1,0 +1,29 @@
+<svg width="208" height="56" viewBox="0 0 208 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="optistar-gradient" x1="20" y1="6" x2="76" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#38BDF8" />
+      <stop offset="1" stop-color="#6366F1" />
+    </linearGradient>
+    <linearGradient id="optistar-text" x1="74" y1="12" x2="176" y2="48" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E0F2FE" />
+      <stop offset="1" stop-color="#C7D2FE" />
+    </linearGradient>
+    <filter id="glow" x="18.8" y="-3" width="32.8" height="24.4" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="2.4" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  <g filter="url(#glow)">
+    <path d="M28.8 6.4C29.9467 3.62667 34.0533 3.62667 35.2 6.4L39.0667 16" stroke="url(#optistar-gradient)" stroke-width="2.4" stroke-linecap="round" />
+  </g>
+  <path d="M32 0L36.944 14.512L52 16L39.008 25.472L43.056 40L32 30.944L20.944 40L24.992 25.472L12 16L27.056 14.512L32 0Z" fill="url(#optistar-gradient)" opacity="0.95" />
+  <path d="M68 38.4C60.64 38.4 55.616 33.472 55.616 26.56C55.616 19.648 60.64 14.72 68 14.72C75.36 14.72 80.384 19.648 80.384 26.56C80.384 33.472 75.36 38.4 68 38.4ZM68 32.96C71.712 32.96 74.112 30.016 74.112 26.56C74.112 23.104 71.712 20.16 68 20.16C64.288 20.16 61.888 23.104 61.888 26.56C61.888 30.016 64.288 32.96 68 32.96Z" fill="url(#optistar-text)"/>
+  <path d="M90.368 38.144V21.024H83.936V15.104H104.96V21.024H98.528V38.144H90.368Z" fill="url(#optistar-text)"/>
+  <path d="M108.224 38.144V15.104H123.648C129.344 15.104 133.024 18.464 133.024 22.912C133.024 25.792 131.36 28.096 128.608 29.344L134.528 38.144H125.696L121.024 30.016H116.384V38.144H108.224ZM123.168 24.896C124.864 24.896 125.856 24.032 125.856 22.912C125.856 21.792 124.864 20.928 123.168 20.928H116.384V24.896H123.168Z" fill="url(#optistar-text)"/>
+  <path d="M138.496 38.144V15.104H146.656V38.144H138.496Z" fill="url(#optistar-text)"/>
+  <path d="M169.472 38.4C161.856 38.4 156.544 33.536 156.544 26.56C156.544 19.648 161.856 14.72 169.728 14.72C175.68 14.72 179.968 17.664 181.76 22.272L174.656 24.768C173.888 22.656 172.224 21.376 169.664 21.376C165.824 21.376 163.136 23.872 163.136 26.56C163.136 29.376 165.696 31.744 169.6 31.744C172.416 31.744 174.272 30.656 175.04 28.416L182.016 30.848C180.16 35.968 175.232 38.4 169.472 38.4Z" fill="url(#optistar-text)"/>
+  <path d="M184.672 38.144V15.104H195.712C202.048 15.104 205.6 18.048 205.6 22.464C205.6 26.368 202.944 28.896 199.552 29.824L206.528 38.144H197.504L193.248 32.576H192.608V38.144H184.672ZM194.304 27.264C197.12 27.264 198.464 26.048 198.464 24.544C198.464 23.232 197.44 22.144 195.36 22.144H192.608V27.264H194.304Z" fill="url(#optistar-text)"/>
+</svg>
