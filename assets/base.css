@@ -2931,11 +2931,12 @@ details[open] > .header__menu-item .icon-caret {
 .optispar-header .header__menu-item {
   position: relative;
   padding: 1rem 0;
-  color: rgba(255, 255, 255, 0.82);
+  color: rgba(15, 30, 74, 0.88);
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   transition: color var(--duration-short) ease, transform var(--duration-short) ease;
+  text-shadow: 0 6px 18px rgba(12, 52, 106, 0.12);
 }
 
 .optispar-header .header__menu-item .icon-caret {
@@ -2964,7 +2965,7 @@ details[open] > .header__menu-item .icon-caret {
 
 .optispar-header .header__menu-item:hover,
 .optispar-header .header__menu-item:focus-visible {
-  color: #f5fbff;
+  color: #0f172a;
   transform: translateY(-1px);
 }
 
@@ -2975,7 +2976,7 @@ details[open] > .header__menu-item .icon-caret {
 }
 
 .optispar-header .header__active-menu-item {
-  color: #ffffff;
+  color: #0b1f4b;
   text-decoration: none;
 }
 
@@ -3036,6 +3037,20 @@ details[open] > .header__menu-item .icon-caret {
   .optispar-inline-menu > .list-menu--inline {
     width: 100%;
     justify-content: space-between;
+  }
+
+  .optispar-header .header__menu-item {
+    color: rgba(255, 255, 255, 0.88);
+    text-shadow: 0 10px 24px rgba(6, 16, 38, 0.5);
+  }
+
+  .optispar-header .header__menu-item:hover,
+  .optispar-header .header__menu-item:focus-visible {
+    color: #f5fbff;
+  }
+
+  .optispar-header .header__active-menu-item {
+    color: #ffffff;
   }
 }
 
