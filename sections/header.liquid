@@ -145,6 +145,8 @@
   }
 
   .optispar-header {
+    --optispar-mouse-x: 50%;
+    --optispar-mouse-y: 50%;
     position: relative;
     display: flex;
     align-items: center;
@@ -157,6 +159,27 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 24px 50px rgba(8, 59, 61, 0.35);
     backdrop-filter: blur(24px);
+    overflow: hidden;
+  }
+
+  .optispar-header::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: radial-gradient(
+      circle 260px at var(--optispar-mouse-x) var(--optispar-mouse-y),
+      rgba(173, 255, 255, 0.28),
+      rgba(173, 255, 255, 0)
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
+  .optispar-header:hover::before,
+  .optispar-header:focus-within::before {
+    opacity: 1;
   }
 
   .optispar-header__logo,
@@ -787,6 +810,49 @@
           nav.addEventListener('mouseleave', () => updateIndicator(activeLink));
         }
 
+        const setGlowPosition = (point) => {
+          if (!point) {
+            return;
+          }
+
+          const rect = header.getBoundingClientRect();
+          const x = Math.max(0, Math.min(rect.width, point.clientX - rect.left));
+          const y = Math.max(0, Math.min(rect.height, point.clientY - rect.top));
+
+          header.style.setProperty('--optispar-mouse-x', `${x}px`);
+          header.style.setProperty('--optispar-mouse-y', `${y}px`);
+        };
+
+        const handleGlowMouseMove = (event) => {
+          setGlowPosition(event);
+        };
+
+        const handleGlowTouchMove = (event) => {
+          const touch = event.touches && event.touches[0];
+          if (touch) {
+            setGlowPosition(touch);
+          }
+        };
+
+        const handleGlowLeave = () => {
+          header.style.setProperty('--optispar-mouse-x', '50%');
+          header.style.setProperty('--optispar-mouse-y', '50%');
+        };
+
+        header.addEventListener('mousemove', handleGlowMouseMove);
+        header.addEventListener('mouseleave', handleGlowLeave);
+        header.addEventListener('touchmove', handleGlowTouchMove, { passive: true });
+        header.addEventListener('touchend', handleGlowLeave, { passive: true });
+        header.addEventListener('touchcancel', handleGlowLeave, { passive: true });
+
+        header.optisparGlowHandlers = {
+          mousemove: handleGlowMouseMove,
+          mouseleave: handleGlowLeave,
+          touchmove: handleGlowTouchMove,
+          touchend: handleGlowLeave,
+          touchcancel: handleGlowLeave,
+        };
+
         const searchContainer = header.querySelector('[data-optispar-search]');
         if (searchContainer) {
           const toggleButton = searchContainer.querySelector('[data-optispar-search-toggle]');
@@ -864,6 +930,16 @@
           document.removeEventListener('mousedown', header.optisparSearchHandler);
           document.removeEventListener('touchstart', header.optisparSearchHandler);
           delete header.optisparSearchHandler;
+        }
+
+        if (header.optisparGlowHandlers) {
+          const handlers = header.optisparGlowHandlers;
+          header.removeEventListener('mousemove', handlers.mousemove);
+          header.removeEventListener('mouseleave', handlers.mouseleave);
+          header.removeEventListener('touchmove', handlers.touchmove);
+          header.removeEventListener('touchend', handlers.touchend);
+          header.removeEventListener('touchcancel', handlers.touchcancel);
+          delete header.optisparGlowHandlers;
         }
       };
 
