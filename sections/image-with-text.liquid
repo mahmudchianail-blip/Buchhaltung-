@@ -12,6 +12,39 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  {% if request.page_type == 'index' and section.index == 1 %}
+    body.template-index .section-{{ section.id }}-padding {
+      padding-top: calc({{ section.settings.padding_top | times: 0.75 | round: 0 }}px + 6.5rem);
+    }
+
+    @media screen and (min-width: 750px) {
+      body.template-index .section-{{ section.id }}-padding {
+        padding-top: calc({{ section.settings.padding_top }}px + 7.5rem);
+      }
+    }
+
+    body.template-index .image-with-text-section--hero .image-with-text {
+      gap: clamp(2.4rem, 6vw, 7.2rem);
+      align-items: center;
+    }
+
+    body.template-index .image-with-text-section--hero .image-with-text__media,
+    body.template-index .image-with-text-section--hero .image-with-text__content {
+      border-radius: 2.4rem;
+    }
+
+    body.template-index .image-with-text-section--hero .image-with-text__content {
+      background: rgba(var(--color-background), 0.88);
+      box-shadow: 0 2.4rem 4.8rem rgba(15, 23, 42, 0.12);
+      backdrop-filter: blur(12px);
+    }
+
+    body.template-index .image-with-text-section--hero .image-with-text__media-item .media {
+      overflow: hidden;
+      box-shadow: 0 2rem 4.8rem rgba(15, 23, 42, 0.14);
+    }
+  {% endif %}
 {%- endstyle -%}
 
 {%- liquid
@@ -24,7 +57,7 @@
   endif
 -%}
 
-<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.section_color_scheme }}">
+<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.section_color_scheme }}{% if request.page_type == 'index' and section.index == 1 %} image-with-text-section--hero{% endif %}">
   <div class="page-width">
     <div class="image-with-text image-with-text--{{ section.settings.content_layout }} isolate{% if settings.text_boxes_border_thickness > 0 and settings.text_boxes_border_opacity > 0 and settings.media_border_thickness > 0 and settings.media_border_opacity > 0 %} collapse-borders{% endif %}{% unless section.settings.color_scheme == section.settings.section_color_scheme and settings.media_border_thickness > 0 and settings.text_boxes_shadow_opacity == 0 and settings.text_boxes_border_thickness == 0 or settings.text_boxes_border_opacity == 0 %} collapse-corners{% endunless %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
       <div class="image-with-text__grid grid grid--gapless grid--1-col grid--{% if section.settings.desktop_image_width == 'medium' %}2-col-tablet{% else %}3-col-tablet{% endif %}{% if section.settings.layout == 'text_first' %} image-with-text__grid--reverse{% endif %}">

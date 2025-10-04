@@ -74,6 +74,65 @@
       padding-top: 0.5rem;
     }
   }
+  {% if request.page_type == 'index' %}
+    body.template-index .section-header {
+      margin-bottom: 0;
+    }
+
+    body.template-index .header-wrapper--overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      z-index: 5;
+      background: transparent;
+      border-bottom: none;
+    }
+
+    body.template-index .header-wrapper--overlay::after {
+      display: none;
+    }
+
+    body.template-index .header-wrapper--overlay .header {
+      margin: 1.2rem auto 0;
+      padding: 1.2rem 2.4rem;
+      border-radius: 999px;
+      background: rgba(var(--color-background), 0.82);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 1.6rem 3.6rem rgba(15, 23, 42, 0.12);
+      transition: background 150ms ease, box-shadow 150ms ease, padding 150ms ease;
+      max-width: min(calc(100% - 2.4rem), var(--page-width));
+    }
+
+    body.template-index .header-wrapper--overlay.header-wrapper--border-bottom .header {
+      box-shadow: 0 1.6rem 3.6rem rgba(15, 23, 42, 0.12);
+    }
+
+    body.template-index.scrolled-past-header .header-wrapper--overlay {
+      position: fixed;
+    }
+
+    body.template-index.scrolled-past-header .header-wrapper--overlay .header {
+      margin-top: 0;
+      border-radius: 0 0 2.4rem 2.4rem;
+      background: rgba(var(--color-background), 0.94);
+      box-shadow: 0 1.2rem 2.8rem rgba(15, 23, 42, 0.12);
+    }
+
+    @media screen and (min-width: 750px) {
+      body.template-index .header-wrapper--overlay .header {
+        margin-top: 2.4rem;
+        padding: 1.6rem 3.6rem;
+      }
+    }
+
+    @media screen and (min-width: 990px) {
+      body.template-index .header-wrapper--overlay .header {
+        padding: 1.8rem 4.2rem;
+      }
+    }
+  {% endif %}
 </style>
 
 {%- style -%}
@@ -122,7 +181,7 @@
   {% if header_tag == 'sticky-header' %}
     data-sticky-type="{{ section.settings.sticky_header_type }}"
   {% endif %}
-  class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}"
+  class="header-wrapper color-{{ section.settings.color_scheme }} gradient{% if section.settings.show_line_separator %} header-wrapper--border-bottom{% endif %}{% if request.page_type == 'index' %} header-wrapper--overlay{% endif %}"
 >
   {%- liquid
     assign social_links = false
