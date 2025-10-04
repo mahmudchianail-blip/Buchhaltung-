@@ -11,11 +11,73 @@
   --modern-shadow-hover: 0 34px 90px rgba(15, 23, 42, 0.16);
 }
 
+html {
+  background-color: #020617;
+}
+
 body {
-  background: linear-gradient(180deg, #f5f7ff 0%, #ffffff 45%, #f4f7fb 100%);
+  position: relative;
+  min-height: 100%;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(59, 130, 246, 0.48), transparent 55%),
+    radial-gradient(circle at 85% 12%, rgba(14, 165, 233, 0.35), transparent 52%),
+    #020617;
   font-family: 'Inter', var(--font-body-family);
-  color: #0f172a;
+  color: rgba(226, 232, 255, 0.92);
   line-height: 1.7;
+  overflow-x: hidden;
+}
+
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background-repeat: repeat;
+  mix-blend-mode: screen;
+}
+
+body::before {
+  background-image:
+    radial-gradient(1px 1px at 20px 35px, rgba(148, 163, 255, 0.9), transparent 55%),
+    radial-gradient(1.5px 1.5px at 110px 60px, rgba(96, 165, 250, 0.65), transparent 60%),
+    radial-gradient(2px 2px at 70px 120px, rgba(14, 165, 233, 0.55), transparent 62%);
+  background-size: 160px 160px, 220px 220px, 320px 320px;
+  opacity: 0.65;
+  animation: driftStars 110s linear infinite;
+}
+
+body::after {
+  background-image:
+    radial-gradient(1px 1px at 40px 25px, rgba(226, 232, 255, 0.75), transparent 55%),
+    radial-gradient(1.5px 1.5px at 140px 90px, rgba(94, 234, 212, 0.4), transparent 60%),
+    radial-gradient(2px 2px at 90px 160px, rgba(79, 70, 229, 0.45), transparent 62%);
+  background-size: 200px 200px, 260px 260px, 360px 360px;
+  opacity: 0.55;
+  transform: scale(1.2);
+  animation: driftStarsReverse 150s linear infinite;
+}
+
+@keyframes driftStars {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-280px, 180px, 0);
+  }
+}
+
+@keyframes driftStarsReverse {
+  from {
+    transform: translate3d(0, 0, 0) scale(1.2);
+  }
+
+  to {
+    transform: translate3d(240px, -160px, 0) scale(1.2);
+  }
 }
 
 main {
@@ -34,28 +96,154 @@ h6,
   font-family: 'Playfair Display', var(--font-heading-family);
   font-weight: 600;
   letter-spacing: -0.02em;
-  color: #0b1437;
+  color: #f8fafc;
 }
 
 p,
 .rich-text__text,
 .banner__text,
 .rte {
-  color: var(--modern-muted);
+  color: rgba(226, 232, 255, 0.72);
   font-size: 1.7rem;
 }
 
 .header-wrapper {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
-  box-shadow: 0 25px 45px rgba(15, 23, 42, 0.08);
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(26px);
+  border-bottom: 1px solid rgba(148, 163, 255, 0.16);
+  box-shadow: 0 40px 95px rgba(2, 6, 23, 0.45);
   border-radius: 0 0 var(--modern-radius-lg) var(--modern-radius-lg);
+}
+
+.header-wrapper--modern {
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  background: linear-gradient(130deg, rgba(15, 23, 42, 0.88), rgba(30, 41, 74, 0.72));
 }
 
 .header {
   gap: clamp(1.6rem, 3vw, 3.2rem);
   align-items: center;
+}
+
+.header--modern .header__inner--modern {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(1.6rem, 4vw, 4.8rem);
+  width: 100%;
+}
+
+.header--modern .header__flow {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.2rem, 3vw, 3.6rem);
+  flex-wrap: wrap;
+}
+
+.header__heading-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.header__heading-logo-wrapper {
+  padding: 0.6rem 1.2rem;
+  border-radius: calc(var(--modern-radius-md) * 0.65);
+  background: linear-gradient(140deg, rgba(148, 163, 255, 0.18), rgba(59, 130, 246, 0.12));
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.45);
+}
+
+.header__heading-logo--fallback {
+  display: block;
+  width: clamp(120px, 15vw, 168px);
+  height: auto;
+  filter: drop-shadow(0 18px 45px rgba(14, 165, 233, 0.45));
+}
+
+.header--modern .header__inline-menu {
+  gap: clamp(1.6rem, 3vw, 4.4rem);
+}
+
+.header--modern .header__actions--modern {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.2rem, 2.5vw, 3rem);
+}
+
+@media screen and (max-width: 989px) {
+  .header--modern .header__inner--modern {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header--modern .header__actions--modern {
+    width: 100%;
+    justify-content: space-between;
+    gap: 1.2rem;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .header--modern .header__flow {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .header--modern .header__actions--modern {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header--modern .header__cta-button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .header--modern .header__icons {
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+.header--modern .header__cta-button {
+  border-radius: calc(var(--modern-radius-md) * 0.9);
+  padding: 1.1rem 2.6rem;
+  font-weight: 600;
+  background: linear-gradient(120deg, rgba(59, 130, 246, 0.95), rgba(14, 165, 233, 0.92));
+  color: #f8fafc;
+  box-shadow: 0 24px 40px rgba(37, 99, 235, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.header--modern .header__cta-button:hover,
+.header--modern .header__cta-button:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 28px 56px rgba(14, 165, 233, 0.45);
+  background: linear-gradient(120deg, rgba(37, 99, 235, 0.98), rgba(14, 165, 233, 0.95));
+  color: #f8fafc;
+}
+
+.header--modern .header__icons {
+  padding: 0.6rem 1rem;
+  border-radius: calc(var(--modern-radius-md) * 0.7);
+  background: linear-gradient(140deg, rgba(15, 23, 42, 0.7), rgba(30, 64, 175, 0.3));
+  border: 1px solid rgba(148, 163, 255, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.35);
+  gap: 0.8rem;
+}
+
+.header--modern .header__icons .header__icon {
+  color: rgba(226, 232, 255, 0.88);
+}
+
+.header--modern .header__icons .header__icon svg path,
+.header--modern .header__icons .header__icon svg circle,
+.header--modern .header__icons .header__icon svg rect,
+.header--modern .header__icons .header__icon svg line {
+  stroke: currentColor;
+}
+
+.header--modern .header__icons .header__icon svg {
+  color: currentColor;
 }
 
 .header__inline-menu {
@@ -160,6 +348,7 @@ button.shopify-payment-button__button--unbranded:focus {
   background: rgba(255, 255, 255, 0.94);
   box-shadow: var(--modern-shadow-soft);
   backdrop-filter: blur(8px);
+  color: rgba(15, 23, 42, 0.78);
 }
 
 .banner--modern .banner__content {
