@@ -81,6 +81,38 @@
     padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 3rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 3rem;
   }
 
+  .optispar-header {
+    background: linear-gradient(135deg, rgba(15, 76, 156, 0.88), rgba(59, 140, 217, 0.88));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 12px 30px rgba(15, 76, 156, 0.25);
+    overflow: hidden;
+  }
+
+  @supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    .optispar-header {
+      background: linear-gradient(135deg, rgba(15, 76, 156, 0.95), rgba(59, 140, 217, 0.95));
+    }
+  }
+
+  .optispar-header .header__heading-link,
+  .optispar-header .list-menu__item--link,
+  .optispar-header .header__icon,
+  .optispar-header .header__icon svg {
+    color: #f8fbff;
+    fill: #f8fbff;
+    stroke: #f8fbff;
+  }
+
+  .optispar-header .list-menu__item--link:hover,
+  .optispar-header .list-menu__item--link:focus-visible,
+  .optispar-header .header__heading-link:hover,
+  .optispar-header .header__heading-link:focus-visible {
+    color: #ffffff;
+  }
+
   .section-header {
     position: sticky; /* This is for fixing a Safari z-index issue. PR #2147 */
     margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
@@ -96,6 +128,10 @@
     .header {
       padding-top: {{ section.settings.padding_top }}px;
       padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .optispar-header {
+      border-radius: 1rem;
     }
   }
 {%- endstyle -%}
