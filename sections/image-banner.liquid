@@ -1,33 +1,35 @@
 {{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
 
-{%- if section.settings.image_height == 'adapt' and section.settings.image != blank -%}
-  {%- style -%}
-    @media screen and (max-width: 749px) {
-      #Banner-{{ section.id }}::before,
-      #Banner-{{ section.id }} .banner__media::before,
-      #Banner-{{ section.id }}:not(.banner--mobile-bottom) .banner__content::before {
-        padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;
-        content: '';
-        display: block;
+{%- if section.settings.layout_style != 'galaxy' -%}
+  {%- if section.settings.image_height == 'adapt' and section.settings.image != blank -%}
+    {%- style -%}
+      @media screen and (max-width: 749px) {
+        #Banner-{{ section.id }}::before,
+        #Banner-{{ section.id }} .banner__media::before,
+        #Banner-{{ section.id }}:not(.banner--mobile-bottom) .banner__content::before {
+          padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;
+          content: '';
+          display: block;
+        }
       }
-    }
 
-    @media screen and (min-width: 750px) {
-      #Banner-{{ section.id }}::before,
-      #Banner-{{ section.id }} .banner__media::before {
-        padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;
-        content: '';
-        display: block;
+      @media screen and (min-width: 750px) {
+        #Banner-{{ section.id }}::before,
+        #Banner-{{ section.id }} .banner__media::before {
+          padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;
+          content: '';
+          display: block;
+        }
       }
+    {%- endstyle -%}
+  {%- endif -%}
+
+  {%- style -%}
+    #Banner-{{ section.id }}::after {
+      opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }};
     }
   {%- endstyle -%}
 {%- endif -%}
-
-{%- style -%}
-  #Banner-{{ section.id }}::after {
-    opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }};
-  }
-{%- endstyle -%}
 
 {%- liquid
   assign full_width = '100vw'
@@ -51,120 +53,459 @@
   endif
 -%}
 
-<div
-  id="Banner-{{ section.id }}"
-  class="banner banner--content-align-{{ section.settings.desktop_content_alignment }} banner--content-align-mobile-{{ section.settings.mobile_content_alignment }} banner--{{ section.settings.image_height }}{% if section.settings.stack_images_on_mobile and section.settings.image != blank and section.settings.image_2 != blank %} banner--stacked{% endif %}{% if section.settings.image_height == 'adapt' and section.settings.image != blank %} banner--adapt{% endif %}{% if section.settings.show_text_below %} banner--mobile-bottom{%- endif -%}{% if section.settings.show_text_box == false %} banner--desktop-transparent{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
->
-  {%- if section.settings.image != blank -%}
-    <div class="banner__media media{% if section.settings.image == blank and section.settings.image_2 == blank %} placeholder{% endif %}{% if section.settings.image_2 != blank %} banner__media-half{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-      {%- liquid
-        assign image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio
-        if section.settings.image_2 != blank
-          assign image_class = 'banner__media-image-half'
-        endif
-        if section.settings.image_2 != blank and section.settings.stack_images_on_mobile
-          assign sizes = stacked_sizes
-        elsif section.settings.image_2 != blank
-          assign sizes = half_width
-        else
-          assign sizes = full_width
-        endif
-      -%}
-      {{
-        section.settings.image
-        | image_url: width: 3840
-        | image_tag:
-          width: section.settings.image.width,
-          height: image_height,
-          class: image_class,
-          sizes: sizes,
-          widths: widths,
-          fetchpriority: fetch_priority
-      }}
-    </div>
-  {%- elsif section.settings.image_2 == blank -%}
-    <div class="banner__media media{% if section.settings.image == blank and section.settings.image_2 == blank %} placeholder{% endif %}{% if section.settings.image_2 != blank %} banner__media-half{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-      {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
-    </div>
-  {%- endif -%}
-  {%- if section.settings.image_2 != blank -%}
-    <div class="banner__media media{% if section.settings.image != blank %} banner__media-half{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-      {%- liquid
-        assign image_height_2 = section.settings.image_2.width | divided_by: section.settings.image_2.aspect_ratio
-        if section.settings.image != blank
-          assign image_class_2 = 'banner__media-image-half'
-        endif
-        if section.settings.image != blank and section.settings.stack_images_on_mobile
-          assign sizes = stacked_sizes
-        elsif section.settings.image_2 != blank
-          assign sizes = half_width
-        else
-          assign sizes = full_width
-        endif
-      -%}
-      {{
-        section.settings.image_2
-        | image_url: width: 3840
-        | image_tag:
-          width: section.settings.image_2.width,
-          height: image_height_2,
-          class: image_class_2,
-          sizes: sizes,
-          widths: widths,
-          fetchpriority: fetch_priority
-      }}
-    </div>
-  {%- endif -%}
-  <div class="banner__content banner__content--{{ section.settings.desktop_content_position }} page-width{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-    <div class="banner__box content-container content-container--full-width-mobile color-{{ section.settings.color_scheme }} gradient">
-      {%- for block in section.blocks -%}
-        {%- case block.type -%}
-          {%- when 'heading' -%}
-            <h2
-              class="banner__heading inline-richtext {{ block.settings.heading_size }}"
-              {{ block.shopify_attributes }}
-            >
-              {{ block.settings.heading }}
-            </h2>
-          {%- when 'text' -%}
-            <div class="banner__text rte {{ block.settings.text_style }}" {{ block.shopify_attributes }}>
-              <p>{{ block.settings.text }}</p>
-            </div>
-          {%- when 'buttons' -%}
-            <div
-              class="banner__buttons{% if block.settings.button_label_1 != blank and block.settings.button_label_2 != blank %} banner__buttons--multiple{% endif %}"
-              {{ block.shopify_attributes }}
-            >
-              {%- if block.settings.button_label_1 != blank -%}
-                <a
-                  {% if block.settings.button_link_1 == blank %}
-                    role="link" aria-disabled="true"
-                  {% else %}
-                    href="{{ block.settings.button_link_1 }}"
-                  {% endif %}
-                  class="button{% if block.settings.button_style_secondary_1 %} button--secondary{% else %} button--primary{% endif %}"
-                >
-                  {{- block.settings.button_label_1 | escape -}}
-                </a>
-              {%- endif -%}
-              {%- if block.settings.button_label_2 != blank -%}
-                <a
-                  {% if block.settings.button_link_2 == blank %}
-                    role="link" aria-disabled="true"
-                  {% else %}
-                    href="{{ block.settings.button_link_2 }}"
-                  {% endif %}
-                  class="button{% if block.settings.button_style_secondary_2 %} button--secondary{% else %} button--primary{% endif %}"
-                >
-                  {{- block.settings.button_label_2 | escape -}}
-                </a>
-              {%- endif -%}
-            </div>
-        {%- endcase -%}
-      {%- endfor -%}
+{%- if section.settings.layout_style == 'galaxy' -%}
+  {%- style -%}
+    #Banner-{{ section.id }}.banner--galaxy {
+      position: relative;
+      overflow: hidden;
+      border-radius: clamp(1.8rem, 3vw, 3.4rem);
+      background: radial-gradient(circle at 18% 20%, rgba(128, 92, 255, 0.45), transparent 55%),
+        radial-gradient(circle at 80% 8%, rgba(255, 126, 211, 0.4), transparent 52%),
+        linear-gradient(145deg, #10152e 0%, #05030f 90%);
+      color: #f6f6ff;
+      padding-block: clamp(3.2rem, 8vw, 6.8rem);
+      margin: clamp(1.8rem, 6vw, 4rem) auto;
+      box-shadow: 0 40px 80px rgba(14, 11, 32, 0.4);
+      isolation: isolate;
+    }
+
+    #Banner-{{ section.id }}.banner--galaxy::before,
+    #Banner-{{ section.id }}.banner--galaxy::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #Banner-{{ section.id }}.banner--galaxy::before {
+      background-image: radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.4) 0, transparent 55%),
+        radial-gradient(1px 1px at 70% 40%, rgba(255, 255, 255, 0.25) 0, transparent 55%),
+        radial-gradient(1px 1px at 25% 65%, rgba(255, 255, 255, 0.3) 0, transparent 55%),
+        radial-gradient(1px 1px at 88% 75%, rgba(255, 255, 255, 0.18) 0, transparent 55%);
+      opacity: 0.75;
+      mix-blend-mode: screen;
+      filter: blur(0.5px);
+    }
+
+    #Banner-{{ section.id }}.banner--galaxy::after {
+      background: radial-gradient(circle at 15% 110%, rgba(111, 88, 255, 0.3), transparent 55%),
+        radial-gradient(circle at 90% 110%, rgba(255, 84, 142, 0.25), transparent 55%);
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__inner {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: clamp(3rem, 6vw, 7.5rem);
+      padding-inline: clamp(2.4rem, 6vw, 5rem);
+      z-index: 1;
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__copy {
+      max-width: clamp(32rem, 45vw, 46rem);
+      display: grid;
+      gap: clamp(1.2rem, 2vw, 1.8rem);
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.4rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: rgba(246, 246, 255, 0.78);
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__eyebrow::before {
+      content: '';
+      width: 0.8rem;
+      height: 0.8rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff74c3 0%, #7f7bff 100%);
+      box-shadow: 0 0 12px rgba(127, 123, 255, 0.8);
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__heading {
+      font-size: clamp(3.4rem, 5vw, 5.6rem);
+      line-height: 1.05;
+      font-weight: 700;
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__heading strong {
+      background: linear-gradient(110deg, #ff7adc 0%, #a680ff 35%, #5fd3ff 80%);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__text {
+      font-size: clamp(1.7rem, 1.9vw, 1.9rem);
+      line-height: 1.6;
+      color: rgba(243, 244, 255, 0.78);
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__text--accent {
+      font-size: clamp(1.5rem, 1.7vw, 1.7rem);
+      color: rgba(247, 248, 255, 0.9);
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.4rem;
+      margin-top: 0.6rem;
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__buttons .button {
+      border-radius: 999px;
+      padding: 1.3rem 2.8rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      box-shadow: none;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__buttons .button:focus-visible,
+    #Banner-{{ section.id }} .galaxy-hero__buttons .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(127, 123, 255, 0.35);
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__buttons .button--primary {
+      background-image: linear-gradient(120deg, #ff7ac0 0%, #8a7aff 50%, #5ad4ff 100%);
+      border: none;
+      color: #06030e;
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__buttons .button--secondary {
+      background: transparent;
+      color: #f6f6ff;
+      border: 1px solid rgba(198, 191, 255, 0.45);
+      backdrop-filter: blur(6px);
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__visual {
+      position: relative;
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      min-width: min(32rem, 100%);
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__card {
+      position: relative;
+      padding: clamp(1.8rem, 3vw, 2.8rem);
+      border-radius: clamp(2rem, 3vw, 3rem);
+      background: linear-gradient(160deg, rgba(17, 22, 48, 0.72), rgba(8, 6, 24, 0.9));
+      border: 1px solid rgba(146, 114, 255, 0.35);
+      box-shadow: 0 30px 60px rgba(11, 9, 30, 0.45);
+      backdrop-filter: blur(10px);
+      max-width: min(38rem, 100%);
+      width: 100%;
+      display: grid;
+      gap: 1.6rem;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__card::before {
+      content: '';
+      position: absolute;
+      inset: 1.2rem;
+      border-radius: inherit;
+      background: radial-gradient(circle at 25% 20%, rgba(120, 106, 255, 0.45), transparent 65%);
+      opacity: 0.7;
+      z-index: -1;
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__card::after {
+      content: '';
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle, rgba(105, 229, 255, 0.18), transparent 65%);
+      filter: blur(40px);
+      opacity: 0.9;
+      z-index: -2;
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__badge {
+      align-self: start;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.6rem 1.6rem;
+      border-radius: 999px;
+      background: rgba(146, 114, 255, 0.18);
+      border: 1px solid rgba(146, 114, 255, 0.35);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: rgba(245, 245, 255, 0.85);
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__badge::before {
+      content: '';
+      width: 0.6rem;
+      height: 0.6rem;
+      border-radius: 50%;
+      background: linear-gradient(120deg, #ff7ac0 0%, #7f7bff 100%);
+      box-shadow: 0 0 10px rgba(127, 123, 255, 0.9);
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__media {
+      position: relative;
+      border-radius: clamp(1.6rem, 2.6vw, 2.6rem);
+      overflow: hidden;
+      background: rgba(4, 5, 15, 0.65);
+      border: 1px solid rgba(111, 188, 255, 0.45);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__media img,
+    #Banner-{{ section.id }} .galaxy-hero__media svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    #Banner-{{ section.id }} .galaxy-hero__caption {
+      font-size: 1.3rem;
+      color: rgba(226, 229, 255, 0.7);
+      letter-spacing: 0.04em;
+    }
+
+    @media screen and (max-width: 990px) {
+      #Banner-{{ section.id }}.banner--galaxy {
+        padding-block: clamp(3rem, 12vw, 6rem);
+      }
+
+      #Banner-{{ section.id }} .galaxy-hero__inner {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      #Banner-{{ section.id }} .galaxy-hero__copy {
+        align-items: center;
+        justify-items: center;
+      }
+
+      #Banner-{{ section.id }} .galaxy-hero__buttons {
+        justify-content: center;
+      }
+
+      #Banner-{{ section.id }} .galaxy-hero__visual {
+        width: min(40rem, 100%);
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+      #Banner-{{ section.id }} .galaxy-hero__heading {
+        font-size: clamp(2.8rem, 9vw, 3.4rem);
+      }
+
+      #Banner-{{ section.id }} .galaxy-hero__inner {
+        padding-inline: clamp(1.4rem, 6vw, 2rem);
+      }
+    }
+  {%- endstyle -%}
+
+  <div id="Banner-{{ section.id }}" class="banner banner--galaxy">
+    <div class="galaxy-hero__inner page-width">
+      <div class="galaxy-hero__copy">
+        {%- if section.settings.eyebrow_text != blank -%}
+          <p class="galaxy-hero__eyebrow">{{ section.settings.eyebrow_text }}</p>
+        {%- endif -%}
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'heading' -%}
+              <h2 class="galaxy-hero__heading inline-richtext {{ block.settings.heading_size }}" {{ block.shopify_attributes }}>
+                {{ block.settings.heading }}
+              </h2>
+            {%- when 'text' -%}
+              <div class="galaxy-hero__text rte{% if block.settings.text_style == 'subtitle' %} galaxy-hero__text--accent{% endif %}" {{ block.shopify_attributes }}>
+                <p>{{ block.settings.text }}</p>
+              </div>
+            {%- when 'buttons' -%}
+              <div class="galaxy-hero__buttons" {{ block.shopify_attributes }}>
+                {%- if block.settings.button_label_1 != blank -%}
+                  <a
+                    {% if block.settings.button_link_1 == blank %}
+                      role="link" aria-disabled="true"
+                    {% else %}
+                      href="{{ block.settings.button_link_1 }}"
+                    {% endif %}
+                    class="button{% if block.settings.button_style_secondary_1 %} button--secondary{% else %} button--primary{% endif %}"
+                  >
+                    {{- block.settings.button_label_1 | escape -}}
+                  </a>
+                {%- endif -%}
+                {%- if block.settings.button_label_2 != blank -%}
+                  <a
+                    {% if block.settings.button_link_2 == blank %}
+                      role="link" aria-disabled="true"
+                    {% else %}
+                      href="{{ block.settings.button_link_2 }}"
+                    {% endif %}
+                    class="button{% if block.settings.button_style_secondary_2 %} button--secondary{% else %} button--primary{% endif %}"
+                  >
+                    {{- block.settings.button_label_2 | escape -}}
+                  </a>
+                {%- endif -%}
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+      <div class="galaxy-hero__visual">
+        <div class="galaxy-hero__card">
+          {%- if section.settings.card_badge_text != blank -%}
+            <span class="galaxy-hero__badge">{{ section.settings.card_badge_text }}</span>
+          {%- endif -%}
+          <div class="galaxy-hero__media">
+            {%- if section.settings.image != blank -%}
+              {%- liquid
+                assign hero_image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio
+              -%}
+              {{
+                section.settings.image
+                | image_url: width: 1600
+                | image_tag:
+                  width: section.settings.image.width,
+                  height: hero_image_height,
+                  loading: 'lazy',
+                  sizes: 'min(420px, 90vw)',
+                  widths: '375, 550, 750, 900, 1200, 1600',
+                  fetchpriority: fetch_priority,
+                  alt: section.settings.card_image_alt | default: section.settings.image.alt | default: section.settings.eyebrow_text
+              }}
+            {%- else -%}
+              {{ 'hero-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          </div>
+          {%- if section.settings.card_caption != blank -%}
+            <p class="galaxy-hero__caption">{{ section.settings.card_caption }}</p>
+          {%- endif -%}
+        </div>
+      </div>
     </div>
   </div>
-</div>
+{%- else -%}
+  <div
+    id="Banner-{{ section.id }}"
+    class="banner banner--content-align-{{ section.settings.desktop_content_alignment }} banner--content-align-mobile-{{ section.settings.mobile_content_alignment }} banner--{{ section.settings.image_height }}{% if section.settings.stack_images_on_mobile and section.settings.image != blank and section.settings.image_2 != blank %} banner--stacked{% endif %}{% if section.settings.image_height == 'adapt' and section.settings.image != blank %} banner--adapt{% endif %}{% if section.settings.show_text_below %} banner--mobile-bottom{%- endif -%}{% if section.settings.show_text_box == false %} banner--desktop-transparent{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}
+  >
+    {%- if section.settings.image != blank -%}
+      <div class="banner__media media{% if section.settings.image == blank and section.settings.image_2 == blank %} placeholder{%endif %}{% if section.settings.image_2 != blank %} banner__media-half{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+        {%- liquid
+          assign image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio
+          if section.settings.image_2 != blank
+            assign image_class = 'banner__media-image-half'
+          endif
+          if section.settings.image_2 != blank and section.settings.stack_images_on_mobile
+            assign sizes = stacked_sizes
+          elsif section.settings.image_2 != blank
+            assign sizes = half_width
+          else
+            assign sizes = full_width
+          endif
+        -%}
+        {{
+          section.settings.image
+          | image_url: width: 3840
+          | image_tag:
+            width: section.settings.image.width,
+            height: image_height,
+            class: image_class,
+            sizes: sizes,
+            widths: widths,
+            fetchpriority: fetch_priority
+        }}
+      </div>
+    {%- elsif section.settings.image_2 == blank -%}
+      <div class="banner__media media{% if section.settings.image == blank and section.settings.image_2 == blank %} placeholder{%endif %}{% if section.settings.image_2 != blank %} banner__media-half{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+        {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      </div>
+    {%- endif -%}
+    {%- if section.settings.image_2 != blank -%}
+      <div class="banner__media media{% if section.settings.image != blank %} banner__media-half{% endif %}{% if section.settings.image_behavior != 'none' %} animate--{{ section.settings.image_behavior }}{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+        {%- liquid
+          assign image_height_2 = section.settings.image_2.width | divided_by: section.settings.image_2.aspect_ratio
+          if section.settings.image != blank
+            assign image_class_2 = 'banner__media-image-half'
+          endif
+          if section.settings.image != blank and section.settings.stack_images_on_mobile
+            assign sizes = stacked_sizes
+          elsif section.settings.image_2 != blank
+            assign sizes = half_width
+          else
+            assign sizes = full_width
+          endif
+        -%}
+        {{
+          section.settings.image_2
+          | image_url: width: 3840
+          | image_tag:
+            width: section.settings.image_2.width,
+            height: image_height_2,
+            class: image_class_2,
+            sizes: sizes,
+            widths: widths,
+            fetchpriority: fetch_priority
+        }}
+      </div>
+    {%- endif -%}
+    <div class="banner__content banner__content--{{ section.settings.desktop_content_position }} page-width{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+      <div class="banner__box content-container content-container--full-width-mobile color-{{ section.settings.color_scheme }} gradient">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'heading' -%}
+              <h2
+                class="banner__heading inline-richtext {{ block.settings.heading_size }}"
+                {{ block.shopify_attributes }}
+              >
+                {{ block.settings.heading }}
+              </h2>
+            {%- when 'text' -%}
+              <div class="banner__text rte {{ block.settings.text_style }}" {{ block.shopify_attributes }}>
+                <p>{{ block.settings.text }}</p>
+              </div>
+            {%- when 'buttons' -%}
+              <div
+                class="banner__buttons{% if block.settings.button_label_1 != blank and block.settings.button_label_2 != blank %} banner__buttons--multiple{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+                {%- if block.settings.button_label_1 != blank -%}
+                  <a
+                    {% if block.settings.button_link_1 == blank %}
+                      role="link" aria-disabled="true"
+                    {% else %}
+                      href="{{ block.settings.button_link_1 }}"
+                    {% endif %}
+                    class="button{% if block.settings.button_style_secondary_1 %} button--secondary{% else %} button--primary{% endif %}"
+                  >
+                    {{- block.settings.button_label_1 | escape -}}
+                  </a>
+                {%- endif -%}
+                {%- if block.settings.button_label_2 != blank -%}
+                  <a
+                    {% if block.settings.button_link_2 == blank %}
+                      role="link" aria-disabled="true"
+                    {% else %}
+                      href="{{ block.settings.button_link_2 }}"
+                    {% endif %}
+                    class="button{% if block.settings.button_style_secondary_2 %} button--secondary{% else %} button--primary{% endif %}"
+                  >
+                    {{- block.settings.button_label_2 | escape -}}
+                  </a>
+                {%- endif -%}
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
 
 {% schema %}
 {
@@ -175,6 +516,46 @@
     "groups": ["header", "footer"]
   },
   "settings": [
+    {
+      "type": "select",
+      "id": "layout_style",
+      "label": "Layout style",
+      "options": [
+        {
+          "value": "classic",
+          "label": "Standard"
+        },
+        {
+          "value": "galaxy",
+          "label": "Galaxy Spotlight"
+        }
+      ],
+      "default": "classic"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_text",
+      "label": "Eyebrow text",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "card_badge_text",
+      "label": "Card badge text",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "card_caption",
+      "label": "Card caption",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "card_image_alt",
+      "label": "Card image alternate text",
+      "default": ""
+    },
     {
       "type": "image_picker",
       "id": "image",
@@ -332,7 +713,7 @@
       "id": "stack_images_on_mobile",
       "default": true,
       "label": "t:sections.image-banner.settings.stack_images_on_mobile.label"
-    },    
+    },
     {
       "type": "select",
       "id": "mobile_content_alignment",
@@ -405,7 +786,7 @@
     {
       "type": "text",
       "name": "t:sections.image-banner.blocks.text.name",
-      "limit": 1,
+      "limit": 2,
       "settings": [
         {
           "type": "inline_richtext",
@@ -441,8 +822,8 @@
       "limit": 1,
       "settings": [
         {
-        "type": "header",
-        "content": "t:sections.image-banner.blocks.buttons.settings.header_1.content"
+          "type": "header",
+          "content": "t:sections.image-banner.blocks.buttons.settings.header_1.content"
         },
         {
           "type": "text",
@@ -463,8 +844,8 @@
           "label": "t:sections.image-banner.blocks.buttons.settings.button_style_secondary_1.label"
         },
         {
-        "type": "header",
-        "content": "t:sections.image-banner.blocks.buttons.settings.header_2.content"
+          "type": "header",
+          "content": "t:sections.image-banner.blocks.buttons.settings.header_2.content"
         },
         {
           "type": "text",

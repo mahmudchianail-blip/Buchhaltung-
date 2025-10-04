@@ -6,33 +6,54 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "heading": "Browse our latest products",
+            "heading": "Willkommen bei <strong>Optispar</strong>",
             "heading_size": "h0"
+          }
+        },
+        "intro": {
+          "type": "text",
+          "settings": {
+            "text": "Ihr zuverlässiger Partner für sorgfältig ausgewählte Produkte, die Ihren Alltag erleichtern und bereichern.",
+            "text_style": "body"
+          }
+        },
+        "subline": {
+          "type": "text",
+          "settings": {
+            "text": "Praktische Technik, auf die Sie sich verlassen können.",
+            "text_style": "subtitle"
           }
         },
         "button": {
           "type": "buttons",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "button_label_1": "Zum eBay Shop",
+            "button_link_1": "https://www.ebay.de/",
+            "button_style_secondary_1": false,
+            "button_label_2": "Kontakt",
+            "button_link_2": "shopify://pages/contact",
+            "button_style_secondary_2": true
           }
         }
       },
       "block_order": [
         "heading",
+        "intro",
+        "subline",
         "button"
       ],
       "settings": {
-        "image_overlay_opacity": 40,
+        "layout_style": "galaxy",
+        "eyebrow_text": "Optispar",
+        "card_badge_text": "Praktisches Highlight",
+        "card_caption": "Smarte Lösungen für deinen Alltag",
+        "card_image_alt": "Optispar Produktpräsentation",
+        "image_overlay_opacity": 0,
         "image_height": "large",
-        "desktop_content_position": "bottom-center",
+        "desktop_content_position": "middle-left",
         "show_text_box": false,
         "image_behavior": "none",
-        "desktop_content_alignment": "center",
+        "desktop_content_alignment": "left",
         "color_scheme": "scheme-3",
         "mobile_content_alignment": "center",
         "stack_images_on_mobile": false,
