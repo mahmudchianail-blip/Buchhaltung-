@@ -1,96 +1,121 @@
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "mahmudc_landing": {
+      "type": "mahmudc-landing",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "stat-1": {
+          "type": "stat",
           "settings": {
-            "heading": "Willkommen bei <strong>Optispar</strong>",
-            "heading_size": "h0"
+            "value": "24",
+            "label": "laufende Kooperationen"
           }
         },
-        "intro": {
-          "type": "text",
+        "stat-2": {
+          "type": "stat",
           "settings": {
-            "text": "Ihr zuverlässiger Partner für sorgfältig ausgewählte Produkte, die Ihren Alltag erleichtern und bereichern.",
-            "text_style": "body"
+            "value": "12",
+            "label": "Jahre Erfahrung"
           }
         },
-        "subline": {
-          "type": "text",
+        "stat-3": {
+          "type": "stat",
           "settings": {
-            "text": "Praktische Technik, auf die Sie sich verlassen können.",
-            "text_style": "subtitle"
+            "value": "180+",
+            "label": "abgeschlossene Projekte"
           }
         },
-        "button": {
-          "type": "buttons",
+        "service-1": {
+          "type": "service",
           "settings": {
-            "button_label_1": "Zum eBay Shop",
-            "button_link_1": "https://www.ebay.de/",
-            "button_style_secondary_1": false,
-            "button_label_2": "Kontakt",
-            "button_link_2": "shopify://pages/contact",
-            "button_style_secondary_2": true
+            "badge": "Discovery",
+            "title": "Produktstrategie",
+            "description": "Gemeinsam formen wir die Vision, priorisieren Roadmaps und legen KPIs fest, die Wachstum messbar machen.",
+            "link_label": "Strategie kennenlernen",
+            "link_url": "#strategie"
+          }
+        },
+        "service-2": {
+          "type": "service",
+          "settings": {
+            "badge": "Design",
+            "title": "Interface Systeme",
+            "description": "Modulare UI-Bibliotheken mit Fokus auf Markenidentität, Barrierefreiheit und erstklassige Nutzerführung.",
+            "link_label": "Design Cases",
+            "link_url": "#cases"
+          }
+        },
+        "service-3": {
+          "type": "service",
+          "settings": {
+            "badge": "Delivery",
+            "title": "No-Code & Frontend",
+            "description": "Von Prototyp bis Livegang: saubere Komponenten, automatisierte Deployments und nahtlose Übergabe ans Team.",
+            "link_label": "Tech Stack",
+            "link_url": "#tech"
+          }
+        },
+        "timeline-1": {
+          "type": "timeline",
+          "settings": {
+            "year": "2024",
+            "title": "Lead Product Designer · Optispar",
+            "description": "Skalierte eine Finanzplattform für KMUs und orchestrierte die Einführung eines komponentenbasierten Design Systems."
+          }
+        },
+        "timeline-2": {
+          "type": "timeline",
+          "settings": {
+            "year": "2021",
+            "title": "Product Strategist · Nebula Labs",
+            "description": "Überführte Customer Insights in datengetriebene Roadmaps und erhöhte die Aktivierung um 35 %."
+          }
+        },
+        "timeline-3": {
+          "type": "timeline",
+          "settings": {
+            "year": "2018",
+            "title": "UX Engineer · Studio Gradient",
+            "description": "Implementierte barrierearme Frontends und baute eine komponentenbasierte Dokumentation für globale Teams auf."
           }
         }
       },
       "block_order": [
-        "heading",
-        "intro",
-        "subline",
-        "button"
+        "stat-1",
+        "stat-2",
+        "stat-3",
+        "service-1",
+        "service-2",
+        "service-3",
+        "timeline-1",
+        "timeline-2",
+        "timeline-3"
       ],
       "settings": {
-        "layout_style": "galaxy",
-        "eyebrow_text": "Optispar",
-        "card_badge_text": "Praktisches Highlight",
-        "card_caption": "Smarte Lösungen für deinen Alltag",
-        "card_image_alt": "Optispar Produktpräsentation",
-        "image_overlay_opacity": 0,
-        "image_height": "large",
-        "desktop_content_position": "middle-left",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "left",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
-      }
-    },
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
+        "hero_eyebrow": "Mahmudc Studio",
+        "hero_heading": "Design & Build für visionäre Marken",
+        "hero_subheading": "Digitale Erlebnisse, die Produktivität steigern und Charakter zeigen.",
+        "hero_body": "<p>Wir begleiten SaaS- und Commerce-Teams von der ersten Idee bis zum skalierbaren System. Klar, fokussiert und mit Liebe zum Detail.</p>",
+        "primary_button_label": "Showreel öffnen",
+        "primary_button_link": "https://www.youtube.com/",
+        "secondary_button_label": "Projektanfrage",
+        "secondary_button_link": "mailto:hello@example.com",
+        "hero_badge": "Neu",
+        "hero_panel_title": "Customer Finance Hub",
+        "hero_panel_copy": "Ein modulares Cockpit, das Reporting, Liquiditätsplanung und Automatisierung kombiniert.",
+        "hero_panel_highlight": "<p><strong>Resultat:</strong> +48 % produktive Nutzungszeit, 4,8 ★ App Rating.</p>",
+        "services_heading": "Kompetenzen",
+        "services_subheading": "Wir vereinen Strategie, Branding und moderne Technologie in einem Setup.",
+        "timeline_heading": "Stationen",
+        "timeline_subheading": "Ein Auszug aus Projekten und Rollen der letzten Jahre.",
+        "footer_heading": "Lassen Sie uns zusammenarbeiten",
+        "footer_body": "Schreiben Sie eine Mail oder buchen Sie direkt einen Kennenlern-Call.",
+        "footer_button_label": "Call vereinbaren",
+        "footer_button_link": "mailto:hello@example.com",
+        "color_scheme": "scheme-3"
       }
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "mahmudc_landing"
   ]
 }

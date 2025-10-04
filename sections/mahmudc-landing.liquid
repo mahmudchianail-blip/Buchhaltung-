@@ -1,0 +1,811 @@
+{% liquid
+  assign stat_blocks = section.blocks | where: 'type', 'stat'
+  assign service_blocks = section.blocks | where: 'type', 'service'
+  assign timeline_blocks = section.blocks | where: 'type', 'timeline'
+%}
+
+<section class="mahmudc-landing color-{{ section.settings.color_scheme }}">
+  <div class="mahmudc-landing__glow"></div>
+  <div class="mahmudc-landing__container page-width">
+    <div class="mahmudc-landing__hero">
+      <div class="mahmudc-landing__hero-copy">
+        {% if section.settings.hero_eyebrow != blank %}
+          <p class="mahmudc-landing__hero-eyebrow">{{ section.settings.hero_eyebrow }}</p>
+        {% endif %}
+        {% if section.settings.hero_heading != blank %}
+          <h1 class="mahmudc-landing__hero-heading">{{ section.settings.hero_heading }}</h1>
+        {% endif %}
+        {% if section.settings.hero_subheading != blank %}
+          <p class="mahmudc-landing__hero-subheading">{{ section.settings.hero_subheading }}</p>
+        {% endif %}
+        {% if section.settings.hero_body != blank %}
+          <div class="mahmudc-landing__hero-body">{{ section.settings.hero_body }}</div>
+        {% endif %}
+        <div class="mahmudc-landing__hero-actions">
+          {% if section.settings.primary_button_label != blank and section.settings.primary_button_link != blank %}
+            <a
+              class="mahmudc-landing__button mahmudc-landing__button--primary"
+              href="{{ section.settings.primary_button_link }}"
+            >
+              {{ section.settings.primary_button_label }}
+            </a>
+          {% endif %}
+          {% if section.settings.secondary_button_label != blank and section.settings.secondary_button_link != blank %}
+            <a
+              class="mahmudc-landing__button mahmudc-landing__button--ghost"
+              href="{{ section.settings.secondary_button_link }}"
+            >
+              {{ section.settings.secondary_button_label }}
+            </a>
+          {% endif %}
+        </div>
+        {% if stat_blocks.size > 0 %}
+          <div class="mahmudc-landing__stats">
+            {% for block in stat_blocks %}
+              <div class="mahmudc-landing__stat" {{ block.shopify_attributes }}>
+                {% if block.settings.value != blank %}
+                  <span class="mahmudc-landing__stat-value">{{ block.settings.value }}</span>
+                {% endif %}
+                {% if block.settings.label != blank %}
+                  <span class="mahmudc-landing__stat-label">{{ block.settings.label }}</span>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+      <div class="mahmudc-landing__hero-panel">
+        {% if section.settings.hero_badge != blank %}
+          <span class="mahmudc-landing__hero-badge">{{ section.settings.hero_badge }}</span>
+        {% endif %}
+        {% if section.settings.hero_panel_title != blank %}
+          <h2 class="mahmudc-landing__panel-heading">{{ section.settings.hero_panel_title }}</h2>
+        {% endif %}
+        {% if section.settings.hero_panel_copy != blank %}
+          <p class="mahmudc-landing__panel-copy">{{ section.settings.hero_panel_copy }}</p>
+        {% endif %}
+        {% if section.settings.hero_panel_highlight != blank %}
+          <div class="mahmudc-landing__panel-highlight">{{ section.settings.hero_panel_highlight }}</div>
+        {% endif %}
+        {% if section.settings.hero_image != blank %}
+          {% assign hero_image_alt = section.settings.hero_image_alt | default: section.settings.hero_panel_title | default: section.settings.hero_heading %}
+          <div class="mahmudc-landing__panel-image">
+            {{ section.settings.hero_image | image_url: width: 800 | image_tag: loading: 'lazy', alt: hero_image_alt }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if service_blocks.size > 0 %}
+      <div class="mahmudc-landing__services">
+        <div class="mahmudc-landing__section-heading">
+          {% if section.settings.services_heading != blank %}
+            <h2>{{ section.settings.services_heading }}</h2>
+          {% endif %}
+          {% if section.settings.services_subheading != blank %}
+            <p>{{ section.settings.services_subheading }}</p>
+          {% endif %}
+        </div>
+        <div class="mahmudc-landing__service-grid">
+          {% for block in service_blocks %}
+            <article class="mahmudc-landing__service" {{ block.shopify_attributes }}>
+              {% if block.settings.badge != blank %}
+                <span class="mahmudc-landing__service-badge">{{ block.settings.badge }}</span>
+              {% endif %}
+              {% if block.settings.title != blank %}
+                <h3>{{ block.settings.title }}</h3>
+              {% endif %}
+              {% if block.settings.description != blank %}
+                <p>{{ block.settings.description }}</p>
+              {% endif %}
+              {% if block.settings.link_label != blank and block.settings.link_url != blank %}
+                <a class="mahmudc-landing__service-link" href="{{ block.settings.link_url }}">{{ block.settings.link_label }}</a>
+              {% endif %}
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if timeline_blocks.size > 0 %}
+      <div class="mahmudc-landing__timeline">
+        <div class="mahmudc-landing__section-heading">
+          {% if section.settings.timeline_heading != blank %}
+            <h2>{{ section.settings.timeline_heading }}</h2>
+          {% endif %}
+          {% if section.settings.timeline_subheading != blank %}
+            <p>{{ section.settings.timeline_subheading }}</p>
+          {% endif %}
+        </div>
+        <div class="mahmudc-landing__timeline-rail">
+          {% for block in timeline_blocks %}
+            <div class="mahmudc-landing__timeline-item" {{ block.shopify_attributes }}>
+              {% if block.settings.year != blank %}
+                <span class="mahmudc-landing__timeline-year">{{ block.settings.year }}</span>
+              {% endif %}
+              {% if block.settings.title != blank %}
+                <h3>{{ block.settings.title }}</h3>
+              {% endif %}
+              {% if block.settings.description != blank %}
+                <p>{{ block.settings.description }}</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if section.settings.footer_heading != blank or section.settings.footer_body != blank or section.settings.footer_button_label != blank %}
+      <div class="mahmudc-landing__footer">
+        <div class="mahmudc-landing__footer-content">
+          {% if section.settings.footer_heading != blank %}
+            <h2>{{ section.settings.footer_heading }}</h2>
+          {% endif %}
+          {% if section.settings.footer_body != blank %}
+            <p>{{ section.settings.footer_body }}</p>
+          {% endif %}
+        </div>
+        {% if section.settings.footer_button_label != blank and section.settings.footer_button_link != blank %}
+          <a class="mahmudc-landing__button mahmudc-landing__button--primary" href="{{ section.settings.footer_button_link }}">
+            {{ section.settings.footer_button_label }}
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+  .mahmudc-landing {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(4rem, 8vw, 8rem) 0;
+    background: radial-gradient(circle at 20% 20%, rgba(94, 234, 212, 0.12), transparent 40%),
+      radial-gradient(circle at 80% 0%, rgba(147, 197, 253, 0.16), transparent 45%),
+      linear-gradient(180deg, rgba(10, 11, 25, 1) 0%, rgba(10, 12, 30, 1) 100%);
+    color: rgba(243, 244, 255, 0.92);
+  }
+
+  .mahmudc-landing__glow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 30% 30%, rgba(236, 72, 153, 0.25), transparent 55%),
+      radial-gradient(circle at 70% 15%, rgba(59, 130, 246, 0.3), transparent 60%);
+    opacity: 0.7;
+    filter: blur(0);
+    mix-blend-mode: screen;
+  }
+
+  .mahmudc-landing__container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(4rem, 7vw, 7rem);
+  }
+
+  .mahmudc-landing__hero {
+    display: grid;
+    gap: clamp(2.5rem, 4vw, 4rem);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    align-items: stretch;
+  }
+
+  .mahmudc-landing__hero-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    justify-content: center;
+  }
+
+  .mahmudc-landing__hero-eyebrow {
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    color: rgba(94, 234, 212, 0.9);
+  }
+
+  .mahmudc-landing__hero-heading {
+    font-size: clamp(3.6rem, 6vw, 5.6rem);
+    line-height: 1.05;
+    font-weight: 700;
+    margin: 0;
+    color: #f9fafc;
+  }
+
+  .mahmudc-landing__hero-subheading {
+    font-size: clamp(1.8rem, 2.6vw, 2.4rem);
+    margin: 0;
+    color: rgba(148, 163, 184, 0.95);
+  }
+
+  .mahmudc-landing__hero-body {
+    font-size: 1.6rem;
+    color: rgba(203, 213, 225, 0.9);
+  }
+
+  .mahmudc-landing__hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-top: 0.8rem;
+  }
+
+  .mahmudc-landing__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 1.2rem 2.4rem;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, color 0.25s ease, background 0.25s ease;
+  }
+
+  .mahmudc-landing__button--primary {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 1), rgba(147, 51, 234, 1));
+    color: #f8fafc;
+    box-shadow: 0 20px 45px rgba(79, 70, 229, 0.35);
+  }
+
+  .mahmudc-landing__button--primary:hover,
+  .mahmudc-landing__button--primary:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 26px 52px rgba(129, 140, 248, 0.45);
+  }
+
+  .mahmudc-landing__button--ghost {
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    color: rgba(226, 232, 240, 0.85);
+    background: rgba(15, 23, 42, 0.45);
+  }
+
+  .mahmudc-landing__button--ghost:hover,
+  .mahmudc-landing__button--ghost:focus-visible {
+    border-color: rgba(148, 163, 184, 0.6);
+    color: #f1f5f9;
+  }
+
+  .mahmudc-landing__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1.2rem;
+    margin-top: 1.6rem;
+  }
+
+  .mahmudc-landing__stat {
+    padding: 1.6rem;
+    border-radius: 1.6rem;
+    background: rgba(15, 23, 42, 0.45);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    backdrop-filter: blur(16px);
+  }
+
+  .mahmudc-landing__stat-value {
+    display: block;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #f8fafc;
+  }
+
+  .mahmudc-landing__stat-label {
+    font-size: 1.3rem;
+    color: rgba(148, 163, 184, 0.8);
+  }
+
+  .mahmudc-landing__hero-panel {
+    position: relative;
+    padding: clamp(2.4rem, 3.5vw, 3.6rem);
+    border-radius: 2.4rem;
+    background: linear-gradient(165deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.75) 100%);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(18px);
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+  }
+
+  .mahmudc-landing__hero-badge {
+    align-self: flex-start;
+    padding: 0.6rem 1.6rem;
+    border-radius: 999px;
+    font-size: 1.2rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    background: rgba(236, 72, 153, 0.18);
+    color: rgba(244, 114, 182, 0.95);
+  }
+
+  .mahmudc-landing__panel-heading {
+    font-size: clamp(2.4rem, 3.2vw, 3.2rem);
+    margin: 0;
+    color: #f9fafc;
+  }
+
+  .mahmudc-landing__panel-copy {
+    margin: 0;
+    color: rgba(203, 213, 225, 0.85);
+    font-size: 1.5rem;
+  }
+
+  .mahmudc-landing__panel-highlight {
+    padding: 1.6rem;
+    border-radius: 1.6rem;
+    background: rgba(59, 130, 246, 0.16);
+    border: 1px solid rgba(96, 165, 250, 0.35);
+    color: rgba(224, 231, 255, 0.92);
+  }
+
+  .mahmudc-landing__panel-image {
+    border-radius: 1.8rem;
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.18);
+  }
+
+  .mahmudc-landing__panel-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .mahmudc-landing__section-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    max-width: 520px;
+  }
+
+  .mahmudc-landing__section-heading h2 {
+    font-size: clamp(2.4rem, 4vw, 3.2rem);
+    margin: 0;
+    color: #f8fafc;
+  }
+
+  .mahmudc-landing__section-heading p {
+    margin: 0;
+    color: rgba(148, 163, 184, 0.9);
+    font-size: 1.5rem;
+  }
+
+  .mahmudc-landing__services {
+    display: flex;
+    flex-direction: column;
+    gap: 2.8rem;
+  }
+
+  .mahmudc-landing__service-grid {
+    display: grid;
+    gap: 1.8rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+
+  .mahmudc-landing__service {
+    background: rgba(15, 23, 42, 0.5);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 1.8rem;
+    padding: 2.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .mahmudc-landing__service:hover,
+  .mahmudc-landing__service:focus-within {
+    transform: translateY(-4px);
+    border-color: rgba(129, 140, 248, 0.55);
+    box-shadow: 0 18px 38px rgba(15, 23, 42, 0.45);
+  }
+
+  .mahmudc-landing__service-badge {
+    align-self: flex-start;
+    padding: 0.4rem 1.2rem;
+    border-radius: 999px;
+    font-size: 1.1rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    background: rgba(34, 197, 94, 0.16);
+    color: rgba(134, 239, 172, 0.9);
+  }
+
+  .mahmudc-landing__service h3 {
+    margin: 0;
+    font-size: 2rem;
+    color: #f9fafc;
+  }
+
+  .mahmudc-landing__service p {
+    margin: 0;
+    font-size: 1.45rem;
+    color: rgba(203, 213, 225, 0.86);
+  }
+
+  .mahmudc-landing__service-link {
+    margin-top: auto;
+    font-size: 1.3rem;
+    color: rgba(96, 165, 250, 0.9);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .mahmudc-landing__timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 2.6rem;
+  }
+
+  .mahmudc-landing__timeline-rail {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+
+  .mahmudc-landing__timeline-item {
+    position: relative;
+    background: rgba(15, 23, 42, 0.55);
+    border-radius: 1.8rem;
+    padding: 2.2rem;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .mahmudc-landing__timeline-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1px solid rgba(59, 130, 246, 0.25);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+  }
+
+  .mahmudc-landing__timeline-item:hover::before,
+  .mahmudc-landing__timeline-item:focus-within::before {
+    opacity: 1;
+  }
+
+  .mahmudc-landing__timeline-year {
+    font-size: 1.2rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(94, 234, 212, 0.8);
+  }
+
+  .mahmudc-landing__timeline-item h3 {
+    margin: 0;
+    font-size: 1.9rem;
+    color: #f8fafc;
+  }
+
+  .mahmudc-landing__timeline-item p {
+    margin: 0;
+    font-size: 1.4rem;
+    color: rgba(203, 213, 225, 0.8);
+  }
+
+  .mahmudc-landing__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 3.2rem;
+    border-radius: 2rem;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.35), rgba(14, 165, 233, 0.25));
+    border: 1px solid rgba(125, 211, 252, 0.3);
+  }
+
+  .mahmudc-landing__footer h2 {
+    margin: 0 0 0.6rem;
+    font-size: clamp(2.2rem, 3vw, 2.8rem);
+    color: #f1f5f9;
+  }
+
+  .mahmudc-landing__footer p {
+    margin: 0;
+    font-size: 1.5rem;
+    color: rgba(226, 232, 240, 0.9);
+  }
+
+  @media screen and (max-width: 749px) {
+    .mahmudc-landing {
+      padding: 3.2rem 0 4rem;
+    }
+
+    .mahmudc-landing__hero {
+      grid-template-columns: 1fr;
+    }
+
+    .mahmudc-landing__hero-panel {
+      order: -1;
+    }
+
+    .mahmudc-landing__hero-body {
+      font-size: 1.5rem;
+    }
+
+    .mahmudc-landing__service,
+    .mahmudc-landing__timeline-item {
+      padding: 2rem;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "MahmudC Landing",
+  "settings": [
+    {
+      "type": "text",
+      "id": "hero_eyebrow",
+      "label": "Hero eyebrow",
+      "default": "Produktdesigner & Entwickler"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "Hero heading",
+      "default": "Digitale Produkte mit Charakter"
+    },
+    {
+      "type": "text",
+      "id": "hero_subheading",
+      "label": "Hero subheading",
+      "default": "Ich helfe Marken dabei, ihre Vision in erlebbare Interfaces zu übersetzen."
+    },
+    {
+      "type": "richtext",
+      "id": "hero_body",
+      "label": "Hero body",
+      "default": "<p>Strategische Gestaltung, technische Umsetzung und nachhaltige Betreuung – alles aus einer Hand für ein unverwechselbares Erlebnis.</p>"
+    },
+    {
+      "type": "text",
+      "id": "primary_button_label",
+      "label": "Primärer Button-Text",
+      "default": "Projekte ansehen"
+    },
+    {
+      "type": "url",
+      "id": "primary_button_link",
+      "label": "Primärer Button-Link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Sekundärer Button-Text",
+      "default": "Lebenslauf"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Sekundärer Button-Link",
+      "default": "#kontakt"
+    },
+    {
+      "type": "text",
+      "id": "hero_badge",
+      "label": "Hero-Badge",
+      "default": "Aktuelles Projekt"
+    },
+    {
+      "type": "text",
+      "id": "hero_panel_title",
+      "label": "Panel-Überschrift",
+      "default": "Wirtschafts-App für KMU"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_panel_copy",
+      "label": "Panel-Beschreibung",
+      "default": "Eine modulare Plattform, die Buchhaltung, Planung und Reporting in einer modernen Oberfläche vereint."
+    },
+    {
+      "type": "richtext",
+      "id": "hero_panel_highlight",
+      "label": "Panel-Highlight",
+      "default": "<p><strong>Features:</strong> Automatisierte Workflows, Teamfreigaben & Echtzeit-Dashboards.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Panel-Bild"
+    },
+    {
+      "type": "text",
+      "id": "hero_image_alt",
+      "label": "Alt-Text für Panel-Bild"
+    },
+    {
+      "type": "text",
+      "id": "services_heading",
+      "label": "Services Überschrift",
+      "default": "Schwerpunkte"
+    },
+    {
+      "type": "textarea",
+      "id": "services_subheading",
+      "label": "Services Untertitel",
+      "default": "Strategie, Gestaltung und Umsetzung – fein abgestimmt auf Ihre Marke."
+    },
+    {
+      "type": "text",
+      "id": "timeline_heading",
+      "label": "Timeline Überschrift",
+      "default": "Erfahrung"
+    },
+    {
+      "type": "textarea",
+      "id": "timeline_subheading",
+      "label": "Timeline Untertitel",
+      "default": "Stationen, die meine Arbeit geprägt haben."
+    },
+    {
+      "type": "text",
+      "id": "footer_heading",
+      "label": "Footer-CTA Überschrift",
+      "default": "Bereit für das nächste Kapitel?"
+    },
+    {
+      "type": "textarea",
+      "id": "footer_body",
+      "label": "Footer-CTA Text",
+      "default": "Lassen Sie uns gemeinsam digitale Produkte mit Wiedererkennungswert gestalten."
+    },
+    {
+      "type": "text",
+      "id": "footer_button_label",
+      "label": "Footer-CTA Button-Text",
+      "default": "Kontakt aufnehmen"
+    },
+    {
+      "type": "url",
+      "id": "footer_button_link",
+      "label": "Footer-CTA Button-Link",
+      "default": "#kontakt"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Farbschema",
+      "default": "scheme-3",
+      "options": [
+        { "value": "scheme-1", "label": "Scheme 1" },
+        { "value": "scheme-2", "label": "Scheme 2" },
+        { "value": "scheme-3", "label": "Scheme 3" },
+        { "value": "scheme-4", "label": "Scheme 4" }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Wert",
+          "default": "150+"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "abgeschlossene Projekte"
+        }
+      ]
+    },
+    {
+      "type": "service",
+      "name": "Service",
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge",
+          "default": "Discovery"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titel",
+          "default": "Strategie Workshops"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Beschreibung",
+          "default": "Wir definieren Ziele, Zielgruppen und KPIs, damit jedes Feature eine klare Aufgabe erfüllt."
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link-Text",
+          "default": "Mehr erfahren"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link-URL",
+          "default": "#services"
+        }
+      ]
+    },
+    {
+      "type": "timeline",
+      "name": "Timeline-Eintrag",
+      "settings": [
+        {
+          "type": "text",
+          "id": "year",
+          "label": "Jahr",
+          "default": "2024"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Titel",
+          "default": "Lead Product Designer"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Beschreibung",
+          "default": "Führte ein interdisziplinäres Team, um eine Fintech-Suite für mittelständische Unternehmen zu skalieren."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MahmudC Landing",
+      "category": "Custom",
+      "blocks": [
+        {
+          "type": "stat"
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "value": "12",
+            "label": "Jahre Erfahrung"
+          }
+        },
+        {
+          "type": "service"
+        },
+        {
+          "type": "service",
+          "settings": {
+            "badge": "Design",
+            "title": "Interface Systeme",
+            "description": "Aufgeräumte, zugängliche Interfaces mit Fokus auf Nutzerführung und Brand-Tonalität.",
+            "link_url": "#portfolio"
+          }
+        },
+        {
+          "type": "timeline"
+        },
+        {
+          "type": "timeline",
+          "settings": {
+            "year": "2021",
+            "title": "Product Strategist",
+            "description": "Implementierte datenbasierte Entscheidungsprozesse zur Optimierung des Produktportfolios."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
