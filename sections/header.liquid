@@ -561,26 +561,29 @@
 
   @media screen and (max-width: 989px) {
     .optispar-header {
-      flex-wrap: wrap;
-      gap: 1rem;
-      padding: 1rem;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.9rem;
+      padding: 0.9rem 1rem 1.1rem;
     }
 
     .optispar-header__logo {
-      margin-right: 0;
+      margin: 0 auto;
     }
 
     .optispar-header__nav {
       position: static;
       transform: none;
-      order: 3;
+      order: 4;
       width: 100%;
+      margin-top: 0.2rem;
     }
 
     .optispar-nav__list {
       justify-content: center;
       flex-wrap: wrap;
       padding: 0;
+      row-gap: 0.2rem;
     }
 
     .optispar-nav__indicator {
@@ -592,22 +595,27 @@
     }
 
     .optispar-header__actions {
-      order: 2;
-      margin-left: auto;
+      order: 3;
+      width: 100%;
+      margin-left: 0;
     }
 
     .optispar-action-cluster {
       width: 100%;
-      justify-content: flex-end;
-      padding: 0.45rem 0.75rem;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: center;
+      gap: 0.7rem;
+      padding: 0.65rem 0.9rem 0.75rem;
     }
 
     .optispar-action-cluster__buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      gap: 0.55rem;
+      display: grid;
       width: 100%;
+      grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+      column-gap: 0.65rem;
+      row-gap: 0.7rem;
+      justify-items: center;
     }
 
     .optispar-action-cluster__buttons > * {
@@ -615,12 +623,22 @@
     }
 
     .optispar-action-cluster__buttons > .optispar-search {
-      flex: 1 1 100%;
+      justify-self: center;
+      width: auto;
+    }
+
+    .optispar-action-cluster__buttons > .optispar-search.is-open {
+      grid-column: 1 / -1;
+      width: 100%;
     }
 
     .optispar-action-cluster .optispar-search {
+      width: auto;
+      justify-content: center;
+    }
+
+    .optispar-action-cluster .optispar-search.is-open {
       width: 100%;
-      justify-content: flex-end;
     }
 
     .optispar-search.is-open .optispar-search__form {
@@ -631,12 +649,13 @@
 
   @media screen and (max-width: 749px) {
     .optispar-header-wrapper {
-      padding: 1.15rem 0.85rem;
+      padding: 1.1rem 0.8rem 1.35rem;
     }
 
     .optispar-header {
       border-radius: 1.85rem;
-      padding: 0.55rem 1rem;
+      padding: 0.6rem 0.9rem 0.95rem;
+      gap: 0.85rem;
     }
 
     .optispar-header__logo {
@@ -644,40 +663,53 @@
     }
 
     .optispar-header__logo a {
-      padding: 0 1.25rem;
-    }
-
-    .optispar-header__actions {
-      width: 100%;
-      justify-content: space-between;
+      padding: 0 1.15rem;
     }
 
     .optispar-action-cluster {
-      padding: 0.5rem 0.9rem;
-      justify-content: space-between;
+      padding: 0.7rem 0.85rem 0.9rem;
+      gap: 0.75rem;
     }
 
     .optispar-action-cluster__buttons {
-      justify-content: space-between;
-      gap: 0.65rem;
+      column-gap: 0.55rem;
+      row-gap: 0.75rem;
     }
 
-    .optispar-action-cluster__buttons > .optispar-search {
-      flex: 1 1 100%;
+    .optispar-action-cluster__buttons > :not(.optispar-search) {
+      justify-self: center;
     }
 
     .optispar-action-cluster .optispar-search {
-      justify-content: space-between;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.55rem;
     }
 
     .optispar-action-cluster .optispar-search.is-open .optispar-search__form {
-      margin-top: 0.35rem;
+      margin-top: 0;
+    }
+
+    .optispar-action-cluster .optispar-search__toggle {
+      align-self: center;
+    }
+
+    .optispar-action-cluster .optispar-search__form {
+      width: 100%;
     }
 
     .optispar-search__toggle,
     .optispar-icon-btn {
-      width: 2.8rem;
-      height: 2.8rem;
+      width: 2.75rem;
+      height: 2.75rem;
+    }
+
+    .optispar-search__form {
+      padding: 0.55rem 0.85rem 0.55rem 1rem;
+    }
+
+    .optispar-search__input {
+      font-size: 1rem;
     }
   }
 </style>
@@ -866,66 +898,64 @@
                   </svg>
                 </button>
               </form>
-            </div>
-
-            {%- if shop.customer_accounts_enabled -%}
-              <a
-                href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
-                class="optispar-icon-btn header__icon header__icon--account link focus-inset"
-                rel="nofollow"
-              >
-                {%- if section.settings.enable_customer_avatar -%}
-                  <account-icon>
-                    {%- if customer and customer.has_avatar? -%}
-                      {{ customer | avatar }}
-                    {%- else -%}
-                      <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
-                    {%- endif -%}
-                  </account-icon>
-                {%- else -%}
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                  </svg>
-                {%- endif -%}
-                <span class="visually-hidden">
-                  {%- liquid
-                    if customer
-                      echo 'customer.account_fallback' | t
-                    else
-                      echo 'customer.log_in' | t
-                    endif
-                  -%}
-                </span>
-              </a>
-            {%- endif -%}
-
-            {%- for block in section.blocks -%}
-              {%- case block.type -%}
-                {%- when '@app' -%}
-                  {% render block %}
-              {%- endcase -%}
-            {%- endfor -%}
-
-            <a href="{{ routes.cart_url }}" class="optispar-icon-btn header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
-              {% if cart == empty %}
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386a1.125 1.125 0 0 1 1.089.867l.383 1.718M7.5 14.25a3 3 0 0 0-3 3h15.75M7.5 14.25h11.218c.51 0 .955-.343 1.087-.835l1.35-5.062a.563.563 0 0 0-.546-.715H4.72m2.78 6.612L4.725.718m0 0L4.11 3.183A.562.562 0 0 0 3.563 2.75H2.25" />
-                </svg>
-              {% else %}
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386a1.125 1.125 0 0 1 1.089.867l.383 1.718M7.5 14.25a3 3 0 0 0-3 3h15.75M7.5 14.25l-2.78-8.532m2.78 8.532 9.968.003c.51 0 .955-.343 1.087-.835l1.35-5.062a.563.563 0 0 0-.546-.715H4.72" />
-                </svg>
-              {% endif %}
-              <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
-              {%- if cart != empty -%}
-                <div class="cart-count-bubble">
-                  {%- if cart.item_count < 100 -%}
-                    <span aria-hidden="true">{{ cart.item_count }}</span>
+              {%- if shop.customer_accounts_enabled -%}
+                <a
+                  href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+                  class="optispar-icon-btn header__icon header__icon--account link focus-inset"
+                  rel="nofollow"
+                >
+                  {%- if section.settings.enable_customer_avatar -%}
+                    <account-icon>
+                      {%- if customer and customer.has_avatar? -%}
+                        {{ customer | avatar }}
+                      {%- else -%}
+                        <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
+                      {%- endif -%}
+                    </account-icon>
+                  {%- else -%}
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    </svg>
                   {%- endif -%}
-                  <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
-                </div>
+                  <span class="visually-hidden">
+                    {%- liquid
+                      if customer
+                        echo 'customer.account_fallback' | t
+                      else
+                        echo 'customer.log_in' | t
+                      endif
+                    -%}
+                  </span>
+                </a>
               {%- endif -%}
-            </a>
+
+              {%- for block in section.blocks -%}
+                {%- case block.type -%}
+                  {%- when '@app' -%}
+                    {% render block %}
+                {%- endcase -%}
+              {%- endfor -%}
+
+              <a href="{{ routes.cart_url }}" class="optispar-icon-btn header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
+                {% if cart == empty %}
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386a1.125 1.125 0 0 1 1.089.867l.383 1.718M7.5 14.25a3 3 0 0 0-3 3h15.75M7.5 14.25h11.218c.51 0 .955-.343 1.087-.835l1.35-5.062a.563.563 0 0 0-.546-.715H4.72m2.78 6.612L4.725.718m0 0L4.11 3.183A.562.562 0 0 0 3.563 2.75H2.25" />
+                  </svg>
+                {% else %}
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386a1.125 1.125 0 0 1 1.089.867l.383 1.718M7.5 14.25a3 3 0 0 0-3 3h15.75M7.5 14.25l-2.78-8.532m2.78 8.532 9.968.003c.51 0 .955-.343 1.087-.835l1.35-5.062a.563.563 0 0 0-.546-.715H4.72" />
+                  </svg>
+                {% endif %}
+                <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
+                {%- if cart != empty -%}
+                  <div class="cart-count-bubble">
+                    {%- if cart.item_count < 100 -%}
+                      <span aria-hidden="true">{{ cart.item_count }}</span>
+                    {%- endif -%}
+                    <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+                  </div>
+                {%- endif -%}
+              </a>
             </div>
           </div>
         </div>
