@@ -293,6 +293,8 @@
     display: flex;
     align-items: center;
     gap: clamp(0.28rem, 1vw, 0.55rem);
+    flex-wrap: nowrap;
+    flex: 0 0 auto;
   }
 
   .optispar-action-cluster {
@@ -311,6 +313,8 @@
       0 12px 28px rgba(12, 54, 120, 0.26);
     backdrop-filter: blur(20px);
     overflow: hidden;
+    flex: 0 0 auto;
+    min-width: calc(var(--optispar-action-size) * 3 + var(--optispar-action-gap) * 2 + clamp(0.52rem, 1.05vw, 0.75rem) * 2);
   }
 
   .optispar-action-cluster::before {
@@ -720,6 +724,7 @@
       align-items: stretch;
       justify-content: center;
       gap: 0.7rem;
+      min-width: 0;
       padding: 0.65rem 0.9rem 0.75rem;
     }
 
@@ -815,6 +820,7 @@
       border-radius: 999px;
       background: rgba(26, 88, 172, 0.58);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      min-width: 0;
     }
 
     .optispar-action-cluster__buttons {
