@@ -292,21 +292,23 @@
   .optispar-header__actions {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: clamp(0.28rem, 1vw, 0.55rem);
   }
 
   .optispar-header__actions.header__icons {
-    padding-right: clamp(0rem, 0.8vw, 0.45rem);
-    margin-right: clamp(0.35rem, 1.6vw, 1rem);
+    padding-right: 0;
+    margin-right: clamp(1.1rem, 3.2vw, 2.3rem);
+    margin-left: clamp(0.75rem, 2.6vw, 1.6rem);
   }
 
   .optispar-action-cluster {
-    --optispar-action-size: clamp(2.35rem, 2.55vw, 2.7rem);
+    --optispar-action-size: clamp(2.55rem, 2.9vw, 3rem);
     --optispar-action-gap: clamp(0.32rem, 0.9vw, 0.52rem);
     position: relative;
     display: inline-flex;
     align-items: center;
-    padding: clamp(0.28rem, 1.05vw, 0.45rem) clamp(0.6rem, 1.3vw, 0.85rem);
+    padding: clamp(0.32rem, 1.15vw, 0.52rem) clamp(0.7rem, 1.6vw, 1.05rem);
     border-radius: 9999px;
     background: linear-gradient(145deg, rgba(28, 90, 178, 0.72), rgba(101, 176, 247, 0.48));
     border: 1px solid rgba(172, 214, 255, 0.55);
@@ -317,16 +319,32 @@
     backdrop-filter: blur(18px);
   }
 
+  .optispar-action-cluster::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(145deg, rgba(45, 122, 214, 0.38), rgba(118, 182, 255, 0.22));
+    opacity: 0.7;
+    filter: blur(24px);
+    z-index: 0;
+    pointer-events: none;
+  }
+
   .optispar-action-cluster::before {
     content: '';
     position: absolute;
     inset: clamp(0.12rem, 0.32vw, 0.22rem);
     border-radius: inherit;
-    background: radial-gradient(circle at 50% 50%, rgba(86, 156, 245, 0.5), rgba(86, 156, 245, 0));
-    filter: blur(18px);
-    opacity: 0.9;
+    background: radial-gradient(circle at 50% 50%, rgba(86, 156, 245, 0.58), rgba(86, 156, 245, 0));
+    opacity: 0.95;
     z-index: 0;
     pointer-events: none;
+  }
+
+  .optispar-action-cluster > * {
+    position: relative;
+    z-index: 1;
   }
 
   .optispar-action-cluster__buttons {
@@ -343,6 +361,7 @@
     align-items: center;
     justify-content: center;
     min-width: var(--optispar-action-size);
+    min-height: var(--optispar-action-size);
     flex: 0 0 var(--optispar-action-size);
   }
 
@@ -362,8 +381,8 @@
   .optispar-action-cluster .optispar-search__submit,
   .optispar-action-cluster .optispar-search__close {
     position: relative;
-    width: var(--optispar-action-size);
-    height: var(--optispar-action-size);
+    width: var(--optispar-action-size, clamp(2.35rem, 2.4vw, 2.75rem));
+    height: var(--optispar-action-size, clamp(2.35rem, 2.4vw, 2.75rem));
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -493,8 +512,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: clamp(2.35rem, 2.4vw, 2.75rem);
-    height: clamp(2.35rem, 2.4vw, 2.75rem);
+    width: var(--optispar-action-size, clamp(2.35rem, 2.4vw, 2.75rem));
+    height: var(--optispar-action-size, clamp(2.35rem, 2.4vw, 2.75rem));
     border-radius: 50%;
     background: linear-gradient(140deg, rgba(45, 122, 214, 0.58), rgba(118, 182, 255, 0.34));
     border: 1px solid rgba(185, 224, 255, 0.55);
@@ -536,8 +555,8 @@
   }
 
   .optispar-search__toggle {
-    width: clamp(2.35rem, 2.4vw, 2.75rem);
-    height: clamp(2.35rem, 2.4vw, 2.75rem);
+    width: var(--optispar-action-size, clamp(2.35rem, 2.4vw, 2.75rem));
+    height: var(--optispar-action-size, clamp(2.35rem, 2.4vw, 2.75rem));
     flex-shrink: 0;
   }
 
@@ -652,6 +671,10 @@
     transition: transform 0.3s ease;
   }
 
+  .shopify-section-header-sticky .optispar-header__actions.header__icons {
+    margin-right: clamp(0.95rem, 2.8vw, 2rem);
+  }
+
   .shopify-section-header-sticky .optispar-header__actions > *,
   .shopify-section-header-sticky .optispar-search__form,
   .shopify-section-header-sticky .optispar-icon-btn,
@@ -710,6 +733,7 @@
       order: 3;
       width: 100%;
       margin-left: 0;
+      margin-right: 0;
     }
 
     .optispar-action-cluster {
