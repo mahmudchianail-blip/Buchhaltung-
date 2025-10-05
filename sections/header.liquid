@@ -296,21 +296,18 @@
   }
 
   .optispar-action-cluster {
-    --optispar-action-size: clamp(2.35rem, 2.4vw, 2.7rem);
-    --optispar-action-gap: clamp(0.38rem, 1vw, 0.6rem);
+    --optispar-action-size: clamp(2.3rem, 2.35vw, 2.6rem);
+    --optispar-action-gap: clamp(0.32rem, 0.9vw, 0.52rem);
     display: inline-flex;
     align-items: center;
-    padding: clamp(0.26rem, 1vw, 0.45rem) clamp(0.52rem, 1.25vw, 0.88rem);
+    padding: clamp(0.24rem, 0.95vw, 0.4rem) clamp(0.5rem, 1.15vw, 0.75rem);
     border-radius: 9999px;
-    background: linear-gradient(
-      140deg,
-      rgba(26, 82, 166, 0.58),
-      rgba(104, 176, 248, 0.4)
-    );
-    border: 1px solid rgba(175, 215, 255, 0.52);
+    background: linear-gradient(145deg, rgba(28, 90, 178, 0.72), rgba(101, 176, 247, 0.48));
+    border: 1px solid rgba(172, 214, 255, 0.55);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.3),
-      0 10px 26px rgba(12, 54, 120, 0.26);
+      inset 0 1px 0 rgba(255, 255, 255, 0.36),
+      inset 0 -1px 0 rgba(12, 52, 112, 0.32),
+      0 12px 28px rgba(12, 54, 120, 0.28);
     backdrop-filter: blur(18px);
   }
 
@@ -344,12 +341,51 @@
   .optispar-action-cluster .optispar-search__toggle,
   .optispar-action-cluster .optispar-search__submit,
   .optispar-action-cluster .optispar-search__close {
+    position: relative;
     width: var(--optispar-action-size);
     height: var(--optispar-action-size);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+    border: 1px solid rgba(220, 235, 255, 0.55);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -1px 0 rgba(18, 72, 150, 0.35),
+      0 10px 22px rgba(10, 40, 96, 0.25);
+    color: #fff;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .optispar-action-cluster .optispar-icon-btn::after,
+  .optispar-action-cluster .optispar-search__toggle::after,
+  .optispar-action-cluster .optispar-search__submit::after,
+  .optispar-action-cluster .optispar-search__close::after {
+    content: '';
+    position: absolute;
+    inset: 12% 18% auto 18%;
+    height: 28%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
+    opacity: 0.75;
+    pointer-events: none;
+  }
+
+  .optispar-action-cluster .optispar-icon-btn:hover,
+  .optispar-action-cluster .optispar-icon-btn:focus-visible,
+  .optispar-action-cluster .optispar-search__toggle:hover,
+  .optispar-action-cluster .optispar-search__toggle:focus-visible,
+  .optispar-action-cluster .optispar-search__submit:hover,
+  .optispar-action-cluster .optispar-search__submit:focus-visible,
+  .optispar-action-cluster .optispar-search__close:hover,
+  .optispar-action-cluster .optispar-search__close:focus-visible {
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.55),
+      inset 0 -1px 0 rgba(20, 74, 152, 0.4),
+      0 14px 26px rgba(10, 40, 96, 0.32);
+    outline: none;
   }
 
   .optispar-action-cluster .optispar-search__toggle {
@@ -363,6 +399,7 @@
     justify-content: center;
     width: 100%;
     height: 100%;
+    color: #fff;
   }
 
   .optispar-action-cluster account-icon,
@@ -376,9 +413,23 @@
 
   .optispar-action-cluster account-icon svg,
   .optispar-action-cluster account-icon img {
-    width: 1.1rem;
-    height: 1.1rem;
+    width: 1.12rem;
+    height: 1.12rem;
     object-fit: contain;
+  }
+
+  .optispar-action-cluster svg {
+    width: 1.15rem;
+    height: 1.15rem;
+    stroke: currentColor;
+    fill: none;
+  }
+
+  .optispar-action-cluster svg path,
+  .optispar-action-cluster svg circle,
+  .optispar-action-cluster svg line {
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   .optispar-mobile-menu {
