@@ -311,6 +311,28 @@
       inset 0 -1px 0 rgba(12, 52, 112, 0.32),
       0 12px 28px rgba(12, 54, 120, 0.28);
     backdrop-filter: blur(18px);
+    position: relative;
+    isolation: isolate;
+  }
+
+  .optispar-action-cluster::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+        120% 120% at 10% 35%,
+        rgba(115, 182, 255, 0.68),
+        rgba(54, 128, 214, 0.32) 45%,
+        rgba(22, 74, 158, 0.18) 70%,
+        rgba(22, 74, 158, 0)
+      ),
+      linear-gradient(140deg, rgba(34, 108, 202, 0.55), rgba(90, 164, 242, 0.38));
+    filter: blur(clamp(0.6rem, 1.9vw, 1.2rem));
+    opacity: 0.92;
+    transform: scaleX(1.18) scaleY(1.1);
+    pointer-events: none;
+    z-index: 0;
   }
 
   .optispar-action-cluster__buttons {
@@ -318,6 +340,8 @@
     align-items: center;
     justify-content: center;
     gap: var(--optispar-action-gap);
+    position: relative;
+    z-index: 1;
   }
 
   .optispar-action-cluster__buttons > * {
@@ -325,6 +349,7 @@
     align-items: center;
     justify-content: center;
     min-width: var(--optispar-action-size);
+    height: var(--optispar-action-size);
     flex: 0 0 var(--optispar-action-size);
   }
 
