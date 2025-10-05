@@ -156,9 +156,13 @@
     min-height: clamp(2.4rem, 5.4vw, 3.75rem);
     padding: clamp(0.25rem, 1.45vw, 0.8rem) clamp(0.7rem, 2.1vw, 1.3rem);
     border-radius: clamp(1.35rem, 3.6vw, 3.1rem);
-    background: rgba(10, 37, 41, 0.52);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    box-shadow: 0 10px 24px rgba(8, 59, 61, 0.22);
+    background: linear-gradient(
+      135deg,
+      rgba(20, 70, 148, 0.78),
+      rgba(52, 142, 221, 0.62)
+    );
+    border: 1px solid rgba(160, 206, 255, 0.38);
+    box-shadow: 0 14px 30px rgba(12, 54, 120, 0.26);
     backdrop-filter: blur(18px);
     overflow: hidden;
     pointer-events: auto;
@@ -171,8 +175,8 @@
     border-radius: inherit;
     background: radial-gradient(
       circle 260px at var(--optispar-mouse-x) var(--optispar-mouse-y),
-      rgba(173, 255, 255, 0.32),
-      rgba(173, 255, 255, 0)
+      rgba(143, 205, 255, 0.38),
+      rgba(143, 205, 255, 0)
     );
     opacity: 0;
     transition: opacity 0.4s ease;
@@ -202,7 +206,7 @@
     height: 2.35rem;
     padding: 0 1.1rem;
     border-radius: 0.55rem;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(12, 66, 149, 0.25);
     color: #fff;
     font-size: 1rem;
     font-weight: 600;
@@ -213,7 +217,7 @@
 
   .optispar-header__logo a:hover,
   .optispar-header__logo a:focus-visible {
-    background: rgba(0, 0, 0, 0.18);
+    background: rgba(18, 90, 185, 0.38);
     outline: none;
   }
 
@@ -228,8 +232,8 @@
   .optispar-nav__list {
     display: flex;
     align-items: center;
-    gap: 0.15rem;
-    color: rgba(255, 255, 255, 0.7);
+    gap: 0.25rem;
+    color: rgba(235, 244, 255, 0.78);
     padding: 0;
     margin: 0;
     list-style: none;
@@ -242,12 +246,12 @@
 
   .optispar-nav__link {
     display: inline-block;
-    padding: 0.3rem 0.85rem;
-    font-size: 0.8rem;
-    font-weight: 500;
+    padding: 0.42rem 1.05rem;
+    font-size: 0.88rem;
+    font-weight: 600;
     border-radius: 9999px;
     text-decoration: none;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(235, 244, 255, 0.78);
     transition: color 0.3s ease;
   }
 
@@ -263,7 +267,7 @@
 
   .optispar-nav__divider {
     user-select: none;
-    color: rgba(255, 255, 255, 0.35);
+    color: rgba(216, 230, 255, 0.35);
   }
 
   .optispar-nav__indicator {
@@ -271,10 +275,10 @@
     top: 50%;
     left: 0;
     transform: translateY(-50%);
-    height: 1.8rem;
+    height: 2.05rem;
     border-radius: 9999px;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: linear-gradient(135deg, rgba(66, 140, 227, 0.38), rgba(120, 182, 255, 0.22));
+    border: 1px solid rgba(171, 210, 255, 0.45);
     transition: left 0.4s ease, width 0.4s ease, opacity 0.3s ease;
     opacity: 0;
     pointer-events: none;
@@ -283,7 +287,7 @@
   .optispar-header__actions {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: 0.35rem;
   }
 
   .optispar-mobile-menu {
@@ -298,15 +302,15 @@
     width: 2.4rem;
     height: 2.4rem;
     border-radius: 1.55rem;
-    background: rgba(20, 141, 150, 0.32);
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(35, 118, 209, 0.32);
+    border: 1px solid rgba(167, 209, 255, 0.32);
     color: #fff;
     transition: background 0.3s ease;
   }
 
   .optispar-mobile-menu .header__icon:hover,
   .optispar-mobile-menu .header__icon:focus-visible {
-    background: rgba(20, 141, 150, 0.5);
+    background: rgba(35, 118, 209, 0.52);
     outline: none;
   }
 
@@ -323,8 +327,8 @@
     width: 2.4rem;
     height: 2.4rem;
     border-radius: 1.6rem;
-    background: rgba(20, 141, 150, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(35, 118, 209, 0.38);
+    border: 1px solid rgba(171, 210, 255, 0.35);
     color: #fff;
     transition: background 0.3s ease;
   }
@@ -336,7 +340,7 @@
 
   .optispar-icon-btn:hover,
   .optispar-icon-btn:focus-visible {
-    background: rgba(20, 141, 150, 0.5);
+    background: rgba(35, 118, 209, 0.52);
     outline: none;
   }
 
@@ -362,8 +366,8 @@
     overflow: hidden;
     padding: 0.25rem 0.25rem 0.25rem 0.75rem;
     border-radius: 9999px;
-    background: rgba(20, 141, 150, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(35, 118, 209, 0.34);
+    border: 1px solid rgba(171, 210, 255, 0.35);
     transition: width 0.3s ease, opacity 0.3s ease;
   }
 
@@ -388,7 +392,7 @@
   }
 
   .optispar-search__input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(224, 237, 255, 0.72);
   }
 
   .optispar-search__input:focus {
@@ -404,8 +408,8 @@
     align-items: center;
     justify-content: center;
     border: none;
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    background: rgba(224, 237, 255, 0.2);
+    color: #0c3476;
     cursor: pointer;
     transition: background 0.3s ease;
   }
@@ -420,7 +424,7 @@
   .optispar-search__submit:focus-visible,
   .optispar-search__close:hover,
   .optispar-search__close:focus-visible {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(224, 237, 255, 0.32);
     outline: none;
   }
 
@@ -439,7 +443,7 @@
     color: #fff;
     font-size: 0.65rem;
     font-weight: 700;
-    border: 2px solid rgba(13, 49, 54, 0.85);
+    border: 2px solid rgba(14, 56, 118, 0.85);
   }
 
   .optispar-localization {
@@ -454,13 +458,17 @@
   .shopify-section-header-sticky .optispar-header {
     min-height: clamp(2.1rem, 4.6vw, 3.2rem);
     padding: clamp(0.2rem, 1.15vw, 0.65rem) clamp(0.6rem, 1.8vw, 1.1rem);
-    box-shadow: 0 12px 22px rgba(8, 59, 61, 0.18);
-    background: rgba(7, 27, 30, 0.6);
-    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 12px 26px rgba(12, 54, 120, 0.24);
+    background: linear-gradient(
+      135deg,
+      rgba(17, 57, 130, 0.82),
+      rgba(41, 124, 204, 0.68)
+    );
+    border-color: rgba(160, 206, 255, 0.38);
   }
 
   .shopify-section-header-sticky .optispar-nav__indicator {
-    height: 1.65rem;
+    height: 1.9rem;
   }
 
   .shopify-section-header-sticky .optispar-nav__link {
