@@ -291,25 +291,34 @@
   }
 
   .optispar-action-cluster {
-    --optispar-action-size: clamp(2.25rem, 2.25vw, 2.6rem);
+    --optispar-action-size: clamp(2.35rem, 2.4vw, 2.75rem);
     display: inline-flex;
     align-items: center;
-    gap: clamp(0.28rem, 0.95vw, 0.45rem);
-    padding: clamp(0.18rem, 0.9vw, 0.32rem) clamp(0.32rem, 1vw, 0.52rem);
+    padding: clamp(0.22rem, 1vw, 0.42rem) clamp(0.4rem, 1.2vw, 0.8rem);
     border-radius: 9999px;
     background: linear-gradient(
       135deg,
-      rgba(24, 72, 150, 0.48),
-      rgba(72, 150, 232, 0.34)
+      rgba(24, 72, 150, 0.5),
+      rgba(72, 150, 232, 0.36)
     );
-    border: 1px solid rgba(164, 206, 255, 0.46);
+    border: 1px solid rgba(164, 206, 255, 0.48);
     box-shadow:
       inset 0 1px 0 rgba(250, 253, 255, 0.32),
-      0 8px 20px rgba(12, 54, 120, 0.22);
+      0 8px 22px rgba(12, 54, 120, 0.24);
     backdrop-filter: blur(18px);
   }
 
-  .optispar-action-cluster > * {
+  .optispar-action-cluster__buttons {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(var(--optispar-action-size), max-content);
+    gap: clamp(0.35rem, 1.05vw, 0.65rem);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .optispar-action-cluster__buttons > * {
+    min-width: var(--optispar-action-size);
     flex-shrink: 0;
   }
 
@@ -322,6 +331,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    border-radius: 50%;
   }
 
   .optispar-action-cluster .header__icon {
@@ -578,9 +588,23 @@
     .optispar-action-cluster {
       width: 100%;
       justify-content: flex-end;
-      flex-wrap: wrap;
-      gap: 0.55rem;
       padding: 0.45rem 0.75rem;
+    }
+
+    .optispar-action-cluster__buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.55rem;
+      width: 100%;
+    }
+
+    .optispar-action-cluster__buttons > * {
+      min-width: auto;
+    }
+
+    .optispar-action-cluster__buttons > .optispar-search {
+      flex: 1 1 100%;
     }
 
     .optispar-action-cluster .optispar-search {
@@ -616,7 +640,15 @@
     .optispar-action-cluster {
       padding: 0.5rem 0.9rem;
       justify-content: space-between;
+    }
+
+    .optispar-action-cluster__buttons {
+      justify-content: space-between;
       gap: 0.65rem;
+    }
+
+    .optispar-action-cluster__buttons > .optispar-search {
+      flex: 1 1 100%;
     }
 
     .optispar-action-cluster .optispar-search {
@@ -787,10 +819,11 @@
           {%- endif -%}
 
           <div class="optispar-action-cluster">
-            <div class="optispar-search" data-optispar-search>
-              <div class="optispar-search__toggle">
-                <button type="button" class="optispar-icon-btn" data-optispar-search-toggle aria-expanded="false">
-                  <span class="visually-hidden">{{ 'general.search.search' | t }}</span>
+            <div class="optispar-action-cluster__buttons">
+              <div class="optispar-search" data-optispar-search>
+                <div class="optispar-search__toggle">
+                  <button type="button" class="optispar-icon-btn" data-optispar-search-toggle aria-expanded="false">
+                    <span class="visually-hidden">{{ 'general.search.search' | t }}</span>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                   </svg>
@@ -878,6 +911,7 @@
                 </div>
               {%- endif -%}
             </a>
+            </div>
           </div>
         </div>
       </div>
