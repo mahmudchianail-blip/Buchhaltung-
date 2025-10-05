@@ -287,7 +287,29 @@
   .optispar-header__actions {
     display: flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: clamp(0.35rem, 1.5vw, 0.75rem);
+  }
+
+  .optispar-action-cluster {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(0.35rem, 1.3vw, 0.6rem);
+    padding: clamp(0.2rem, 1vw, 0.35rem) clamp(0.3rem, 1.1vw, 0.55rem);
+    border-radius: 9999px;
+    background: linear-gradient(
+      135deg,
+      rgba(24, 72, 150, 0.45),
+      rgba(72, 150, 232, 0.32)
+    );
+    border: 1px solid rgba(164, 206, 255, 0.42);
+    box-shadow:
+      inset 0 1px 0 rgba(250, 253, 255, 0.28),
+      0 8px 22px rgba(12, 54, 120, 0.22);
+    backdrop-filter: blur(18px);
+  }
+
+  .optispar-action-cluster > * {
+    flex-shrink: 0;
   }
 
   .optispar-mobile-menu {
@@ -319,28 +341,44 @@
     height: 1.15rem;
   }
 
-  .optispar-icon-btn {
+  .optispar-icon-btn,
+  .optispar-search__submit,
+  .optispar-search__close {
     position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2.4rem;
-    height: 2.4rem;
-    border-radius: 1.6rem;
-    background: rgba(35, 118, 209, 0.38);
-    border: 1px solid rgba(171, 210, 255, 0.35);
+    width: clamp(2.35rem, 2.4vw, 2.75rem);
+    height: clamp(2.35rem, 2.4vw, 2.75rem);
+    border-radius: 50%;
+    background: linear-gradient(140deg, rgba(45, 122, 214, 0.58), rgba(118, 182, 255, 0.34));
+    border: 1px solid rgba(185, 224, 255, 0.55);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      0 10px 26px rgba(12, 54, 120, 0.28);
     color: #fff;
-    transition: background 0.3s ease;
+    transition: transform 0.25s ease, background 0.3s ease, box-shadow 0.3s ease;
   }
 
-  .optispar-icon-btn svg {
-    width: 1.25rem;
-    height: 1.25rem;
+  .optispar-icon-btn svg,
+  .optispar-search__submit svg,
+  .optispar-search__close svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    pointer-events: none;
   }
 
   .optispar-icon-btn:hover,
-  .optispar-icon-btn:focus-visible {
-    background: rgba(35, 118, 209, 0.52);
+  .optispar-icon-btn:focus-visible,
+  .optispar-search__submit:hover,
+  .optispar-search__submit:focus-visible,
+  .optispar-search__close:hover,
+  .optispar-search__close:focus-visible {
+    background: linear-gradient(140deg, rgba(55, 136, 232, 0.65), rgba(134, 194, 255, 0.46));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.28),
+      0 12px 30px rgba(12, 54, 120, 0.32);
+    transform: translateY(-1px);
     outline: none;
   }
 
@@ -350,25 +388,34 @@
     align-items: center;
   }
 
+  .optispar-action-cluster .optispar-search {
+    flex-shrink: 1;
+    min-width: clamp(2.35rem, 2.4vw, 2.75rem);
+  }
+
   .optispar-search__toggle {
-    width: 2.4rem;
-    height: 2.4rem;
+    width: clamp(2.35rem, 2.4vw, 2.75rem);
+    height: clamp(2.35rem, 2.4vw, 2.75rem);
     flex-shrink: 0;
   }
 
   .optispar-search__form {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: clamp(0.3rem, 1vw, 0.5rem);
     width: 0;
     opacity: 0;
     pointer-events: none;
     overflow: hidden;
-    padding: 0.25rem 0.25rem 0.25rem 0.75rem;
+    padding: clamp(0.2rem, 1vw, 0.35rem) clamp(0.25rem, 1vw, 0.45rem) clamp(0.2rem, 1vw, 0.35rem)
+      clamp(0.6rem, 2vw, 0.85rem);
     border-radius: 9999px;
-    background: rgba(35, 118, 209, 0.34);
-    border: 1px solid rgba(171, 210, 255, 0.35);
-    transition: width 0.3s ease, opacity 0.3s ease;
+    background: linear-gradient(135deg, rgba(40, 118, 204, 0.52), rgba(118, 182, 255, 0.3));
+    border: 1px solid rgba(171, 210, 255, 0.45);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
+      0 10px 24px rgba(12, 54, 120, 0.24);
+    transition: width 0.3s ease, opacity 0.3s ease, margin 0.3s ease;
   }
 
   .optispar-search.is-open .optispar-search__toggle {
@@ -376,7 +423,8 @@
   }
 
   .optispar-search.is-open .optispar-search__form {
-    width: 10.5rem;
+    width: clamp(9.5rem, 24vw, 12rem);
+    margin-left: clamp(0.25rem, 1vw, 0.4rem);
     opacity: 1;
     pointer-events: auto;
   }
@@ -401,40 +449,18 @@
 
   .optispar-search__submit,
   .optispar-search__close {
-    width: 1.85rem;
-    height: 1.85rem;
-    border-radius: 9999px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     border: none;
-    background: rgba(224, 237, 255, 0.2);
-    color: #0c3476;
+    color: #fff;
     cursor: pointer;
-    transition: background 0.3s ease;
-  }
-
-  .optispar-search__submit svg,
-  .optispar-search__close svg {
-    width: 1.1rem;
-    height: 1.1rem;
-  }
-
-  .optispar-search__submit:hover,
-  .optispar-search__submit:focus-visible,
-  .optispar-search__close:hover,
-  .optispar-search__close:focus-visible {
-    background: rgba(224, 237, 255, 0.32);
-    outline: none;
   }
 
   .optispar-icon-btn .cart-count-bubble {
     position: absolute;
-    top: -0.35rem;
-    right: -0.3rem;
-    min-width: 1.2rem;
-    height: 1.2rem;
-    padding: 0 0.3rem;
+    top: -0.32rem;
+    right: -0.32rem;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    padding: 0 0.32rem;
     border-radius: 999px;
     display: flex;
     align-items: center;
@@ -489,6 +515,18 @@
     transform: translateY(-1px);
   }
 
+  .shopify-section-header-sticky .optispar-action-cluster {
+    background: linear-gradient(
+      135deg,
+      rgba(19, 60, 132, 0.52),
+      rgba(58, 132, 214, 0.38)
+    );
+    border-color: rgba(160, 206, 255, 0.48);
+    box-shadow:
+      inset 0 1px 0 rgba(250, 253, 255, 0.32),
+      0 10px 26px rgba(12, 54, 120, 0.26);
+  }
+
   @media screen and (max-width: 989px) {
     .optispar-header {
       flex-wrap: wrap;
@@ -521,8 +559,22 @@
       margin-left: auto;
     }
 
+    .optispar-action-cluster {
+      width: 100%;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      padding: 0.45rem 0.75rem;
+    }
+
+    .optispar-action-cluster .optispar-search {
+      width: 100%;
+      justify-content: flex-end;
+    }
+
     .optispar-search.is-open .optispar-search__form {
       width: 100%;
+      margin-left: 0;
     }
   }
 
@@ -543,6 +595,20 @@
     .optispar-header__actions {
       width: 100%;
       justify-content: space-between;
+    }
+
+    .optispar-action-cluster {
+      padding: 0.5rem 0.9rem;
+      justify-content: space-between;
+      gap: 0.65rem;
+    }
+
+    .optispar-action-cluster .optispar-search {
+      justify-content: space-between;
+    }
+
+    .optispar-action-cluster .optispar-search.is-open .optispar-search__form {
+      margin-top: 0.35rem;
     }
 
     .optispar-search__toggle,
@@ -704,97 +770,99 @@
             </div>
           {%- endif -%}
 
-          <div class="optispar-search" data-optispar-search>
-            <div class="optispar-search__toggle">
-              <button type="button" class="optispar-icon-btn" data-optispar-search-toggle aria-expanded="false">
-                <span class="visually-hidden">{{ 'general.search.search' | t }}</span>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                </svg>
-              </button>
-            </div>
-            <form action="{{ routes.search_url }}" method="get" role="search" class="optispar-search__form" data-optispar-search-form>
-              <label class="visually-hidden" for="OptisparHeaderSearch">{{ 'general.search.search' | t }}</label>
-              <input
-                id="OptisparHeaderSearch"
-                class="optispar-search__input"
-                type="search"
-                name="q"
-                placeholder="{{ 'general.search.search' | t }}"
-                value="{{ search.terms | escape }}"
-              >
-              <input type="hidden" name="options[prefix]" value="last">
-              <button type="submit" class="optispar-search__submit" aria-label="{{ 'general.search.search' | t }}">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                </svg>
-              </button>
-              <button type="button" class="optispar-search__close" data-optispar-search-close aria-label="{{ 'accessibility.close' | t }}">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </form>
-          </div>
-
-          {%- if shop.customer_accounts_enabled -%}
-            <a
-              href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
-              class="optispar-icon-btn header__icon header__icon--account link focus-inset"
-              rel="nofollow"
-            >
-              {%- if section.settings.enable_customer_avatar -%}
-                <account-icon>
-                  {%- if customer and customer.has_avatar? -%}
-                    {{ customer | avatar }}
-                  {%- else -%}
-                    <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
-                  {%- endif -%}
-                </account-icon>
-              {%- else -%}
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                </svg>
-              {%- endif -%}
-              <span class="visually-hidden">
-                {%- liquid
-                  if customer
-                    echo 'customer.account_fallback' | t
-                  else
-                    echo 'customer.log_in' | t
-                  endif
-                -%}
-              </span>
-            </a>
-          {%- endif -%}
-
-          {%- for block in section.blocks -%}
-            {%- case block.type -%}
-              {%- when '@app' -%}
-                {% render block %}
-            {%- endcase -%}
-          {%- endfor -%}
-
-          <a href="{{ routes.cart_url }}" class="optispar-icon-btn header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
-            {% if cart == empty %}
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386a1.125 1.125 0 0 1 1.089.867l.383 1.718M7.5 14.25a3 3 0 0 0-3 3h15.75M7.5 14.25h11.218c.51 0 .955-.343 1.087-.835l1.35-5.062a.563.563 0 0 0-.546-.715H4.72m2.78 6.612L4.72 5.718m0 0L4.11 3.183A.562.562 0 0 0 3.563 2.75H2.25" />
-              </svg>
-            {% else %}
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386a1.125 1.125 0 0 1 1.089.867l.383 1.718M7.5 14.25a3 3 0 0 0-3 3h15.75M7.5 14.25l-2.78-8.532m2.78 8.532 9.968.003c.51 0 .955-.343 1.087-.835l1.35-5.062a.563.563 0 0 0-.546-.715H4.72" />
-              </svg>
-            {% endif %}
-            <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
-            {%- if cart != empty -%}
-              <div class="cart-count-bubble">
-                {%- if cart.item_count < 100 -%}
-                  <span aria-hidden="true">{{ cart.item_count }}</span>
-                {%- endif -%}
-                <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+          <div class="optispar-action-cluster">
+            <div class="optispar-search" data-optispar-search>
+              <div class="optispar-search__toggle">
+                <button type="button" class="optispar-icon-btn" data-optispar-search-toggle aria-expanded="false">
+                  <span class="visually-hidden">{{ 'general.search.search' | t }}</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                  </svg>
+                </button>
               </div>
+              <form action="{{ routes.search_url }}" method="get" role="search" class="optispar-search__form" data-optispar-search-form>
+                <label class="visually-hidden" for="OptisparHeaderSearch">{{ 'general.search.search' | t }}</label>
+                <input
+                  id="OptisparHeaderSearch"
+                  class="optispar-search__input"
+                  type="search"
+                  name="q"
+                  placeholder="{{ 'general.search.search' | t }}"
+                  value="{{ search.terms | escape }}"
+                >
+                <input type="hidden" name="options[prefix]" value="last">
+                <button type="submit" class="optispar-search__submit" aria-label="{{ 'general.search.search' | t }}">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                  </svg>
+                </button>
+                <button type="button" class="optispar-search__close" data-optispar-search-close aria-label="{{ 'accessibility.close' | t }}">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </form>
+            </div>
+
+            {%- if shop.customer_accounts_enabled -%}
+              <a
+                href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+                class="optispar-icon-btn header__icon header__icon--account link focus-inset"
+                rel="nofollow"
+              >
+                {%- if section.settings.enable_customer_avatar -%}
+                  <account-icon>
+                    {%- if customer and customer.has_avatar? -%}
+                      {{ customer | avatar }}
+                    {%- else -%}
+                      <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
+                    {%- endif -%}
+                  </account-icon>
+                {%- else -%}
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                  </svg>
+                {%- endif -%}
+                <span class="visually-hidden">
+                  {%- liquid
+                    if customer
+                      echo 'customer.account_fallback' | t
+                    else
+                      echo 'customer.log_in' | t
+                    endif
+                  -%}
+                </span>
+              </a>
             {%- endif -%}
-          </a>
+
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when '@app' -%}
+                  {% render block %}
+              {%- endcase -%}
+            {%- endfor -%}
+
+            <a href="{{ routes.cart_url }}" class="optispar-icon-btn header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
+              {% if cart == empty %}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386a1.125 1.125 0 0 1 1.089.867l.383 1.718M7.5 14.25a3 3 0 0 0-3 3h15.75M7.5 14.25h11.218c.51 0 .955-.343 1.087-.835l1.35-5.062a.563.563 0 0 0-.546-.715H4.72m2.78 6.612L4.725.718m0 0L4.11 3.183A.562.562 0 0 0 3.563 2.75H2.25" />
+                </svg>
+              {% else %}
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386a1.125 1.125 0 0 1 1.089.867l.383 1.718M7.5 14.25a3 3 0 0 0-3 3h15.75M7.5 14.25l-2.78-8.532m2.78 8.532 9.968.003c.51 0 .955-.343 1.087-.835l1.35-5.062a.563.563 0 0 0-.546-.715H4.72" />
+                </svg>
+              {% endif %}
+              <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
+              {%- if cart != empty -%}
+                <div class="cart-count-bubble">
+                  {%- if cart.item_count < 100 -%}
+                    <span aria-hidden="true">{{ cart.item_count }}</span>
+                  {%- endif -%}
+                  <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+                </div>
+              {%- endif -%}
+            </a>
+          </div>
         </div>
       </div>
     </div>
