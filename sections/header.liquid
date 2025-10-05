@@ -298,62 +298,34 @@
   }
 
   .optispar-action-cluster {
-    --optispar-action-size: clamp(2.4rem, 2.6vw, 2.85rem);
-    --optispar-action-gap: clamp(0.24rem, 0.65vw, 0.42rem);
-    position: relative;
+    --optispar-action-size: clamp(2.3rem, 2.35vw, 2.6rem);
+    --optispar-action-gap: clamp(0.32rem, 0.9vw, 0.52rem);
     display: inline-flex;
     align-items: center;
-    padding: clamp(0.28rem, 0.95vw, 0.45rem) clamp(0.52rem, 1.05vw, 0.75rem);
+    padding: clamp(0.24rem, 0.95vw, 0.4rem) clamp(0.5rem, 1.15vw, 0.75rem);
     border-radius: 9999px;
-    background: rgba(37, 103, 193, 0.6);
-    border: 1px solid rgba(182, 219, 255, 0.65);
+    background: linear-gradient(145deg, rgba(28, 90, 178, 0.72), rgba(101, 176, 247, 0.48));
+    border: 1px solid rgba(172, 214, 255, 0.55);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.42),
-      inset 0 -1px 0 rgba(16, 58, 126, 0.3),
-      0 12px 28px rgba(12, 54, 120, 0.26);
-    backdrop-filter: blur(20px);
-    overflow: hidden;
-    flex: 0 0 auto;
-    min-width: calc(var(--optispar-action-size) * 3 + var(--optispar-action-gap) * 2 + clamp(0.52rem, 1.05vw, 0.75rem) * 2);
-  }
-
-  .optispar-action-cluster::before {
-    content: '';
-    position: absolute;
-    inset: -40% -45% 10% -45%;
-    background: radial-gradient(circle at 75% 20%, rgba(126, 198, 255, 0.58), rgba(126, 198, 255, 0));
-    opacity: 0.85;
-    mix-blend-mode: screen;
-    pointer-events: none;
+      inset 0 1px 0 rgba(255, 255, 255, 0.36),
+      inset 0 -1px 0 rgba(12, 52, 112, 0.32),
+      0 12px 28px rgba(12, 54, 120, 0.28);
+    backdrop-filter: blur(18px);
   }
 
   .optispar-action-cluster__buttons {
-    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: var(--optispar-action-gap);
-    z-index: 1;
   }
 
   .optispar-action-cluster__buttons > * {
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     min-width: var(--optispar-action-size);
     flex: 0 0 var(--optispar-action-size);
-  }
-
-  .optispar-action-cluster__buttons > * + *::before {
-    content: '';
-    position: absolute;
-    left: calc(var(--optispar-action-gap) * -0.5);
-    top: 20%;
-    bottom: 20%;
-    width: 1px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0));
-    pointer-events: none;
   }
 
   .optispar-action-cluster__buttons > .optispar-search {
@@ -378,14 +350,14 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: linear-gradient(160deg, rgba(255, 255, 255, 0.22), rgba(172, 211, 255, 0.06));
-    border: 1px solid rgba(218, 236, 255, 0.6);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+    border: 1px solid rgba(220, 235, 255, 0.55);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.65),
-      inset 0 -1px 0 rgba(28, 82, 170, 0.28),
-      0 10px 22px rgba(12, 46, 104, 0.22);
+      inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -1px 0 rgba(18, 72, 150, 0.35),
+      0 10px 22px rgba(10, 40, 96, 0.25);
     color: #fff;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
 
   .optispar-action-cluster .optispar-icon-btn::after,
@@ -460,7 +432,6 @@
   .optispar-action-cluster svg line {
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke-width: 1.8;
   }
 
   .optispar-mobile-menu {
@@ -724,7 +695,6 @@
       align-items: stretch;
       justify-content: center;
       gap: 0.7rem;
-      min-width: 0;
       padding: 0.65rem 0.9rem 0.75rem;
     }
 
@@ -820,7 +790,6 @@
       border-radius: 999px;
       background: rgba(26, 88, 172, 0.58);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      min-width: 0;
     }
 
     .optispar-action-cluster__buttons {
