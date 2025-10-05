@@ -234,8 +234,8 @@
   .optispar-nav__list {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
-    color: rgba(235, 244, 255, 0.78);
+    gap: clamp(0.35rem, 1vw, 0.65rem);
+    color: rgba(235, 244, 255, 0.82);
     padding: 0;
     margin: 0;
     list-style: none;
@@ -248,12 +248,14 @@
 
   .optispar-nav__link {
     display: inline-block;
-    padding: 0.42rem 1.05rem;
-    font-size: 0.88rem;
+    padding: clamp(0.48rem, 1.2vw, 0.7rem) clamp(1.1rem, 2.6vw, 1.65rem);
+    font-size: clamp(0.96rem, 1.4vw, 1.16rem);
     font-weight: 600;
+    letter-spacing: 0.08em;
+    line-height: 1.1;
     border-radius: 9999px;
     text-decoration: none;
-    color: rgba(235, 244, 255, 0.78);
+    color: rgba(235, 244, 255, 0.85);
     transition: color 0.3s ease;
   }
 
@@ -277,10 +279,10 @@
     top: 50%;
     left: 0;
     transform: translateY(-50%);
-    height: 2.05rem;
+    height: clamp(2.35rem, 3vw, 2.85rem);
     border-radius: 9999px;
-    background: linear-gradient(135deg, rgba(66, 140, 227, 0.38), rgba(120, 182, 255, 0.22));
-    border: 1px solid rgba(171, 210, 255, 0.45);
+    background: linear-gradient(135deg, rgba(66, 140, 227, 0.45), rgba(120, 182, 255, 0.28));
+    border: 1px solid rgba(171, 210, 255, 0.55);
     transition: left 0.4s ease, width 0.4s ease, opacity 0.3s ease;
     opacity: 0;
     pointer-events: none;
@@ -522,11 +524,11 @@
   }
 
   .shopify-section-header-sticky .optispar-nav__indicator {
-    height: 1.9rem;
+    height: clamp(2.05rem, 2.6vw, 2.35rem);
   }
 
   .shopify-section-header-sticky .optispar-nav__link {
-    padding-block: 0.25rem;
+    padding-block: clamp(0.32rem, 0.85vw, 0.48rem);
   }
 
   .shopify-section-header-sticky .optispar-header__actions,
