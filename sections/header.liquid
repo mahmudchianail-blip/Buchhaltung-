@@ -296,9 +296,9 @@
   }
 
   .optispar-action-cluster {
-    --optispar-action-size: clamp(2.25rem, 2.2vw, 2.6rem);
-    --optispar-action-gap: clamp(0.32rem, 0.95vw, 0.52rem);
-    --optispar-action-icon: clamp(1.05rem, 1.35vw, 1.3rem);
+    --optispar-action-size: clamp(2.7rem, 2.65vw, 3.05rem);
+    --optispar-action-gap: clamp(0.42rem, 1.05vw, 0.62rem);
+    --optispar-action-icon: clamp(1.25rem, 1.55vw, 1.45rem);
     display: inline-flex;
     align-items: center;
     gap: var(--optispar-action-gap);
@@ -416,25 +416,13 @@
   }
 
   .optispar-action-cluster account-icon svg,
-  .optispar-action-cluster account-icon img {
-    width: var(--optispar-action-icon);
-    height: var(--optispar-action-icon);
-    object-fit: contain;
-  }
-
+  .optispar-action-cluster account-icon img,
   .optispar-action-cluster svg {
     width: var(--optispar-action-icon);
     height: var(--optispar-action-icon);
+    object-fit: contain;
     stroke: currentColor;
     fill: none;
-  }
-
-  .optispar-action-cluster .header__icon--cart svg,
-  .optispar-action-cluster .header__icon--account svg,
-  .optispar-action-cluster .header__icon--account img,
-  .optispar-action-cluster .optispar-search__toggle svg {
-    width: clamp(1.15rem, 1.45vw, 1.35rem);
-    height: clamp(1.15rem, 1.45vw, 1.35rem);
   }
 
   .optispar-action-cluster svg path,
@@ -480,8 +468,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: clamp(2.35rem, 2.4vw, 2.75rem);
-    height: clamp(2.35rem, 2.4vw, 2.75rem);
+    width: var(--optispar-action-size, clamp(2.35rem, 2.4vw, 2.75rem));
+    height: var(--optispar-action-size, clamp(2.35rem, 2.4vw, 2.75rem));
     border-radius: 50%;
     background: linear-gradient(140deg, rgba(45, 122, 214, 0.58), rgba(118, 182, 255, 0.34));
     border: 1px solid rgba(185, 224, 255, 0.55);
@@ -495,8 +483,8 @@
   .optispar-icon-btn svg,
   .optispar-search__submit svg,
   .optispar-search__close svg {
-    width: 1.1rem;
-    height: 1.1rem;
+    width: var(--optispar-action-icon, 1.2rem);
+    height: var(--optispar-action-icon, 1.2rem);
     pointer-events: none;
   }
 
@@ -588,18 +576,18 @@
 
   .optispar-icon-btn .cart-count-bubble {
     position: absolute;
-    top: -0.32rem;
-    right: -0.32rem;
-    min-width: 1.1rem;
-    height: 1.1rem;
-    padding: 0 0.3rem;
+    top: calc(var(--optispar-action-size, 2.6rem) * -0.12);
+    right: calc(var(--optispar-action-size, 2.6rem) * -0.12);
+    min-width: calc(var(--optispar-action-size, 2.6rem) * 0.4);
+    height: calc(var(--optispar-action-size, 2.6rem) * 0.4);
+    padding: 0 calc(var(--optispar-action-size, 2.6rem) * 0.12);
     border-radius: 999px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #ef4444;
     color: #fff;
-    font-size: 0.58rem;
+    font-size: calc(var(--optispar-action-size, 2.6rem) * 0.22);
     font-weight: 700;
     border: 1.5px solid rgba(14, 56, 118, 0.82);
   }
