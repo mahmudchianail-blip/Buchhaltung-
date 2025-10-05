@@ -162,7 +162,7 @@ class CartItems extends HTMLElement {
       .then((state) => {
         const parsedState = JSON.parse(state);
 
-        CartPerformance.measure(`${eventTarget}:paint-updated-sections"`, () => {
+        CartPerformance.measure(`${eventTarget}:paint-updated-sections`, () => {
           const quantityElement =
             document.getElementById(`Quantity-${line}`) || document.getElementById(`Drawer-quantity-${line}`);
           const items = document.querySelectorAll('.cart-item');

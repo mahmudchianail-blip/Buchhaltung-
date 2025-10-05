@@ -2503,37 +2503,19 @@ input[type='checkbox'] {
 }
 
 /* Header icons */
-.header__icons {
-  display: flex;
-  grid-area: icons;
-  justify-self: end;
-  padding-right: 0.8rem;
-}
 
-.header__icons .shopify-app-block {
-  max-width: 4.4rem;
-  max-height: 4.4rem;
-  overflow: hidden;
-}
-
-.header__icon:not(.header__icon--summary),
-.header__icon span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.header__icon {
-  color: rgb(var(--color-foreground));
-}
+.header__icons{display:flex;align-items:center;gap:12px;grid-area:icons;justify-self:end;padding:0;background:0 0!important}
+.header__inline-menu{justify-self:center}
+.header__icon--search,.header__icon--account,.header__icon--cart{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:1px solid #fff7;background:0 0;box-shadow:0 8px 16px #1f3f7d40}
+.header__icon--search:hover,.header__icon--account:hover,.header__icon--cart:hover{border-color:#fff;background:#fff1}
 
 .header__icon span {
   height: 100%;
 }
 
 .header__icon .svg-wrapper {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
 }
 
 .header__icon::after {
@@ -2554,9 +2536,11 @@ input[type='checkbox'] {
 
 .header__icon,
 .header__icon--cart .icon {
-  height: 4.4rem;
-  width: 4.4rem;
+  height: 40px;
+  width: 40px;
   padding: 0;
+  border-radius: 50%;
+  background: transparent;
 }
 
 .header__icon--cart {
