@@ -295,23 +295,43 @@
     gap: clamp(0.28rem, 1vw, 0.55rem);
   }
 
+  .optispar-header__actions.header__icons {
+    padding-right: clamp(0rem, 0.8vw, 0.45rem);
+    margin-right: clamp(0.35rem, 1.6vw, 1rem);
+  }
+
   .optispar-action-cluster {
-    --optispar-action-size: clamp(2.3rem, 2.35vw, 2.6rem);
+    --optispar-action-size: clamp(2.35rem, 2.55vw, 2.7rem);
     --optispar-action-gap: clamp(0.32rem, 0.9vw, 0.52rem);
+    position: relative;
     display: inline-flex;
     align-items: center;
-    padding: clamp(0.24rem, 0.95vw, 0.4rem) clamp(0.5rem, 1.15vw, 0.75rem);
+    padding: clamp(0.28rem, 1.05vw, 0.45rem) clamp(0.6rem, 1.3vw, 0.85rem);
     border-radius: 9999px;
     background: linear-gradient(145deg, rgba(28, 90, 178, 0.72), rgba(101, 176, 247, 0.48));
     border: 1px solid rgba(172, 214, 255, 0.55);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.36),
       inset 0 -1px 0 rgba(12, 52, 112, 0.32),
-      0 12px 28px rgba(12, 54, 120, 0.28);
+      0 16px 32px rgba(26, 88, 178, 0.36);
     backdrop-filter: blur(18px);
   }
 
+  .optispar-action-cluster::before {
+    content: '';
+    position: absolute;
+    inset: clamp(0.12rem, 0.32vw, 0.22rem);
+    border-radius: inherit;
+    background: radial-gradient(circle at 50% 50%, rgba(86, 156, 245, 0.5), rgba(86, 156, 245, 0));
+    filter: blur(18px);
+    opacity: 0.9;
+    z-index: 0;
+    pointer-events: none;
+  }
+
   .optispar-action-cluster__buttons {
+    position: relative;
+    z-index: 1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -393,7 +413,12 @@
     height: 100%;
   }
 
+  .optispar-action-cluster .header__icon--cart {
+    margin-right: 0;
+  }
+
   .optispar-action-cluster .header__icon {
+    flex: 0 0 var(--optispar-action-size);
     display: flex;
     align-items: center;
     justify-content: center;
