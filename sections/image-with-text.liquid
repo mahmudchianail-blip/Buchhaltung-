@@ -12,6 +12,160 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  {%- if section.settings.merge_with_header and section.index == 1 -%}
+    .section-{{ section.id }}-padding[data-merge-header] {
+      position: relative;
+      margin-top: clamp(-13rem, -20vw, -9.5rem);
+      padding-top: clamp(8rem, 15vw, 11rem);
+      padding-bottom: clamp(4rem, 10vw, 6rem);
+      background: linear-gradient(135deg, rgba(29, 79, 85, 0.92), rgba(14, 42, 48, 0.92));
+      overflow: visible;
+      z-index: 5;
+    }
+
+    .section-{{ section.id }}-padding[data-merge-header]::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(20, 141, 150, 0.35), transparent 55%),
+        radial-gradient(circle at 88% 10%, rgba(111, 207, 212, 0.28), transparent 60%),
+        linear-gradient(180deg, rgba(8, 29, 32, 0.35), rgba(8, 29, 32, 0));
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .section-{{ section.id }}-padding[data-merge-header] > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-{{ section.id }}-padding[data-merge-header] .image-with-text--merge-header {
+      position: relative;
+      border-radius: clamp(2.75rem, 6vw, 4.5rem);
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(8, 32, 36, 0.75), rgba(3, 14, 18, 0.65));
+      backdrop-filter: blur(18px);
+      box-shadow: 0 2.5rem 4.5rem rgba(6, 20, 23, 0.38);
+    }
+
+    .section-{{ section.id }}-padding[data-merge-header] .image-with-text--merge-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 15% 80%, rgba(20, 141, 150, 0.4), transparent 55%),
+        radial-gradient(circle at 85% 25%, rgba(102, 205, 213, 0.35), transparent 60%);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .section-{{ section.id }}-padding[data-merge-header] .image-with-text--merge-header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(200deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .section-{{ section.id }}-padding[data-merge-header]
+      .image-with-text--merge-header
+      .image-with-text__media-item:after,
+    .section-{{ section.id }}-padding[data-merge-header]
+      .image-with-text--merge-header
+      .image-with-text__text-item:after {
+      display: none;
+    }
+
+    .section-{{ section.id }}-padding[data-merge-header]
+      .image-with-text--merge-header
+      .image-with-text__media {
+      border-radius: clamp(2.25rem, 5vw, 3.5rem);
+      box-shadow: none;
+      overflow: hidden;
+    }
+
+    .section-{{ section.id }}-padding[data-merge-header]
+      .image-with-text--merge-header
+      .image-with-text__content {
+      background: transparent;
+      box-shadow: none;
+      padding: clamp(3rem, 6vw, 4.75rem);
+      color: #f2fbfb;
+    }
+
+    .section-{{ section.id }}-padding[data-merge-header]
+      .image-with-text--merge-header
+      .image-with-text__heading,
+    .section-{{ section.id }}-padding[data-merge-header]
+      .image-with-text--merge-header
+      .image-with-text__text,
+    .section-{{ section.id }}-padding[data-merge-header]
+      .image-with-text--merge-header
+      .image-with-text__text p,
+    .section-{{ section.id }}-padding[data-merge-header]
+      .image-with-text--merge-header
+      .image-with-text__text a {
+      color: #f2fbfb;
+    }
+
+    .section-{{ section.id }}-padding[data-merge-header]
+      .image-with-text--merge-header
+      .image-with-text__text a {
+      text-decoration-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .section-{{ section.id }}-padding[data-merge-header]
+      .image-with-text--merge-header
+      .image-with-text__text a:hover,
+    .section-{{ section.id }}-padding[data-merge-header]
+      .image-with-text--merge-header
+      .image-with-text__text a:focus-visible {
+      text-decoration-color: rgba(255, 255, 255, 0.75);
+    }
+
+    .section-{{ section.id }}-padding[data-merge-header]
+      .image-with-text--merge-header
+      .button {
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.45);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(6px);
+    }
+
+    .section-{{ section.id }}-padding[data-merge-header]
+      .image-with-text--merge-header
+      .button:hover,
+    .section-{{ section.id }}-padding[data-merge-header]
+      .image-with-text--merge-header
+      .button:focus-visible {
+      background: rgba(255, 255, 255, 0.26);
+      border-color: rgba(255, 255, 255, 0.65);
+      color: #ffffff;
+    }
+
+    @media screen and (max-width: 749px) {
+      .section-{{ section.id }}-padding[data-merge-header] {
+        margin-top: clamp(-9rem, -26vw, -6.5rem);
+        padding-top: clamp(7rem, 24vw, 9.5rem);
+        border-bottom-left-radius: 3rem;
+        border-bottom-right-radius: 3rem;
+      }
+
+      .section-{{ section.id }}-padding[data-merge-header] .image-with-text--merge-header {
+        border-radius: clamp(2rem, 10vw, 3.5rem);
+      }
+
+      .section-{{ section.id }}-padding[data-merge-header]
+        .image-with-text--merge-header
+        .image-with-text__content {
+        padding: clamp(2.5rem, 10vw, 3.5rem);
+      }
+    }
+  {%- endif -%}
 {%- endstyle -%}
 
 {%- liquid
@@ -24,9 +178,12 @@
   endif
 -%}
 
-<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.section_color_scheme }}">
+<div
+  class="section-{{ section.id }}-padding gradient color-{{ section.settings.section_color_scheme }}"
+  {% if section.settings.merge_with_header and section.index == 1 %}data-merge-header="true"{% endif %}
+>
   <div class="page-width">
-    <div class="image-with-text image-with-text--{{ section.settings.content_layout }} isolate{% if settings.text_boxes_border_thickness > 0 and settings.text_boxes_border_opacity > 0 and settings.media_border_thickness > 0 and settings.media_border_opacity > 0 %} collapse-borders{% endif %}{% unless section.settings.color_scheme == section.settings.section_color_scheme and settings.media_border_thickness > 0 and settings.text_boxes_shadow_opacity == 0 and settings.text_boxes_border_thickness == 0 or settings.text_boxes_border_opacity == 0 %} collapse-corners{% endunless %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    <div class="image-with-text image-with-text--{{ section.settings.content_layout }} isolate{% if settings.text_boxes_border_thickness > 0 and settings.text_boxes_border_opacity > 0 and settings.media_border_thickness > 0 and settings.media_border_opacity > 0 %} collapse-borders{% endif %}{% unless section.settings.color_scheme == section.settings.section_color_scheme and settings.media_border_thickness > 0 and settings.text_boxes_shadow_opacity == 0 and settings.text_boxes_border_thickness == 0 or settings.text_boxes_border_opacity == 0 %} collapse-corners{% endunless %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}{% if section.settings.merge_with_header and section.index == 1 %} image-with-text--merge-header{% endif %}">
       <div class="image-with-text__grid grid grid--gapless grid--1-col grid--{% if section.settings.desktop_image_width == 'medium' %}2-col-tablet{% else %}3-col-tablet{% endif %}{% if section.settings.layout == 'text_first' %} image-with-text__grid--reverse{% endif %}">
         <div class="image-with-text__media-item image-with-text__media-item--{{ section.settings.desktop_image_width }} image-with-text__media-item--{{ section.settings.desktop_content_position }} grid__item">
           <div
@@ -319,6 +476,13 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 36
+    },
+    {
+      "type": "checkbox",
+      "id": "merge_with_header",
+      "default": false,
+      "label": "Mit Header verschmelzen",
+      "info": "Lässt den Abschnitt optisch in den Kopfbereich übergehen."
     }
   ],
   "blocks": [
