@@ -2508,10 +2508,10 @@ input[type='checkbox'] {
   justify-content: flex-end;
   gap: 12px;
   margin-left: auto;
-  background: transparent !important;
-  box-shadow: none !important;
-  border: 0;
   padding: 0;
+  background: transparent !important;
+  border: 0;
+  box-shadow: none !important;
 }
 
 .header__icons::before,
@@ -2520,35 +2520,59 @@ input[type='checkbox'] {
 }
 
 .header__icons > * {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.header__icon,
+.header__icon--menu,
+.header__icon--search,
+.header__icon--account,
+.header__icon--cart {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.45);
   background: transparent;
-  box-shadow: 0 8px 16px rgba(31, 63, 125, 0.25);
-  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  color: inherit;
+  box-shadow: 0 8px 18px rgba(31, 63, 125, 0.28);
+  transition: background-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
 }
 
-.header__icons > *:hover,
-.header__icons > *:focus-visible {
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 12px 24px rgba(31, 63, 125, 0.3);
+.header__icon > *,
+.header__icon--menu > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.header__icon:hover,
+.header__icon:focus-visible {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 28px rgba(31, 63, 125, 0.32);
   transform: translateY(-1px);
-  outline: none;
 }
 
-.header__icons svg {
-  width: 22px;
-  height: 22px;
+.header__icon:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.6);
+  outline-offset: 3px;
 }
 
+.header__icon svg,
+.header__icon--menu svg,
+.header__icon--search svg,
 .header__icon--account svg,
 .header__icon--cart svg {
-  width: 26px;
-  height: 26px;
+  width: 18px;
+  height: 18px;
 }
 
 .header__icon--menu[aria-expanded='true']::before {
@@ -3580,5 +3604,176 @@ details-disclosure > details {
   }
   100% {
     transform: translateX(100%) scaleX(0);
+  }
+}
+@media screen and (max-width: 989px) {
+  .optispar-mobile-menu .menu-drawer {
+    position: absolute;
+    top: 100%;
+    right: clamp(8px, 4vw, 22px);
+    left: auto;
+    width: min(88vw, 420px);
+    max-width: 420px;
+    margin-top: 8px;
+    padding: 0;
+    border-radius: 28px;
+    background: linear-gradient(135deg, #5a7dbd, #8eaee6);
+    box-shadow: 0 20px 40px rgba(31, 63, 125, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(12px);
+    transition: transform 220ms ease, opacity 220ms ease, visibility 220ms ease;
+    z-index: 6;
+    overflow: visible;
+  }
+
+  .js .optispar-mobile-menu .menu-drawer {
+    height: auto;
+    max-height: min(80vh, 540px);
+  }
+
+  .optispar-mobile-menu details[open] > .menu-drawer,
+  .optispar-mobile-menu details[open].menu-opening > .menu-drawer {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .optispar-mobile-menu .menu-drawer__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1.4rem 1.5rem 1.8rem;
+    max-height: min(80vh, 540px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+
+  .optispar-mobile-menu .menu-drawer__inner::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .optispar-mobile-menu .menu-drawer__inner::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.35);
+    border-radius: 999px;
+  }
+
+  .optispar-mobile-menu .menu-drawer__navigation-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    overflow: visible;
+  }
+
+  .optispar-mobile-menu .menu-drawer__navigation {
+    display: grid;
+    gap: 0.75rem;
+    padding: 0;
+  }
+
+  .optispar-mobile-menu .menu-drawer__navigation .menu-drawer__menu {
+    display: grid;
+    gap: 0.75rem;
+    padding: 0;
+    margin: 0;
+  }
+
+  .optispar-mobile-menu .menu-drawer__navigation .menu-drawer__menu li {
+    margin: 0;
+  }
+
+  .optispar-mobile-menu .menu-drawer__menu-item,
+  .optispar-mobile-menu .menu-drawer__close-button,
+  .optispar-mobile-menu .menu-drawer .list-menu li a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    min-height: 56px;
+    padding: 14px 18px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.94);
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.22s ease, color 0.22s ease, transform 0.22s ease;
+  }
+
+  .optispar-mobile-menu .menu-drawer__menu-item:hover,
+  .optispar-mobile-menu .menu-drawer__close-button:hover,
+  .optispar-mobile-menu .menu-drawer .list-menu li a:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+    transform: translateY(-1px);
+  }
+
+  .optispar-mobile-menu .menu-drawer__menu-item:focus-visible,
+  .optispar-mobile-menu .menu-drawer__close-button:focus-visible,
+  .optispar-mobile-menu .menu-drawer .list-menu li a:focus-visible {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    outline: 2px solid rgba(255, 255, 255, 0.6);
+    outline-offset: 3px;
+  }
+
+  .optispar-mobile-menu .menu-drawer__menu-item .svg-wrapper,
+  .optispar-mobile-menu .menu-drawer__close-button .svg-wrapper {
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+  }
+
+  .optispar-mobile-menu .menu-drawer__submenu {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    padding: 1.2rem 1rem 1.5rem;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+  }
+
+  .optispar-mobile-menu .menu-drawer__submenu .menu-drawer__menu {
+    gap: 0.65rem;
+  }
+
+  .optispar-mobile-menu .menu-drawer__utility-links {
+    margin-top: 1rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.28);
+    background: transparent;
+  }
+
+  .optispar-mobile-menu .menu-drawer__account,
+  .optispar-mobile-menu .menu-drawer__account .svg-wrapper,
+  .optispar-mobile-menu .menu-drawer__account svg {
+    color: rgba(255, 255, 255, 0.94);
+    fill: currentColor;
+  }
+
+  .optispar-mobile-menu .menu-drawer__account {
+    gap: 0.6rem;
+    font-weight: 600;
+  }
+
+  .optispar-mobile-menu .menu-drawer__account:hover,
+  .optispar-mobile-menu .menu-drawer__account:focus-visible {
+    color: #fff;
+  }
+
+  .optispar-mobile-menu .menu-drawer__localization,
+  .optispar-mobile-menu .menu-drawer__localization select,
+  .optispar-mobile-menu .menu-drawer__localization button {
+    color: rgba(255, 255, 255, 0.9);
+    background: transparent;
+  }
+}
+
+@media screen and (max-width: 989px) and (prefers-reduced-motion: reduce) {
+  .optispar-mobile-menu .menu-drawer {
+    transition: none;
   }
 }
