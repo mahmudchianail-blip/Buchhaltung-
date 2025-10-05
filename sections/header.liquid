@@ -731,26 +731,43 @@
     .optispar-mobile-menu header-drawer,
     .optispar-mobile-menu header-drawer > details {
       width: 100%;
-      display: flex;
-      justify-content: center;
+    }
+
+    .optispar-mobile-menu header-drawer > details {
+      display: block;
     }
 
     .optispar-mobile-menu .menu-drawer {
       padding: 1rem 0 1.4rem;
-      display: flex;
-      justify-content: center;
       background: transparent;
       backdrop-filter: blur(18px);
     }
 
+    .optispar-mobile-menu .menu-drawer__inner-container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      height: 100%;
+      overflow: visible;
+    }
+
     .optispar-mobile-menu .menu-drawer__inner {
       width: min(22rem, calc(100% - 1.5rem));
+      margin: 0 auto;
       border-radius: 1.6rem;
       background: linear-gradient(135deg, rgba(20, 70, 148, 0.92), rgba(52, 142, 221, 0.78));
       border: 1px solid rgba(160, 206, 255, 0.38);
       box-shadow: 0 18px 40px rgba(12, 54, 120, 0.28);
       overflow: hidden;
       position: relative;
+      display: flex;
+      flex-direction: column;
+      max-height: min(calc(100vh - 6rem), 36rem);
+    }
+
+    .optispar-mobile-menu .menu-drawer__navigation-container {
+      flex: 1 1 auto;
+      overflow-y: auto;
     }
 
     .optispar-mobile-menu .menu-drawer__head {
