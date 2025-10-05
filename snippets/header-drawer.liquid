@@ -17,10 +17,11 @@
       </span>
     </summary>
     <div id="menu-drawer" class="menu-drawer motion-reduce color-{{ section.settings.menu_color_scheme }}">
-      <div class="menu-drawer__inner-container menu-drawer__inner">
-        <div class="menu-drawer__head">
-          <p class="menu-drawer__title h5">{{ 'sections.header.menu' | t }}</p>
-          <div class="menu-drawer__icons header__icons">
+      <div class="menu-drawer__inner-container">
+        <div class="menu-drawer__inner">
+          <div class="menu-drawer__head">
+            <p class="menu-drawer__title h5">{{ 'sections.header.menu' | t }}</p>
+            <div class="menu-drawer__icons header__icons">
             <a href="{{ routes.search_url }}" class="header__icon header__icon--search link focus-inset">
               <span class="visually-hidden">{{ 'general.search.search' | t }}</span>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
@@ -78,10 +79,9 @@
               {%- endif -%}
             </a>
           </div>
-        </div>
-        <div class="menu-drawer__navigation-container">
-          <nav class="menu-drawer__navigation">
-            <ul class="menu-drawer__menu has-submenu list-menu" role="list">
+          <div class="menu-drawer__navigation-container">
+            <nav class="menu-drawer__navigation">
+              <ul class="menu-drawer__menu has-submenu list-menu" role="list">
               {%- for link in section.settings.menu.links -%}
                 <li>
                   {%- if link.links != blank -%}
