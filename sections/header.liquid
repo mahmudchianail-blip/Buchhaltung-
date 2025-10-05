@@ -203,21 +203,21 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 2.35rem;
-    padding: 0 1.1rem;
-    border-radius: 0.55rem;
-    background: rgba(12, 66, 149, 0.25);
+    padding: 0;
     color: #fff;
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
+    font-size: clamp(1.35rem, 2.6vw, 1.85rem);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    line-height: 1.1;
     text-decoration: none;
-    transition: background 0.3s ease;
+    text-transform: uppercase;
+    transition: color 0.3s ease, transform 0.3s ease;
   }
 
   .optispar-header__logo a:hover,
   .optispar-header__logo a:focus-visible {
-    background: rgba(18, 90, 185, 0.38);
+    color: #f3f7ff;
+    transform: translateY(-1px);
     outline: none;
   }
 
