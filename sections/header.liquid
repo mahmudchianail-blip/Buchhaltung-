@@ -336,7 +336,14 @@
     position: absolute;
     inset: clamp(0.12rem, 0.32vw, 0.22rem);
     border-radius: inherit;
-    background: radial-gradient(circle at 50% 50%, rgba(86, 156, 245, 0.58), rgba(86, 156, 245, 0));
+    background:
+      radial-gradient(
+        ellipse 140% 120% at 50% 58%,
+        rgba(60, 124, 212, 0.6) 0%,
+        rgba(60, 124, 212, 0.55) 45%,
+        rgba(60, 124, 212, 0.18) 78%,
+        rgba(60, 124, 212, 0)
+      );
     opacity: 0.95;
     z-index: 0;
     pointer-events: none;
