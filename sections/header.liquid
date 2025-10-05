@@ -296,80 +296,60 @@
   }
 
   .optispar-action-cluster {
-    --optispar-action-size: clamp(2.3rem, 2.35vw, 2.6rem);
-    --optispar-action-gap: clamp(0.32rem, 0.9vw, 0.52rem);
-    display: inline-flex;
+    --optispar-action-size: 3rem;
+    display: flex;
     align-items: center;
-    padding: clamp(0.24rem, 0.95vw, 0.4rem) clamp(0.5rem, 1.15vw, 0.75rem);
-    border-radius: 9999px;
-    background: linear-gradient(145deg, rgba(28, 90, 178, 0.72), rgba(101, 176, 247, 0.48));
-    border: 1px solid rgba(172, 214, 255, 0.55);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.36),
-      inset 0 -1px 0 rgba(12, 52, 112, 0.32),
-      0 12px 28px rgba(12, 54, 120, 0.28);
-    backdrop-filter: blur(18px);
+    justify-content: flex-end;
+    gap: 0.75rem;
   }
 
   .optispar-action-cluster__buttons {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    justify-content: center;
-    gap: var(--optispar-action-gap);
+    justify-content: flex-end;
+    gap: 0.75rem;
   }
 
   .optispar-action-cluster__buttons > * {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: var(--optispar-action-size);
-    flex: 0 0 var(--optispar-action-size);
+    width: var(--optispar-action-size);
+    height: var(--optispar-action-size);
+    border-radius: 50%;
   }
 
   .optispar-action-cluster__buttons > .optispar-search {
     position: relative;
     width: var(--optispar-action-size);
-    transition: flex-basis 0.3s ease, width 0.3s ease;
+    flex: 0 0 var(--optispar-action-size);
+    transition: width 0.3s ease;
+    overflow: visible;
+    border: none;
+    background: transparent;
+    box-shadow: none;
   }
 
   .optispar-action-cluster__buttons > .optispar-search.is-open {
+    width: clamp(16rem, 34vw, 24rem);
     flex: 1 1 auto;
-    width: auto;
   }
 
   .optispar-action-cluster .optispar-icon-btn,
   .optispar-action-cluster .optispar-search__toggle,
   .optispar-action-cluster .optispar-search__submit,
   .optispar-action-cluster .optispar-search__close {
-    position: relative;
-    width: var(--optispar-action-size);
-    height: var(--optispar-action-size);
+    width: 100%;
+    height: 100%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
-    border: 1px solid rgba(220, 235, 255, 0.55);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.5),
-      inset 0 -1px 0 rgba(18, 72, 150, 0.35),
-      0 10px 22px rgba(10, 40, 96, 0.25);
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow: 0 8px 16px rgba(31, 63, 125, 0.25);
     color: #fff;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-  }
-
-  .optispar-action-cluster .optispar-icon-btn::after,
-  .optispar-action-cluster .optispar-search__toggle::after,
-  .optispar-action-cluster .optispar-search__submit::after,
-  .optispar-action-cluster .optispar-search__close::after {
-    content: '';
-    position: absolute;
-    inset: 12% 18% auto 18%;
-    height: 28%;
-    border-radius: 999px;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
-    opacity: 0.75;
-    pointer-events: none;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
   }
 
   .optispar-action-cluster .optispar-icon-btn:hover,
@@ -380,26 +360,10 @@
   .optispar-action-cluster .optispar-search__submit:focus-visible,
   .optispar-action-cluster .optispar-search__close:hover,
   .optispar-action-cluster .optispar-search__close:focus-visible {
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 12px 24px rgba(31, 63, 125, 0.3);
     transform: translateY(-1px);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.55),
-      inset 0 -1px 0 rgba(20, 74, 152, 0.4),
-      0 14px 26px rgba(10, 40, 96, 0.32);
     outline: none;
-  }
-
-  .optispar-action-cluster .optispar-search__toggle {
-    width: 100%;
-    height: 100%;
-  }
-
-  .optispar-action-cluster .header__icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    color: #fff;
   }
 
   .optispar-action-cluster account-icon,
@@ -413,14 +377,14 @@
 
   .optispar-action-cluster account-icon svg,
   .optispar-action-cluster account-icon img {
-    width: 1.12rem;
-    height: 1.12rem;
+    width: 1.375rem;
+    height: 1.375rem;
     object-fit: contain;
   }
 
   .optispar-action-cluster svg {
-    width: 1.15rem;
-    height: 1.15rem;
+    width: 1.375rem;
+    height: 1.375rem;
     stroke: currentColor;
     fill: none;
   }
@@ -468,23 +432,21 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: clamp(2.35rem, 2.4vw, 2.75rem);
-    height: clamp(2.35rem, 2.4vw, 2.75rem);
+    width: 3rem;
+    height: 3rem;
     border-radius: 50%;
-    background: linear-gradient(140deg, rgba(45, 122, 214, 0.58), rgba(118, 182, 255, 0.34));
-    border: 1px solid rgba(185, 224, 255, 0.55);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.22),
-      0 10px 26px rgba(12, 54, 120, 0.28);
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow: 0 8px 16px rgba(31, 63, 125, 0.25);
     color: #fff;
-    transition: transform 0.25s ease, background 0.3s ease, box-shadow 0.3s ease;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
   }
 
   .optispar-icon-btn svg,
   .optispar-search__submit svg,
   .optispar-search__close svg {
-    width: 1.1rem;
-    height: 1.1rem;
+    width: 1.375rem;
+    height: 1.375rem;
     pointer-events: none;
   }
 
@@ -494,10 +456,8 @@
   .optispar-search__submit:focus-visible,
   .optispar-search__close:hover,
   .optispar-search__close:focus-visible {
-    background: linear-gradient(140deg, rgba(55, 136, 232, 0.65), rgba(134, 194, 255, 0.46));
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.28),
-      0 12px 30px rgba(12, 54, 120, 0.32);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 12px 24px rgba(31, 63, 125, 0.3);
     transform: translateY(-1px);
     outline: none;
   }
@@ -511,28 +471,25 @@
   }
 
   .optispar-search__toggle {
-    width: clamp(2.35rem, 2.4vw, 2.75rem);
-    height: clamp(2.35rem, 2.4vw, 2.75rem);
+    width: 100%;
+    height: 100%;
     flex-shrink: 0;
   }
 
   .optispar-search__form {
     display: flex;
     align-items: center;
-    gap: clamp(0.35rem, 0.9vw, 0.5rem);
+    gap: 0.75rem;
     width: 0;
     opacity: 0;
     pointer-events: none;
     overflow: hidden;
     margin-left: 0;
-    padding: clamp(0.22rem, 1vw, 0.42rem) clamp(0.42rem, 1.35vw, 0.7rem) clamp(0.22rem, 1vw, 0.42rem)
-      clamp(0.75rem, 2.4vw, 1rem);
+    padding: 0.5rem 0.75rem 0.5rem 1rem;
     border-radius: 9999px;
-    background: linear-gradient(135deg, rgba(40, 118, 204, 0.56), rgba(118, 182, 255, 0.34));
-    border: 1px solid rgba(171, 210, 255, 0.5);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.2),
-      0 10px 22px rgba(12, 54, 120, 0.22);
+    background: rgba(8, 18, 40, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 18px 32px rgba(12, 28, 60, 0.35);
     transition: width 0.32s ease, opacity 0.3s ease, margin 0.3s ease;
   }
 
@@ -541,8 +498,8 @@
   }
 
   .optispar-search.is-open .optispar-search__form {
-    width: clamp(14rem, 34vw, 22rem);
-    margin-left: clamp(0.35rem, 1vw, 0.55rem);
+    width: clamp(16rem, 36vw, 24rem);
+    margin-left: 0.75rem;
     opacity: 1;
     pointer-events: auto;
   }
@@ -960,7 +917,7 @@
           </nav>
         {%- endif -%}
 
-        <div class="optispar-header__actions header__icons{% if section.settings.enable_country_selector or section.settings.enable_language_selector %} header__icons--localization header-localization{% endif %}">
+        <div class="optispar-header__actions{% if section.settings.enable_country_selector or section.settings.enable_language_selector %} header__icons--localization header-localization{% endif %}">
           {%- if localization_forms -%}
             <div class="desktop-localization-wrapper optispar-localization">
               {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
@@ -988,7 +945,7 @@
           {%- endif -%}
 
           <div class="optispar-action-cluster">
-            <div class="optispar-action-cluster__buttons">
+            <div class="optispar-action-cluster__buttons header__icons">
               <div class="optispar-search" data-optispar-search>
                 <div class="optispar-search__toggle">
                   <button type="button" class="optispar-icon-btn header__icon header__icon--search" data-optispar-search-toggle aria-expanded="false">
