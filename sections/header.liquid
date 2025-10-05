@@ -164,7 +164,7 @@
     border: 1px solid rgba(160, 206, 255, 0.38);
     box-shadow: 0 14px 30px rgba(12, 54, 120, 0.26);
     backdrop-filter: blur(18px);
-    overflow: hidden;
+    overflow: visible;
     pointer-events: auto;
   }
 
@@ -401,6 +401,7 @@
     margin-right: 0.35rem;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
   }
 
   .optispar-mobile-menu .header__icon {
@@ -782,8 +783,8 @@
     .optispar-icon-btn,
     .optispar-search__submit,
     .optispar-search__close {
-      width: 2.45rem;
-      height: 2.45rem;
+      width: var(--optispar-action-size);
+      height: var(--optispar-action-size);
     }
 
     .optispar-search__form {
