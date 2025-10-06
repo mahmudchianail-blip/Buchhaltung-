@@ -3607,25 +3607,27 @@ details-disclosure > details {
   }
 }
 @media screen and (max-width: 989px) {
+  .optispar-mobile-menu {
+    position: relative;
+  }
+
   .optispar-mobile-menu .menu-drawer {
     position: absolute;
-    top: calc(100% + 12px);
-    right: clamp(10px, 4.5vw, 26px);
-    left: clamp(10px, 4.5vw, 26px);
-    width: auto;
-    max-width: none;
-    margin: 0;
+    top: calc(100% + 8px);
+    right: clamp(8px, 4vw, 22px);
+    left: auto;
+    width: min(88vw, 420px);
+    max-width: 420px;
+    margin-top: 8px;
     padding: 0;
     border-radius: 28px;
-    background: transparent;
-    box-shadow: none;
-    border: 0;
-    color: rgba(255, 255, 255, 0.95);
+    background: linear-gradient(135deg, #5a7dbd, #8eaee6);
+    box-shadow: 0 20px 40px rgba(31, 63, 125, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.35);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     transform: translateY(12px);
-    transform-origin: top right;
     transition: transform 220ms ease, opacity 220ms ease, visibility 220ms ease;
     z-index: 6;
     overflow: visible;
@@ -3633,7 +3635,7 @@ details-disclosure > details {
 
   .js .optispar-mobile-menu .menu-drawer {
     height: auto;
-    max-height: none;
+    max-height: min(80vh, 540px);
   }
 
   .optispar-mobile-menu details[open] > .menu-drawer,
@@ -3644,66 +3646,14 @@ details-disclosure > details {
     transform: translateY(0);
   }
 
-  .js .optispar-mobile-menu details[open].menu-opening > .menu-drawer {
-    transform: translateY(0);
-  }
-
   .optispar-mobile-menu .menu-drawer__inner {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
     padding: 1.4rem 1.5rem 1.8rem;
-    max-height: min(calc(100vh - 96px), 540px);
+    max-height: min(80vh, 540px);
     overflow-y: auto;
     scrollbar-width: thin;
-    background: linear-gradient(135deg, rgba(20, 70, 148, 0.92), rgba(52, 142, 221, 0.78));
-    border-radius: 28px;
-    border: 1px solid rgba(160, 206, 255, 0.42);
-    box-shadow: 0 20px 44px rgba(12, 54, 120, 0.32);
-    backdrop-filter: blur(18px);
-  }
-
-  .optispar-mobile-menu .menu-drawer__head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    padding-bottom: 0.35rem;
-  }
-
-  .optispar-mobile-menu .menu-drawer__title {
-    margin: 0;
-    font-size: 1.05rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    color: rgba(255, 255, 255, 0.92);
-  }
-
-  .optispar-mobile-menu .menu-drawer__icons {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 0.7rem;
-    margin-left: 0;
-  }
-
-  .optispar-mobile-menu .menu-drawer__icons .header__icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.45);
-    background: transparent;
-    box-shadow: 0 8px 18px rgba(31, 63, 125, 0.28);
-  }
-
-  .optispar-mobile-menu .menu-drawer__icons .header__icon svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .optispar-mobile-menu .menu-drawer__icons .cart-count-bubble {
-    top: -0.28rem;
-    right: -0.28rem;
   }
 
   .optispar-mobile-menu .menu-drawer__inner::-webkit-scrollbar {
