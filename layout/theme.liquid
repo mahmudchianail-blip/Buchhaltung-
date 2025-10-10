@@ -303,6 +303,15 @@
       {{ 'accessibility.skip_to_text' | t }}
     </a>
 
+    {%- assign optispar_letters = 'Optispar' | split: '' -%}
+    <div class="optispar-loader" data-optispar-loader role="status" aria-live="polite" aria-label="Optispar wird geladen">
+      <div class="optispar-loader__word">
+        {%- for letter in optispar_letters -%}
+          <span class="optispar-loader__letter" style="--optispar-letter-index: {{ forloop.index0 }}">{{ letter }}</span>
+        {%- endfor -%}
+      </div>
+    </div>
+
     {%- if settings.cart_type == 'drawer' -%}
       {%- render 'cart-drawer' -%}
     {%- endif -%}

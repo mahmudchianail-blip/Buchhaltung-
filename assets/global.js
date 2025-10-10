@@ -1281,6 +1281,310 @@ if (!customElements.get('bulk-add')) {
   customElements.define('bulk-add', BulkAdd);
 }
 
+(function () {
+  const LOADER_EVENT = 'optispar:loader-hidden';
+
+  window.__optisparLoaderComplete = window.__optisparLoaderComplete || false;
+
+  function findElements(scope, selector) {
+    if (!scope) return [];
+    const elements = [];
+    if (scope.matches && scope.matches(selector)) {
+      elements.push(scope);
+    }
+    if (scope.querySelectorAll) {
+      scope.querySelectorAll(selector).forEach((element) => {
+        if (!elements.includes(element)) {
+          elements.push(element);
+        }
+      });
+    }
+    return elements;
+  }
+
+  function initOptisparLoader() {
+    const loader = document.querySelector('[data-optispar-loader]');
+    if (!loader) {
+      window.__optisparLoaderComplete = true;
+      return;
+    }
+
+    if (loader.dataset.optisparLoaderInitialized === 'true') {
+      return;
+    }
+
+    loader.dataset.optisparLoaderInitialized = 'true';
+    window.__optisparLoaderComplete = false;
+    document.documentElement.classList.add('optispar-lock-scroll');
+
+    const hideLoader = () => {
+      if (loader.classList.contains('is-hidden')) {
+        return;
+      }
+      loader.classList.add('is-hidden');
+      document.documentElement.classList.remove('optispar-lock-scroll');
+      window.__optisparLoaderComplete = true;
+      document.dispatchEvent(new CustomEvent(LOADER_EVENT));
+      const removeAfterTransition = () => {
+        loader.removeEventListener('transitionend', removeAfterTransition);
+        loader.remove();
+      };
+      loader.addEventListener('transitionend', removeAfterTransition);
+      window.setTimeout(() => {
+        if (loader.isConnected) loader.remove();
+      }, 800);
+    };
+
+    const delay = window.Shopify && window.Shopify.designMode ? 600 : 3200;
+    window.setTimeout(hideLoader, delay);
+  }
+
+  function initOptisparHeader(scope = document) {
+    findElements(scope, '[data-optispar-header]').forEach((header) => {
+      if (header.dataset.optisparHeaderReady === 'true') {
+        return;
+      }
+
+      const updateHeader = () => {
+        if (window.scrollY > 40) {
+          header.classList.add('is-condensed');
+        } else {
+          header.classList.remove('is-condensed');
+        }
+      };
+
+      header.dataset.optisparHeaderReady = 'true';
+      header.__optisparScrollHandler = updateHeader;
+      window.addEventListener('scroll', updateHeader, { passive: true });
+      updateHeader();
+    });
+  }
+
+  function teardownOptisparHeader(scope = document) {
+    findElements(scope, '[data-optispar-header]').forEach((header) => {
+      if (header.__optisparScrollHandler) {
+        window.removeEventListener('scroll', header.__optisparScrollHandler);
+        delete header.__optisparScrollHandler;
+      }
+      header.dataset.optisparHeaderReady = '';
+      header.classList.remove('is-condensed');
+    });
+  }
+
+  function scheduleAfterLoader(callback) {
+    if (window.__optisparLoaderComplete) {
+      callback();
+      return null;
+    }
+
+    const handler = () => {
+      document.removeEventListener(LOADER_EVENT, handler);
+      callback();
+    };
+
+    document.addEventListener(LOADER_EVENT, handler);
+    return handler;
+  }
+
+  function initTypedText(hero, element) {
+    const textTarget = element.querySelector('[data-optispar-typed-text]');
+    if (!textTarget) return;
+
+    const phrases = (element.dataset.phrases || '')
+      .split('|')
+      .map((phrase) => phrase.trim())
+      .filter(Boolean);
+
+    if (!phrases.length) return;
+
+    const typeSpeed = parseInt(element.dataset.typeSpeed || '120', 10);
+    const deleteSpeed = parseInt(element.dataset.deleteSpeed || '70', 10);
+    const holdDelay = parseInt(element.dataset.holdDelay || '2000', 10);
+    const startDelay = parseInt(element.dataset.startDelay || '0', 10);
+
+    let phraseIndex = 0;
+    let characterIndex = 0;
+    let isDeleting = false;
+    const state = {
+      timeoutId: null,
+      loaderHandler: null,
+    };
+
+    element.setAttribute('aria-live', 'polite');
+
+    const step = () => {
+      const currentPhrase = phrases[phraseIndex] || '';
+
+      if (!isDeleting && characterIndex <= currentPhrase.length) {
+        textTarget.textContent = currentPhrase.slice(0, characterIndex);
+        characterIndex += 1;
+        const shouldHold = characterIndex > currentPhrase.length;
+        if (shouldHold) {
+          isDeleting = true;
+          state.timeoutId = window.setTimeout(step, holdDelay);
+        } else {
+          state.timeoutId = window.setTimeout(step, typeSpeed);
+        }
+        return;
+      }
+
+      if (isDeleting && characterIndex >= 0) {
+        textTarget.textContent = currentPhrase.slice(0, characterIndex);
+        characterIndex -= 1;
+        if (characterIndex >= 0) {
+          state.timeoutId = window.setTimeout(step, deleteSpeed);
+          return;
+        }
+
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+      }
+
+      state.timeoutId = window.setTimeout(step, typeSpeed);
+    };
+
+    const startTyping = () => {
+      window.clearTimeout(state.timeoutId);
+      characterIndex = 0;
+      isDeleting = false;
+      textTarget.textContent = '';
+      state.timeoutId = window.setTimeout(step, Math.max(startDelay, 0));
+    };
+
+    const handler = scheduleAfterLoader(startTyping);
+    if (handler) {
+      state.loaderHandler = handler;
+    }
+
+    hero.__optisparTypedState = state;
+  }
+
+  function initStarfield(hero, canvas) {
+    const context = canvas.getContext('2d');
+    if (!context) return;
+
+    const stars = [];
+    const starCount = 140;
+    const state = {
+      rafId: null,
+      resizeHandler: null,
+    };
+
+    const resize = () => {
+      const width = hero.clientWidth;
+      const height = hero.clientHeight;
+      if (width === 0 || height === 0) return;
+      canvas.width = width;
+      canvas.height = height;
+      stars.length = 0;
+      for (let index = 0; index < starCount; index += 1) {
+        stars.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: Math.random() * 1.4 + 0.3,
+          speed: Math.random() * 0.25 + 0.05,
+          alpha: Math.random() * 0.5 + 0.25,
+        });
+      }
+    };
+
+    const draw = () => {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach((star) => {
+        star.y += star.speed;
+        if (star.y > canvas.height) {
+          star.y = -5;
+          star.x = Math.random() * canvas.width;
+        }
+        context.beginPath();
+        context.fillStyle = `rgba(145, 94, 255, ${star.alpha})`;
+        context.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        context.fill();
+      });
+      state.rafId = window.requestAnimationFrame(draw);
+    };
+
+    const handleResize = debounce(() => {
+      resize();
+    }, 200);
+
+    resize();
+    draw();
+
+    window.addEventListener('resize', handleResize);
+
+    state.resizeHandler = handleResize;
+    hero.__optisparStarfield = state;
+  }
+
+  function initOptisparHeroes(scope = document) {
+    findElements(scope, '[data-optispar-hero]').forEach((hero) => {
+      if (hero.dataset.optisparHeroReady === 'true') {
+        return;
+      }
+
+      hero.dataset.optisparHeroReady = 'true';
+
+      const typedElement = hero.querySelector('[data-optispar-typed]');
+      if (typedElement) {
+        initTypedText(hero, typedElement);
+      }
+
+      const canvas = hero.querySelector('[data-optispar-stars]');
+      if (canvas) {
+        initStarfield(hero, canvas);
+      }
+    });
+  }
+
+  function teardownOptisparHeroes(scope = document) {
+    findElements(scope, '[data-optispar-hero]').forEach((hero) => {
+      hero.dataset.optisparHeroReady = '';
+      const typedState = hero.__optisparTypedState;
+      if (typedState) {
+        window.clearTimeout(typedState.timeoutId);
+        if (typedState.loaderHandler) {
+          document.removeEventListener(LOADER_EVENT, typedState.loaderHandler);
+        }
+        delete hero.__optisparTypedState;
+      }
+
+      const starfield = hero.__optisparStarfield;
+      if (starfield) {
+        window.cancelAnimationFrame(starfield.rafId);
+        if (starfield.resizeHandler) {
+          window.removeEventListener('resize', starfield.resizeHandler);
+        }
+        delete hero.__optisparStarfield;
+      }
+    });
+  }
+
+  function onReady(callback) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', callback, { once: true });
+    } else {
+      callback();
+    }
+  }
+
+  onReady(() => {
+    initOptisparLoader();
+    initOptisparHeader(document);
+    initOptisparHeroes(document);
+  });
+
+  document.addEventListener('shopify:section:load', (event) => {
+    initOptisparHeader(event.target);
+    initOptisparHeroes(event.target);
+  });
+
+  document.addEventListener('shopify:section:unload', (event) => {
+    teardownOptisparHeader(event.target);
+    teardownOptisparHeroes(event.target);
+  });
+})();
+
 class CartPerformance {
   static #metric_prefix = "cart-performance"
 
