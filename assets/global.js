@@ -1345,7 +1345,76 @@ if (!customElements.get('bulk-add')) {
         return;
       }
 
-      const updateHeader = () => {
+      const cleanup = [];
+      const htmlElement = document.documentElement;
+      const mobileTargetId = header.getAttribute('data-optispar-mobile-target');
+      const mobilePanel = mobileTargetId ? document.getElementById(mobileTargetId) : null;
+      const menuToggle = header.querySelector('[data-optispar-menu-open]');
+      const searchToggle = header.querySelector('[data-optispar-search-open]');
+      const searchCloseButton = header.querySelector('[data-optispar-search-close]');
+      const searchInput = header.querySelector('[data-optispar-search-input]');
+      const mobileCloseButtons = mobilePanel ? Array.from(mobilePanel.querySelectorAll('[data-optispar-menu-close]')) : [];
+      const mobileLinks = mobilePanel ? Array.from(mobilePanel.querySelectorAll('[data-optispar-menu-link]')) : [];
+      const mobileSearchButtons = mobilePanel
+        ? Array.from(mobilePanel.querySelectorAll('[data-optispar-menu-search]'))
+        : [];
+      const state = {
+        searchOpen: false,
+        menuOpen: false,
+        focusTimer: null,
+        menuSearchTimer: null,
+      };
+
+      const addCleanup = (fn) => {
+        if (typeof fn === 'function') {
+          cleanup.push(fn);
+        }
+      };
+
+      const bind = (element, eventName, handler, options) => {
+        if (!element || typeof handler !== 'function') return;
+        element.addEventListener(eventName, handler, options);
+        addCleanup(() => element.removeEventListener(eventName, handler, options));
+      };
+
+      const setAriaExpanded = (element, value) => {
+        if (!element) return;
+        element.setAttribute('aria-expanded', value ? 'true' : 'false');
+      };
+
+      const updateScrollLock = () => {
+        if (state.searchOpen || state.menuOpen) {
+          htmlElement.classList.add('optispar-lock-scroll--header');
+        } else {
+          htmlElement.classList.remove('optispar-lock-scroll--header');
+        }
+      };
+
+      function closeSearch() {
+        if (!state.searchOpen) {
+          return;
+        }
+        header.classList.remove('optispar-header--search-open');
+        state.searchOpen = false;
+        setAriaExpanded(searchToggle, false);
+        if (state.focusTimer) {
+          window.clearTimeout(state.focusTimer);
+          state.focusTimer = null;
+        }
+        updateScrollLock();
+      }
+
+      function closeMenu() {
+        if (!state.menuOpen || !mobilePanel) {
+          return;
+        }
+        mobilePanel.classList.remove('is-open');
+        state.menuOpen = false;
+        setAriaExpanded(menuToggle, false);
+        updateScrollLock();
+      }
+
+      const handleScroll = () => {
         if (window.scrollY > 40) {
           header.classList.add('is-condensed');
         } else {
@@ -1353,22 +1422,166 @@ if (!customElements.get('bulk-add')) {
         }
       };
 
+      function openMenu() {
+        if (!mobilePanel || state.menuOpen) {
+          return;
+        }
+        if (state.searchOpen) {
+          closeSearch();
+        }
+        mobilePanel.classList.add('is-open');
+        state.menuOpen = true;
+        setAriaExpanded(menuToggle, true);
+        updateScrollLock();
+      }
+
+      function openSearch() {
+        if (state.searchOpen) {
+          return;
+        }
+        if (state.menuOpen) {
+          closeMenu();
+        }
+        header.classList.add('optispar-header--search-open');
+        state.searchOpen = true;
+        setAriaExpanded(searchToggle, true);
+        updateScrollLock();
+        if (state.focusTimer) {
+          window.clearTimeout(state.focusTimer);
+        }
+        state.focusTimer = window.setTimeout(() => {
+          if (searchInput) {
+            searchInput.focus();
+            if (typeof searchInput.select === 'function') {
+              searchInput.select();
+            }
+          }
+        }, 260);
+      }
+
+      const handleEscape = (event) => {
+        if (event.key !== 'Escape') {
+          return;
+        }
+        if (state.searchOpen || state.menuOpen) {
+          event.preventDefault();
+          if (state.searchOpen) {
+            closeSearch();
+          }
+          if (state.menuOpen) {
+            closeMenu();
+          }
+        }
+      };
+
+      bind(window, 'scroll', handleScroll, { passive: true });
+      handleScroll();
+
+      bind(document, 'keydown', handleEscape);
+
+      if (menuToggle) {
+        setAriaExpanded(menuToggle, false);
+        bind(menuToggle, 'click', () => {
+          if (state.menuOpen) {
+            closeMenu();
+          } else {
+            openMenu();
+          }
+        });
+      }
+
+      if (searchToggle) {
+        setAriaExpanded(searchToggle, false);
+        bind(searchToggle, 'click', () => {
+          if (state.searchOpen) {
+            closeSearch();
+          } else {
+            openSearch();
+          }
+        });
+      }
+
+      if (searchCloseButton) {
+        bind(searchCloseButton, 'click', () => {
+          closeSearch();
+          if (searchToggle) {
+            searchToggle.focus();
+          }
+        });
+      }
+
+      mobileCloseButtons.forEach((button) => {
+        bind(button, 'click', () => {
+          closeMenu();
+          if (menuToggle) {
+            menuToggle.focus();
+          }
+        });
+      });
+
+      mobileLinks.forEach((link) => {
+        bind(link, 'click', () => {
+          closeMenu();
+        });
+      });
+
+      mobileSearchButtons.forEach((button) => {
+        bind(button, 'click', () => {
+          closeMenu();
+          if (state.menuSearchTimer) {
+            window.clearTimeout(state.menuSearchTimer);
+          }
+          state.menuSearchTimer = window.setTimeout(() => {
+            state.menuSearchTimer = null;
+            openSearch();
+          }, 180);
+        });
+      });
+
       header.dataset.optisparHeaderReady = 'true';
-      header.__optisparScrollHandler = updateHeader;
-      window.addEventListener('scroll', updateHeader, { passive: true });
-      updateHeader();
+      header.__optisparHeaderState = {
+        cleanup,
+        closeSearch,
+        closeMenu,
+        state,
+        mobilePanel,
+      };
     });
   }
 
   function teardownOptisparHeader(scope = document) {
     findElements(scope, '[data-optispar-header]').forEach((header) => {
-      if (header.__optisparScrollHandler) {
-        window.removeEventListener('scroll', header.__optisparScrollHandler);
-        delete header.__optisparScrollHandler;
+      const headerState = header.__optisparHeaderState;
+      if (headerState) {
+        if (typeof headerState.closeSearch === 'function') {
+          headerState.closeSearch();
+        }
+        if (typeof headerState.closeMenu === 'function') {
+          headerState.closeMenu();
+        }
+        if (headerState.state && headerState.state.menuSearchTimer) {
+          window.clearTimeout(headerState.state.menuSearchTimer);
+          headerState.state.menuSearchTimer = null;
+        }
+        if (Array.isArray(headerState.cleanup)) {
+          headerState.cleanup.forEach((fn) => {
+            try {
+              fn();
+            } catch (error) {
+              // ignore cleanup errors
+            }
+          });
+        }
+        if (headerState.mobilePanel) {
+          headerState.mobilePanel.classList.remove('is-open');
+        }
+        delete header.__optisparHeaderState;
       }
       header.dataset.optisparHeaderReady = '';
       header.classList.remove('is-condensed');
+      header.classList.remove('optispar-header--search-open');
     });
+    document.documentElement.classList.remove('optispar-lock-scroll--header');
   }
 
   function scheduleAfterLoader(callback) {
