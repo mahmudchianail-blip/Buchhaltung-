@@ -3819,7 +3819,8 @@ html.optispar-lock-scroll--header {
   padding: 1.6rem 0;
   transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), padding 0.3s cubic-bezier(0.23, 1, 0.32, 1), background 0.3s ease;
   max-width: none;
-  width: 100%;
+  width: 100vw;
+  margin-inline: calc(50% - 50vw + var(--page-width-margin, 0rem));
   box-shadow: 0 12px 30px rgba(4, 4, 25, 0.25);
   position: relative;
   overflow: hidden;
@@ -4233,8 +4234,9 @@ html.optispar-lock-scroll--header {
 
 @media screen and (max-width: 749px) {
   .optispar-header {
-    margin: 1rem 1.2rem 0;
-    padding: 1.2rem 1.8rem;
+    margin: 1rem 0 0;
+    margin-inline: calc(50% - 50vw + var(--page-width-margin, 0rem));
+    padding: 1.2rem 0;
   }
 
   .optispar-hero__content {
