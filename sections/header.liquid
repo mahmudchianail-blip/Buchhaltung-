@@ -86,9 +86,9 @@
 
   .optispar-header__shell {
     width: 100%;
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
+    max-width: none;
+    margin: 0;
+    padding: 0;
   }
 
   .optispar-header__bar {
@@ -123,6 +123,8 @@
     grid-template-columns: auto 1fr auto;
     align-items: center;
     width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
     gap: 1.25rem;
     transition: opacity 200ms ease, transform 200ms ease;
   }
@@ -361,6 +363,8 @@
   .optispar-header__search-form {
     position: relative;
     width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
   }
 
   .optispar-header__search-field {
@@ -530,7 +534,7 @@
 
   @media screen and (min-width: 990px) {
     .optispar-header__shell {
-      padding: 0 1.75rem;
+      padding: 0;
     }
 
     .optispar-header__bar {
@@ -544,7 +548,7 @@
 
   @media screen and (max-width: 989px) {
     .optispar-header__shell {
-      padding: 0 1rem;
+      padding: 0;
     }
 
     .optispar-header__section--grow {
@@ -563,7 +567,7 @@
 
 {%- style -%}
   .header {
-    padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 3rem {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 3rem;
+    padding: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px 0 {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px 0;
   }
 
   .section-header {

@@ -3815,10 +3815,11 @@ html.optispar-lock-scroll--header {
   border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  margin: 1.6rem auto 0;
-  padding: 1.6rem clamp(1.6rem, 4vw, 3.2rem);
+  margin: 1.6rem 0 0;
+  padding: 1.6rem 0;
   transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), padding 0.3s cubic-bezier(0.23, 1, 0.32, 1), background 0.3s ease;
-  max-width: min(120rem, 94%);
+  max-width: none;
+  width: 100%;
   box-shadow: 0 12px 30px rgba(4, 4, 25, 0.25);
   position: relative;
   overflow: hidden;
@@ -3826,7 +3827,7 @@ html.optispar-lock-scroll--header {
 
 .optispar-header.is-condensed {
   transform: translateY(6px);
-  padding: 1.2rem clamp(1.4rem, 3vw, 2.6rem);
+  padding: 1.2rem 0;
   background: rgba(59, 19, 112, 0.82);
 }
 
