@@ -525,31 +525,6 @@
       margin-right: 0;
     }
   }
-
-  /* === ICON OVERRIDES: dichter & größer (Desktop & Mobile) === */
-  .header.modern-header .header__icons{
-    gap:.35rem;              /* kleiner Abstand zwischen den 3 Icons */
-  }
-  .header.modern-header .header__icon,
-  .header.modern-header .header__icons>a,
-  .header.modern-header .header__icons>button{
-    margin:0!important;
-    padding:.25rem;          /* gute Tap-Fläche, aber kompakt */
-    line-height:1;
-  }
-  .header.modern-header .header__icons .svg-wrapper,
-  .header.modern-header .header__icons svg{
-    width:28px;
-    height:28px;            /* größere Icons (Desktop) */
-  }
-  .header.modern-header #cart-icon-bubble .cart-count-bubble{
-    transform:translate(40%,-40%); /* Badge leicht nach oben rechts */
-  }
-  @media(max-width: 749px){
-    .header.modern-header .header__icons{gap:.25rem}
-    .header.modern-header .header__icons svg{width:30px;height:30px} /* Mobile noch etwas größer */
-  }
-  /* === ENDE ICON OVERRIDES === */
 </style>
 
 {%- style -%}
