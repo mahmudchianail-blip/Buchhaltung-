@@ -226,15 +226,36 @@
   @media screen and (max-width: 749px) {
     .header.modern-header {
       border-radius: 28px;
+      padding-inline: 1.2rem;
+    }
+
+    .modern-header__shell {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+
+    header-drawer {
+      margin-left: 0;
+      align-self: center;
     }
 
     .modern-header__navigation {
+      order: 4;
       flex-direction: column;
-      gap: 1rem;
+      align-items: stretch;
+      gap: 0.75rem;
     }
 
     .modern-header__home-button {
       width: 100%;
+    }
+
+    .header.modern-header .header__icons {
+      order: 3;
+      margin-left: 0;
+      width: 100%;
+      justify-content: center;
     }
   }
 </style>
