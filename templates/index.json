@@ -15,22 +15,22 @@
         "heading_PQtKKq": {
           "type": "heading",
           "settings": {
-            "heading": "Erzähle etwas über deine Marke",
+            "heading": "Optispar",
             "heading_size": "h1"
           }
         },
         "text_f4V8pX": {
           "type": "text",
           "settings": {
-            "text": "<p>Teile Infos über deine Marke mit deinen Kunden. Beschreibe ein Produkt, kündige etwas an oder heiße Kunden willkommen.</p>"
+            "text": "<p>Ihr zuverlässiger Partner für sorgfältig ausgewählte Produkte, die Ihren Alltag erleichtern und bereichern.</p>"
           }
         },
         "button_tJEzz9": {
           "type": "button",
           "settings": {
-            "button_label": "Schaltflächenbeschriftung",
-            "button_link": "",
-            "button_style_secondary": false,
+            "button_label": "Shop",
+            "button_link": "shopify://collections/all",
+            "button_style_secondary": true,
             "button_label_2": "",
             "button_link_2": "",
             "button_style_secondary_2": false
@@ -48,24 +48,24 @@
         "content_alignment": "center",
         "color_scheme": "",
         "full_width": true,
-        "padding_top": 100,
-        "padding_bottom": 100
+        "padding_top": 28,
+        "padding_bottom": 28
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
         "collection": "all",
-        "products_to_show": 8,
-        "title": "Featured products",
-        "heading_size": "h2",
+        "products_to_show": 14,
+        "title": "",
+        "heading_size": "h1",
         "description": "",
         "show_description": false,
         "description_style": "body",
         "columns_desktop": 4,
         "enable_desktop_slider": false,
         "full_width": false,
-        "show_view_all": true,
+        "show_view_all": false,
         "view_all_style": "solid",
         "color_scheme": "scheme-1",
         "image_ratio": "adapt",
@@ -79,10 +79,270 @@
         "padding_top": 44,
         "padding_bottom": 36
       }
+    },
+    "image_with_text_9gyjt6": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_X7ynHg": {
+          "type": "heading",
+          "settings": {
+            "heading": "Smartes Set. Starker Schutz.",
+            "heading_size": "h1"
+          }
+        },
+        "text_KH9ymF": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Folie, Ausrichtungsrahmen & Reinigung – alles drin für die perfekte Installation ohne Blasen.<br/></p>",
+            "text_style": "subtitle"
+          }
+        },
+        "button_b63HK8": {
+          "type": "button",
+          "settings": {
+            "button_label": "Jeztz Kaufen",
+            "button_link": "shopify://collections/all",
+            "button_style_secondary": true
+          }
+        }
+      },
+      "block_order": [
+        "heading_X7ynHg",
+        "text_KH9ymF",
+        "button_b63HK8"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/s-l1600_167a5ea8-d5bb-4aed-85b1-067ac3a7890d.webp",
+        "height": "adapt",
+        "desktop_image_width": "small",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "overlap",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "collection_list_tUWywc": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_MG8AVb": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "auto-zubehor"
+          }
+        },
+        "featured_collection_9a9aAh": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "handy-zubehor"
+          }
+        },
+        "featured_collection_EC8Brq": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "kuchenhelfer"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_MG8AVb",
+        "featured_collection_9a9aAh",
+        "featured_collection_EC8Brq"
+      ],
+      "name": "t:sections.collection-list.presets.name",
+      "settings": {
+        "title": "Kollektionen",
+        "heading_size": "h1",
+        "image_ratio": "square",
+        "columns_desktop": 3,
+        "color_scheme": "",
+        "show_view_all": false,
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collage_ntMzU3": {
+      "type": "collage",
+      "blocks": {
+        "image_W36hJm": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/s-l960_c9ba44ae-8561-4562-a205-09d32657ebc5.webp"
+          }
+        },
+        "product_34k3dt": {
+          "type": "product",
+          "settings": {
+            "product": "2x-silikon-saugnapf-handyhalterung-handy-halter-selbstklebend-5-5-x-8cm",
+            "second_image": false
+          }
+        },
+        "collection_QRUqEg": {
+          "type": "collection",
+          "settings": {
+            "collection": "handy-zubehor"
+          }
+        }
+      },
+      "block_order": [
+        "image_W36hJm",
+        "product_34k3dt",
+        "collection_QRUqEg"
+      ],
+      "name": "t:sections.collage.presets.name",
+      "settings": {
+        "heading": "Multimedia-Collage",
+        "heading_size": "h1",
+        "desktop_layout": "left",
+        "mobile_layout": "column",
+        "card_styles": "product-card-wrapper",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "slideshow_VQMBmN": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_PAyafL": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/s-l1600_167a5ea8-d5bb-4aed-85b1-067ac3a7890d.webp",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": ""
+          }
+        },
+        "slide_mf3Ahc": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/s-l1600_7bb8eceb-8515-4042-9304-865d834884b7.webp",
+            "image_overlay_opacity": 0,
+            "heading": "",
+            "heading_size": "h1",
+            "subheading": "",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "show_text_box": false,
+            "box_align": "middle-center",
+            "text_alignment": "center",
+            "text_alignment_mobile": "center",
+            "color_scheme": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_PAyafL",
+        "slide_mf3Ahc"
+      ],
+      "name": "t:sections.slideshow.presets.name",
+      "settings": {
+        "layout": "full_bleed",
+        "slide_height": "small",
+        "slider_visual": "counter",
+        "auto_rotate": false,
+        "change_slides_speed": 5,
+        "image_behavior": "none",
+        "show_text_below": true,
+        "accessibility_info": "Slideshow zu deiner Marke"
+      }
+    },
+    "featured_product_BdxmXE": {
+      "type": "featured-product",
+      "blocks": {
+        "text_CReXdT": {
+          "type": "text",
+          "settings": {
+            "text": "{{ section.settings.product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title_4Mnxng": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "price_8EFf9T": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker_8JpR8f": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "quantity_selector_WgewTL": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons_4TnV6Y": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "share_M3XXCq": {
+          "type": "share",
+          "settings": {
+            "share_label": "Teilen"
+          }
+        }
+      },
+      "block_order": [
+        "text_CReXdT",
+        "title_4Mnxng",
+        "price_8EFf9T",
+        "variant_picker_8JpR8f",
+        "quantity_selector_WgewTL",
+        "buy_buttons_4TnV6Y",
+        "share_M3XXCq"
+      ],
+      "name": "t:sections.featured-product.presets.name",
+      "settings": {
+        "product": "reinigungsset-iphone-usb-c-mit-staubschutz-filter-burste-pinzette-41tlg",
+        "color_scheme": "",
+        "secondary_background": false,
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
     "rich_text_xUmrHF",
-    "featured_collection"
+    "featured_collection",
+    "image_with_text_9gyjt6",
+    "collection_list_tUWywc",
+    "collage_ntMzU3",
+    "slideshow_VQMBmN",
+    "featured_product_BdxmXE"
   ]
 }
