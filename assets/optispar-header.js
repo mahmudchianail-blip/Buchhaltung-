@@ -11,6 +11,12 @@ class OptisparHeader {
     this.searchClose = root.querySelector('[data-optispar-search-close]');
     this.searchInput = this.searchBar ? this.searchBar.querySelector('input[type="search"]') : null;
     this.lastScrollY = window.scrollY;
+    const stickyAttribute =
+      this.wrapper && this.wrapper.dataset ? this.wrapper.dataset.stickyType : null;
+    this.stickyType =
+      this.wrapper && this.wrapper.tagName !== 'STICKY-HEADER'
+        ? 'none'
+        : stickyAttribute || 'on-scroll-up';
     this.hideOffset = 24;
     this.revealOffset = 12;
     this.state = {
@@ -62,11 +68,32 @@ class OptisparHeader {
   handleScroll() {
     const threshold = 36;
     const currentY = window.scrollY;
+    const stickyMode = this.stickyType;
+
+    if (stickyMode === 'reduce-logo-size') {
+      this.root.classList.toggle('optispar-header--condensed', currentY > threshold);
+    } else {
+      this.root.classList.remove('optispar-header--condensed');
+    }
 
     if (currentY > threshold) {
       this.root.classList.add('optispar-header--scrolled');
     } else {
       this.root.classList.remove('optispar-header--scrolled');
+    }
+
+    if (stickyMode === 'none') {
+      this.lastScrollY = currentY;
+      return;
+    }
+
+    if (stickyMode === 'always' || stickyMode === 'reduce-logo-size') {
+      this.root.classList.remove('optispar-header--hidden');
+      if (this.wrapper) {
+        this.wrapper.classList.remove('optispar-section-header--compressed');
+      }
+      this.lastScrollY = currentY;
+      return;
     }
 
     if (this.state.menuOpen || this.state.searchOpen) {
