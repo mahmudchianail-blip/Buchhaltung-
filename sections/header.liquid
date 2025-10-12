@@ -309,7 +309,8 @@
       margin-left: 0;
       width: auto;
       justify-content: flex-end;
-      gap: 0.35rem;
+      align-items: center;
+      gap: 0.2rem;
       grid-row: 1;
       white-space: nowrap;
     }
@@ -318,8 +319,14 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0;
+      padding: 0.25rem;
       line-height: 1;
+    }
+
+    .header.modern-header .header__icon .svg-wrapper svg,
+    .header.modern-header .header__icon svg {
+      width: 1.15rem;
+      height: 1.15rem;
     }
 
     .header.modern-header .header__icon .svg-wrapper:not(.header__icon-close) {
