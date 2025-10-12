@@ -9,49 +9,6 @@
  */
 {
   "sections": {
-    "rich_text_xUmrHF": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_PQtKKq": {
-          "type": "heading",
-          "settings": {
-            "heading": "Optispar",
-            "heading_size": "h1"
-          }
-        },
-        "text_f4V8pX": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Ihr zuverlässiger Partner für sorgfältig ausgewählte Produkte, die Ihren Alltag erleichtern und bereichern.</p>"
-          }
-        },
-        "button_tJEzz9": {
-          "type": "button",
-          "settings": {
-            "button_label": "Shop",
-            "button_link": "shopify://collections/all",
-            "button_style_secondary": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_PQtKKq",
-        "text_f4V8pX",
-        "button_tJEzz9"
-      ],
-      "name": "t:sections.rich-text.presets.name",
-      "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
-        "color_scheme": "",
-        "full_width": true,
-        "padding_top": 28,
-        "padding_bottom": 28
-      }
-    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -334,10 +291,84 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
+    },
+    "modern_home": {
+      "type": "home-modern",
+      "settings": {
+        "eyebrow": "Neu bei Optispar",
+        "heading": "<p>Optispar 2.0</p>",
+        "subheading": "Dein neuer Lieblingsshop für präzise Reinigung, smartes Zubehör und ein entspanntes Einkaufserlebnis.",
+        "hero_highlight": "Kostenloser Versand ab 50 €",
+        "hero_image": "shopify://shop_images/s-l1600_167a5ea8-d5bb-4aed-85b1-067ac3a7890d.webp",
+        "primary_button_label": "Neuheiten entdecken",
+        "primary_button_link": "shopify://collections/all",
+        "secondary_button_label": "Unsere Story",
+        "secondary_button_link": "shopify://pages/about",
+        "product_title": "Unser Highlight der Woche",
+        "product_text": "Das Set für alle, die ihr Gerät in Bestform halten wollen – inklusive smarter Tools und Premium-Finish.",
+        "featured_product": "reinigungsset-iphone-usb-c-mit-staubschutz-filter-burste-pinzette-41tlg",
+        "show_rating": true,
+        "show_vendor": false,
+        "enable_quick_add": true,
+        "cta_heading": "Jetzt dein Setup upgraden",
+        "cta_text": "Sichere dir ausgewählte Bundles mit exklusiven Vorteilen und persönlichem Support.",
+        "cta_button_label": "Zum Shop",
+        "cta_button_link": "shopify://collections/all",
+        "background_gradient": "linear-gradient(135deg, rgba(79, 70, 229, 0.12), rgba(14, 165, 233, 0.08))",
+        "accent_color": "#4f46e5",
+        "color_scheme": "scheme-1"
+      },
+      "blocks": {
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "icon": null,
+            "heading": "Smarter Schutz",
+            "text": "Passgenaue Tools, die Kratzer verhindern und dein Display länger wie neu aussehen lassen."
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "icon": null,
+            "heading": "Schneller Versand",
+            "text": "In 1–3 Werktagen bei dir zuhause – klimafreundlich verpackt und versichert."
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "icon": null,
+            "heading": "Support nach Maß",
+            "text": "Persönliche Beratung per Chat & Mail, damit jede Bestellung perfekt passt."
+          }
+        },
+        "testimonial_1": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Super Qualität, einfache Anwendung und ein blitzschneller Versand!",
+            "author": "Lara K."
+          }
+        },
+        "testimonial_2": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Ich liebe das cleane Design der Produkte und den freundlichen Service.",
+            "author": "Marco D."
+          }
+        }
+      },
+      "block_order": [
+        "feature_1",
+        "feature_2",
+        "feature_3",
+        "testimonial_1",
+        "testimonial_2"
+      ]
     }
   },
   "order": [
-    "rich_text_xUmrHF",
+    "modern_home",
     "featured_collection",
     "image_with_text_9gyjt6",
     "collection_list_tUWywc",

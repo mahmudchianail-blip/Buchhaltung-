@@ -1,0 +1,358 @@
+{{ 'section-home-modern.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign product = nil
+  if section.settings.featured_product != blank
+    assign product = all_products[section.settings.featured_product]
+  endif
+
+  assign has_features = false
+  assign has_testimonials = false
+  for block in section.blocks
+    if block.type == 'feature'
+      assign has_features = true
+    elsif block.type == 'testimonial'
+      assign has_testimonials = true
+    endif
+  endfor
+
+  assign section_style = ''
+  if section.settings.background_gradient != blank
+    assign section_style = section_style | append: '--home-modern-background:' | append: section.settings.background_gradient | append: ';'
+  endif
+  if section.settings.accent_color != blank
+    assign section_style = section_style | append: '--home-modern-accent:' | append: section.settings.accent_color | append: ';'
+  endif
+-%}
+
+<section
+  class="home-modern color-{{ section.settings.color_scheme }}"
+  {% if section_style != '' %}style="{{ section_style | strip }}"{% endif %}
+>
+  <div class="home-modern__container page-width">
+    <div class="home-modern__hero">
+      <div class="home-modern__hero-content scroll-trigger" data-cascade>
+        {% if section.settings.eyebrow != blank %}
+          <p class="home-modern__eyebrow">{{ section.settings.eyebrow }}</p>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <h1 class="home-modern__heading">{{ section.settings.heading }}</h1>
+        {% endif %}
+        {% if section.settings.subheading != blank %}
+          <p class="home-modern__subheading">{{ section.settings.subheading }}</p>
+        {% endif %}
+        {% if section.settings.hero_highlight != blank %}
+          <div class="home-modern__highlight">
+            <span class="home-modern__highlight-dot"></span>
+            <span>{{ section.settings.hero_highlight }}</span>
+          </div>
+        {% endif %}
+        {% if section.settings.primary_button_label != blank or section.settings.secondary_button_label != blank %}
+          <div class="home-modern__actions">
+            {% if section.settings.primary_button_label != blank %}
+              <a
+                class="button button--primary"
+                href="{{ section.settings.primary_button_link | default: '#' }}"
+              >
+                {{ section.settings.primary_button_label }}
+              </a>
+            {% endif %}
+            {% if section.settings.secondary_button_label != blank %}
+              <a
+                class="button button--secondary"
+                href="{{ section.settings.secondary_button_link | default: '#' }}"
+              >
+                {{ section.settings.secondary_button_label }}
+              </a>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+      {% if section.settings.hero_image != blank %}
+        <div class="home-modern__hero-media animate--zoom-in">
+          {{ section.settings.hero_image | image_url: width: 1200 | image_tag: class: 'home-modern__hero-image', loading: 'lazy' }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% if has_features %}
+      <div class="home-modern__features">
+        {% for block in section.blocks %}
+          {% if block.type == 'feature' %}
+            <div class="home-modern__feature scroll-trigger" data-cascade {{ block.shopify_attributes }}>
+              {% if block.settings.icon != blank %}
+                <div class="home-modern__feature-icon">
+                  {{ block.settings.icon | image_url: width: 96 | image_tag: loading: 'lazy' }}
+                </div>
+              {% endif %}
+              {% if block.settings.heading != blank %}
+                <h3 class="home-modern__feature-heading">{{ block.settings.heading }}</h3>
+              {% endif %}
+              {% if block.settings.text != blank %}
+                <p class="home-modern__feature-text">{{ block.settings.text }}</p>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if product %}
+      <div class="home-modern__product scroll-trigger" data-cascade>
+        {% if section.settings.product_title != blank or section.settings.product_text != blank %}
+          <div class="home-modern__product-intro">
+            {% if section.settings.product_title != blank %}
+              <h2 class="home-modern__product-heading">{{ section.settings.product_title }}</h2>
+            {% endif %}
+            {% if section.settings.product_text != blank %}
+              <p class="home-modern__product-text">{{ section.settings.product_text }}</p>
+            {% endif %}
+          </div>
+        {% endif %}
+        <div class="home-modern__product-card">
+          {% render 'card-product',
+            card_product: product,
+            section_id: section.id,
+            media_aspect_ratio: 'adapt',
+            show_secondary_image: true,
+            show_vendor: section.settings.show_vendor,
+            show_rating: section.settings.show_rating,
+            quick_add: section.settings.enable_quick_add
+          %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if has_testimonials %}
+      <div class="home-modern__testimonials">
+        {% for block in section.blocks %}
+          {% if block.type == 'testimonial' %}
+            <figure class="home-modern__testimonial scroll-trigger" data-cascade {{ block.shopify_attributes }}>
+              {% if block.settings.quote != blank %}
+                <blockquote>“{{ block.settings.quote }}”</blockquote>
+              {% endif %}
+              {% if block.settings.author != blank %}
+                <figcaption>{{ block.settings.author }}</figcaption>
+              {% endif %}
+            </figure>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if section.settings.cta_heading != blank %}
+      <div class="home-modern__cta scroll-trigger">
+        <div class="home-modern__cta-text">
+          <h2>{{ section.settings.cta_heading }}</h2>
+          {% if section.settings.cta_text != blank %}
+            <p>{{ section.settings.cta_text }}</p>
+          {% endif %}
+        </div>
+        {% if section.settings.cta_button_label != blank %}
+          <a class="button button--primary" href="{{ section.settings.cta_button_link | default: '#' }}">
+            {{ section.settings.cta_button_label }}
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Modern home",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Neu bei Optispar"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Alles für ein sauberes Setup, stylisch präsentiert"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Entdecke Qualitätsprodukte, die deinen Alltag smarter, entspannter und schöner machen."
+    },
+    {
+      "type": "text",
+      "id": "hero_highlight",
+      "label": "Highlight text",
+      "default": "Kostenloser Versand ab 50 €"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero image"
+    },
+    {
+      "type": "text",
+      "id": "primary_button_label",
+      "label": "Primary button label",
+      "default": "Jetzt entdecken"
+    },
+    {
+      "type": "url",
+      "id": "primary_button_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Secondary button label",
+      "default": "Alle Produkte"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "text",
+      "id": "product_title",
+      "label": "Featured product heading",
+      "default": "Empfohlen für dich"
+    },
+    {
+      "type": "textarea",
+      "id": "product_text",
+      "label": "Featured product description",
+      "default": "Unser Bestseller kombiniert Präzision, Komfort und langlebige Materialien für den täglichen Einsatz."
+    },
+    {
+      "type": "product",
+      "id": "featured_product",
+      "label": "Produkt"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Produktbewertungen anzeigen",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Produktanbieter anzeigen",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_add",
+      "label": "Quick Add aktivieren",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "CTA Heading",
+      "default": "Bereit für dein nächstes Upgrade?"
+    },
+    {
+      "type": "textarea",
+      "id": "cta_text",
+      "label": "CTA Text",
+      "default": "Jetzt auswählen, entspannen und auf Premium-Service verlassen."
+    },
+    {
+      "type": "text",
+      "id": "cta_button_label",
+      "label": "CTA Button label",
+      "default": "Zum Shop"
+    },
+    {
+      "type": "url",
+      "id": "cta_button_link",
+      "label": "CTA Button link"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Hintergrundverlauf"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Akzentfarbe",
+      "default": "#4f46e5"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Farbschema",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Überschrift",
+          "default": "Premium Materialien"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Beschreibung",
+          "default": "Sorgfältig zusammengestellt für maximale Langlebigkeit und Komfort."
+        }
+      ]
+    },
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Zitat",
+          "default": "Beeindruckende Qualität und ein Service, der begeistert."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Autor",
+          "default": "Julia, Kundin"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Modern home",
+      "blocks": [
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "testimonial"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
