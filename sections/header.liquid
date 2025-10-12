@@ -75,6 +75,26 @@
     }
   }
 
+  .header-wrapper.gradient {
+    position: relative;
+    background: transparent;
+    isolation: isolate;
+  }
+
+  .header-wrapper.gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      120deg,
+      rgba(15, 76, 155, 0.75),
+      rgba(45, 139, 232, 0.6),
+      rgba(97, 197, 255, 0.55)
+    );
+    z-index: -1;
+    pointer-events: none;
+  }
+
   .header.modern-header {
     position: relative;
     display: flex;
@@ -136,33 +156,6 @@
     gap: 1rem;
   }
 
-  .modern-header__home-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.65rem 1.5rem;
-    border-radius: 999px;
-    background: linear-gradient(135deg, #0f4c9b, #2d8be8 45%, #61c5ff);
-    color: #ffffff;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    text-decoration: none;
-    box-shadow: 0 12px 34px -18px rgba(15, 76, 155, 0.55);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
-  }
-
-  .modern-header__home-button:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 16px 42px -14px rgba(45, 139, 232, 0.55);
-  }
-
-  .modern-header__home-button:focus-visible {
-    outline: 2px solid rgba(45, 139, 232, 0.75);
-    outline-offset: 3px;
-  }
-
   .header.modern-header .header__icons {
     order: 4;
     margin-left: auto;
@@ -197,10 +190,6 @@
       rgba(15, 76, 155, 0.42),
       rgba(45, 139, 232, 0.38)
     );
-  }
-
-  .header.modern-header.modern-header--condensed .modern-header__home-button {
-    box-shadow: 0 14px 32px -14px rgba(12, 74, 146, 0.65);
   }
 
   .header.modern-header.modern-header--condensed .header__menu-item,
@@ -306,10 +295,6 @@
 
     .modern-header__navigation {
       display: none;
-    }
-
-    .modern-header__home-button {
-      width: 100%;
     }
 
     .header.modern-header .header__icons {
@@ -466,9 +451,6 @@
     {%- endif -%}
 
     <div class="modern-header__navigation">
-      <a href="{{ routes.root_url }}" class="modern-header__home-button focus-inset" aria-label="Home">
-        <span>Home</span>
-      </a>
       {%- liquid
         if section.settings.menu != blank
           if section.settings.menu_type_desktop == 'dropdown'
