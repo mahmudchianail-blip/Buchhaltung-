@@ -3606,60 +3606,61 @@ body.optispar-no-scroll {
 }
 
 .optispar-section-header {
-  background: transparent;
+  background: #0a0315;
   border: none;
   margin: 0;
-  padding: 2rem 0 0;
+  padding: 0;
   z-index: 40;
 }
 
 .optispar-header {
   --optispar-color-icon: #d1d5db;
   --optispar-color-icon-hover: #ffffff;
-  --optispar-bg-top: rgba(10, 3, 21, 0.68);
-  --optispar-bg-scroll: rgba(59, 19, 112, 0.78);
   color: #ffffff;
-  width: min(1120px, calc(100% - 3rem));
-  margin: 0 auto;
-  padding: 1.4rem 2.25rem;
-  border-radius: 36px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: var(--optispar-bg-top);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 28px 58px rgba(7, 3, 17, 0.55);
+  width: 100%;
+  margin: 0;
+  padding: 1.5rem clamp(1.5rem, 4vw, 3rem);
+  background: #0a0315;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
   position: relative;
-  transition: padding 0.35s ease, border-radius 0.35s ease, background 0.35s ease,
-    border-color 0.35s ease, box-shadow 0.35s ease, width 0.35s ease;
-}
-
-.optispar-header::after {
-  content: '';
-  position: absolute;
-  inset: 1px;
-  border-radius: inherit;
-  pointer-events: none;
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.25s ease, box-shadow 0.25s ease;
 }
 
 .optispar-header__inner {
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 1.75rem;
+  gap: clamp(1rem, 3vw, 2.75rem);
+  width: min(1140px, 100%);
+  margin: 0 auto;
+}
+
+.optispar-header__left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 0 0 auto;
+  min-width: 0;
+  justify-self: start;
 }
 
 .optispar-header__menu-toggle {
-  display: none;
+  display: inline-flex;
 }
 
 .optispar-nav {
-  display: flex;
+  display: none;
   align-items: center;
+  justify-content: center;
+  justify-self: center;
 }
 
 .optispar-nav__list {
   display: flex;
-  gap: 1rem;
+  align-items: center;
+  gap: clamp(0.75rem, 2.4vw, 1.75rem);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -3669,19 +3670,21 @@ body.optispar-no-scroll {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.45rem 1.1rem;
+  padding: 0.45rem 1.2rem;
   border-radius: 999px;
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.7);
   font-size: 1rem;
   line-height: 1.2;
-  transition: color 0.2s ease, background 0.25s ease, transform 0.25s ease;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
 
 .optispar-nav__item.is-active .optispar-nav__link {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.16);
   color: #ffffff;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.24);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
 }
 
 .optispar-nav__link:hover,
@@ -3692,14 +3695,15 @@ body.optispar-no-scroll {
 }
 
 .optispar-header__brand {
-  justify-self: center;
-  font-size: clamp(1.6rem, 2vw + 1rem, 2.2rem);
+  font-size: clamp(1.4rem, 1.3vw + 1rem, 2rem);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
   color: #ffffff;
-  font-weight: 600;
-  text-align: center;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .optispar-header__brand span {
@@ -3710,7 +3714,9 @@ body.optispar-no-scroll {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 0.25rem;
+  gap: 0.5rem;
+  flex: 0 0 auto;
+  justify-self: end;
 }
 
 .optispar-icon-button {
@@ -3718,15 +3724,15 @@ body.optispar-no-scroll {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 999px;
   border: none;
   background: transparent;
   color: var(--optispar-color-icon);
   padding: 0;
   cursor: pointer;
-  transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+  transition: color 0.2s ease, background 0.2s ease;
 }
 
 .optispar-icon-button .svg-wrapper {
@@ -3807,20 +3813,14 @@ body.optispar-no-scroll {
 }
 
 .optispar-header--scrolled {
-  background: var(--optispar-bg-scroll);
-  border-color: rgba(255, 255, 255, 0.22);
-  border-radius: 999px;
-  padding: 0.85rem 1.85rem;
-  width: min(1000px, calc(100% - 2.5rem));
-  box-shadow: 0 22px 48px rgba(7, 3, 17, 0.5);
+  background: #110626;
+  box-shadow: 0 18px 38px rgba(2, 0, 8, 0.45);
 }
 
 .optispar-header--search-active {
-  background: rgba(59, 19, 112, 0.88);
-  border-radius: 999px;
-  width: min(1040px, calc(100% - 2rem));
-  padding: 0.65rem 1.65rem;
-  box-shadow: 0 28px 52px rgba(7, 3, 17, 0.6);
+  background: #110626;
+  box-shadow: 0 20px 40px rgba(2, 0, 8, 0.48);
+  padding: 1.2rem clamp(1.5rem, 4vw, 3rem);
 }
 
 .optispar-header--search-active .optispar-header__inner {
@@ -3831,9 +3831,11 @@ body.optispar-no-scroll {
   display: none;
   align-items: center;
   gap: 1rem;
+  width: min(620px, 100%);
+  margin: 0 auto;
   opacity: 0;
-  transform: translateY(-6px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateY(-8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .optispar-search-bar.is-visible {
@@ -3852,8 +3854,8 @@ body.optispar-no-scroll {
   gap: 0.75rem;
   padding: 0.45rem 1.25rem;
   border-radius: 999px;
-  background: rgba(15, 6, 32, 0.7);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
 .optispar-search-bar__input {
@@ -3893,18 +3895,18 @@ body.optispar-no-scroll {
 .optispar-mobile-overlay__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(10, 3, 21, 0.72);
-  backdrop-filter: blur(22px);
+  background: rgba(10, 3, 21, 0.82);
+  backdrop-filter: blur(14px);
 }
 
 .optispar-mobile-overlay__panel {
   position: relative;
   width: min(92vw, 420px);
   max-height: calc(100vh - 3rem);
-  background: rgba(26, 12, 48, 0.76);
-  border-radius: 36px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  box-shadow: 0 32px 60px rgba(7, 3, 17, 0.55);
+  background: rgba(18, 11, 33, 0.95);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 26px 50px rgba(2, 0, 8, 0.55);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -3974,47 +3976,65 @@ body.optispar-no-scroll {
   transform: translateY(-2px);
 }
 
-@media screen and (max-width: 989px) {
+@media screen and (min-width: 750px) {
   .optispar-header {
-    width: min(100%, calc(100% - 1.5rem));
-    padding: 1.1rem 1.5rem;
+    padding-top: 1.75rem;
+    padding-bottom: 1.75rem;
   }
 
+  .optispar-header__icons {
+    gap: 0.75rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
   .optispar-header__menu-toggle {
-    display: inline-flex;
-  }
-
-  .optispar-nav {
     display: none;
   }
 
+  .optispar-nav {
+    display: flex;
+  }
+
   .optispar-header__inner {
-    grid-template-columns: auto 1fr;
-    gap: 1.25rem;
+    gap: clamp(1.5rem, 3vw, 3.5rem);
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .optispar-header {
+    padding: 1.15rem clamp(1.2rem, 6vw, 2rem);
+  }
+
+  .optispar-header__inner {
+    width: 100%;
+    gap: 1.5rem;
   }
 
   .optispar-header__brand {
-    justify-self: start;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
+  }
+
+  .optispar-header__icons {
+    gap: 0.4rem;
   }
 }
 
 @media screen and (max-width: 749px) {
   .optispar-header {
-    padding: 1rem 1.25rem;
+    padding: 1rem clamp(1rem, 7vw, 1.6rem);
   }
 
   .optispar-header--scrolled {
-    padding: 0.75rem 1.35rem;
-    width: min(100%, calc(100% - 1.5rem));
+    padding: 0.9rem clamp(1rem, 6vw, 1.5rem);
   }
 
   .optispar-header--search-active {
-    width: min(100%, calc(100% - 1rem));
+    padding: 1rem clamp(1rem, 7vw, 1.6rem);
   }
 
   .optispar-search-bar__form {
-    padding: 0.35rem 1rem;
+    padding: 0.4rem 1rem;
   }
 
   .optispar-search-bar__input {

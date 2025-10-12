@@ -30,16 +30,22 @@
 >
   <header class="optispar-header" data-optispar-header>
     <div class="optispar-header__inner">
-      <button
-        class="optispar-header__menu-toggle optispar-icon-button"
-        type="button"
-        aria-expanded="false"
-        aria-controls="optispar-mobile-overlay"
-        data-optispar-menu-toggle
-      >
-        <span class="svg-wrapper">{{ 'icon-hamburger.svg' | inline_asset_content }}</span>
-        <span class="visually-hidden">{{ 'sections.header.menu' | t }}</span>
-      </button>
+      <div class="optispar-header__left">
+        <button
+          class="optispar-header__menu-toggle optispar-icon-button"
+          type="button"
+          aria-expanded="false"
+          aria-controls="optispar-mobile-overlay"
+          data-optispar-menu-toggle
+        >
+          <span class="svg-wrapper">{{ 'icon-hamburger.svg' | inline_asset_content }}</span>
+          <span class="visually-hidden">{{ 'sections.header.menu' | t }}</span>
+        </button>
+
+        <a href="{{ routes.root_url }}" class="optispar-header__brand" aria-label="{{ shop.name }}">
+          <span>Optispar</span>
+        </a>
+      </div>
 
       {%- if section.settings.menu != blank and navigation_links.size > 0 -%}
         <nav class="optispar-nav" aria-label="{{ 'sections.header.navigation' | t }}">
@@ -62,10 +68,6 @@
           </ul>
         </nav>
       {%- endif -%}
-
-      <a href="{{ routes.root_url }}" class="optispar-header__brand" aria-label="{{ shop.name }}">
-        <span>Optispar</span>
-      </a>
 
       <div class="optispar-header__icons">
         <button
