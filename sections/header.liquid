@@ -246,6 +246,7 @@
     .header.modern-header header-drawer {
       margin-left: 0;
       justify-self: start;
+      grid-row: 1;
     }
 
     .header.modern-header header-drawer + .header__search {
@@ -259,12 +260,17 @@
       grid-column: 2;
       justify-self: center;
       text-align: center;
+      grid-row: 1;
     }
 
     .header.modern-header .header__heading-link {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+    }
+
+    .header.modern-header .header__heading {
+      margin: 0;
     }
 
     .modern-header__navigation {
@@ -282,6 +288,8 @@
       width: auto;
       justify-content: flex-end;
       gap: 0.75rem;
+      grid-row: 1;
+      white-space: nowrap;
     }
   }
 </style>
