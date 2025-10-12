@@ -9,80 +9,12 @@
  */
 {
   "sections": {
-    "rich_text_xUmrHF": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_PQtKKq": {
-          "type": "heading",
-          "settings": {
-            "heading": "Erzähle etwas über deine Marke",
-            "heading_size": "h1"
-          }
-        },
-        "text_f4V8pX": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Teile Infos über deine Marke mit deinen Kunden. Beschreibe ein Produkt, kündige etwas an oder heiße Kunden willkommen.</p>"
-          }
-        },
-        "button_tJEzz9": {
-          "type": "button",
-          "settings": {
-            "button_label": "Schaltflächenbeschriftung",
-            "button_link": "",
-            "button_style_secondary": false,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_PQtKKq",
-        "text_f4V8pX",
-        "button_tJEzz9"
-      ],
-      "name": "t:sections.rich-text.presets.name",
-      "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
-        "color_scheme": "",
-        "full_width": true,
-        "padding_top": 100,
-        "padding_bottom": 100
-      }
-    },
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "collection": "all",
-        "products_to_show": 8,
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "columns_desktop": 4,
-        "enable_desktop_slider": false,
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "color_scheme": "scheme-1",
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "swipe_on_mobile": false,
-        "padding_top": 44,
-        "padding_bottom": 36
-      }
+    "optispar_demo": {
+      "type": "optispar-demo",
+      "settings": {}
     }
   },
   "order": [
-    "rich_text_xUmrHF",
-    "featured_collection"
+    "optispar_demo"
   ]
 }
