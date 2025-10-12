@@ -74,6 +74,169 @@
       padding-top: 0.5rem;
     }
   }
+
+  .header.modern-header {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    border-radius: 36px;
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 22px 60px -25px rgba(15, 23, 42, 0.55);
+    overflow: hidden;
+    isolation: isolate;
+    transition: border-radius 0.45s ease, box-shadow 0.45s ease, transform 0.45s ease, background 0.45s ease;
+  }
+
+  .header.modern-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(236, 72, 153, 0.25));
+    opacity: 0.75;
+    z-index: -1;
+    transition: opacity 0.45s ease;
+  }
+
+  .modern-header__shell {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .modern-header__navigation {
+    order: 3;
+    flex: 1 1 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+  }
+
+  .modern-header__navigation nav.header__inline-menu {
+    flex: 0 1 auto;
+    display: flex;
+    align-items: center;
+  }
+
+  .modern-header__navigation .list-menu--inline {
+    gap: 1rem;
+  }
+
+  .modern-header__home-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 1.5rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #3b82f6, #ec4899);
+    color: #ffffff;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    text-decoration: none;
+    box-shadow: 0 10px 30px -15px rgba(59, 130, 246, 0.8);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+  }
+
+  .modern-header__home-button:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 14px 40px -12px rgba(236, 72, 153, 0.65);
+  }
+
+  .modern-header__home-button:focus-visible {
+    outline: 2px solid rgba(59, 130, 246, 0.75);
+    outline-offset: 3px;
+  }
+
+  .header.modern-header .header__icons {
+    order: 4;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-inline: 0.25rem;
+  }
+
+  .header.modern-header header-drawer,
+  .header.modern-header header-drawer + * {
+    order: 1;
+  }
+
+  .header.modern-header .header__heading,
+  .header.modern-header .header__heading-link,
+  .header.modern-header .header__heading-logo-wrapper {
+    order: 2;
+  }
+
+  .header.modern-header.modern-header--condensed {
+    border-radius: 18px 18px 28px 28px;
+    transform: translateY(-8px) scale(0.985);
+    box-shadow: 0 16px 40px -18px rgba(15, 23, 42, 0.45);
+    background: rgba(17, 24, 39, 0.92);
+  }
+
+  .header.modern-header.modern-header--condensed::before {
+    opacity: 1;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.45), rgba(236, 72, 153, 0.45));
+  }
+
+  .header.modern-header.modern-header--condensed .modern-header__home-button {
+    box-shadow: 0 14px 30px -12px rgba(59, 130, 246, 0.9);
+  }
+
+  .header.modern-header.modern-header--condensed .header__menu-item,
+  .header.modern-header.modern-header--condensed .header__menu-item span,
+  .header.modern-header.modern-header--condensed .header__icon,
+  .header.modern-header.modern-header--condensed .list-menu__item--link {
+    color: #f8fafc;
+  }
+
+  .header.modern-header.modern-header--condensed .svg-wrapper svg {
+    fill: currentColor;
+  }
+
+  @media screen and (min-width: 990px) {
+    .modern-header__shell {
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .modern-header__navigation {
+      order: 2;
+      flex: 0 1 auto;
+    }
+
+    .header.modern-header .header__icons {
+      order: 3;
+      margin-left: 0;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .header.modern-header {
+      border-radius: 28px;
+    }
+
+    .modern-header__navigation {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .modern-header__home-button {
+      width: 100%;
+    }
+  }
 </style>
 
 {%- style -%}
@@ -136,7 +299,8 @@
       assign localization_forms = true
     endif
   -%}
-  <header class="header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if has_app_block %} header--has-app{% endif %}{% if social_links %} header--has-social{% endif %}{% if shop.customer_accounts_enabled %} header--has-account{% endif %}{% if localization_forms %} header--has-localizations{% endif %}">
+  <header class="header modern-header header--{{ section.settings.logo_position }} header--mobile-{{ section.settings.mobile_logo_position }} page-width{% if section.settings.menu_type_desktop == 'drawer' %} drawer-menu{% endif %}{% if section.settings.menu != blank %} header--has-menu{% endif %}{% if has_app_block %} header--has-app{% endif %}{% if social_links %} header--has-social{% endif %}{% if shop.customer_accounts_enabled %} header--has-account{% endif %}{% if localization_forms %} header--has-localizations{% endif %}">
+    <div class="modern-header__shell">
     {%- liquid
       if section.settings.menu != blank
         render 'header-drawer'
@@ -180,15 +344,20 @@
       {%- endif -%}
     {%- endif -%}
 
-    {%- liquid
-      if section.settings.menu != blank
-        if section.settings.menu_type_desktop == 'dropdown'
-          render 'header-dropdown-menu'
-        elsif section.settings.menu_type_desktop != 'drawer'
-          render 'header-mega-menu'
+    <div class="modern-header__navigation">
+      <a href="{{ routes.root_url }}" class="modern-header__home-button focus-inset" aria-label="Home">
+        <span>Home</span>
+      </a>
+      {%- liquid
+        if section.settings.menu != blank
+          if section.settings.menu_type_desktop == 'dropdown'
+            render 'header-dropdown-menu'
+          elsif section.settings.menu_type_desktop != 'drawer'
+            render 'header-mega-menu'
+          endif
         endif
-      endif
-    %}
+      %}
+    </div>
 
     {%- if section.settings.logo_position == 'middle-center' -%}
       {%- if request.page_type == 'index' -%}
@@ -301,6 +470,7 @@
           </div>
         {%- endif -%}
       </a>
+    </div>
     </div>
   </header>
 </{{ header_tag }}>
@@ -425,6 +595,26 @@
 
   customElements.define('sticky-header', StickyHeader);
 {% endjavascript %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var modernHeader = document.querySelector('.header.modern-header');
+    if (!modernHeader) {
+      return;
+    }
+
+    var toggleCondensedState = function () {
+      if (window.scrollY > 40) {
+        modernHeader.classList.add('modern-header--condensed');
+      } else {
+        modernHeader.classList.remove('modern-header--condensed');
+      }
+    };
+
+    toggleCondensedState();
+    window.addEventListener('scroll', toggleCondensedState, { passive: true });
+  });
+</script>
 
 <script type="application/ld+json">
   {
