@@ -227,18 +227,44 @@
     .header.modern-header {
       border-radius: 28px;
       padding-inline: 0.85rem;
-      padding-block: 0.75rem;
+      padding-block: 0.6rem;
     }
 
     .modern-header__shell {
-      flex-direction: column;
-      align-items: stretch;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
       gap: 0.75rem;
+      width: 100%;
     }
 
-    header-drawer {
+    .header.modern-header header-drawer,
+    .header.modern-header header-drawer + * {
+      order: initial;
+    }
+
+    .header.modern-header header-drawer {
       margin-left: 0;
-      align-self: center;
+      justify-self: start;
+    }
+
+    .header.modern-header header-drawer + .header__search {
+      display: none;
+    }
+
+    .header.modern-header .header__heading,
+    .header.modern-header .header__heading-link,
+    .header.modern-header .header__heading-logo-wrapper {
+      order: initial;
+      grid-column: 2;
+      justify-self: center;
+      text-align: center;
+    }
+
+    .header.modern-header .header__heading-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .modern-header__navigation {
@@ -250,10 +276,12 @@
     }
 
     .header.modern-header .header__icons {
-      order: 3;
+      order: initial;
+      grid-column: 3;
       margin-left: 0;
-      width: 100%;
-      justify-content: center;
+      width: auto;
+      justify-content: flex-end;
+      gap: 0.75rem;
     }
   }
 </style>
@@ -440,7 +468,7 @@
       {%- if shop.customer_accounts_enabled -%}
         <a
           href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
-          class="header__icon header__icon--account link focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}"
+          class="header__icon header__icon--account link focus-inset"
           rel="nofollow"
         >
           {%- if section.settings.enable_customer_avatar -%}
