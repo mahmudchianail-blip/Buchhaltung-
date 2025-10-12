@@ -72,9 +72,11 @@
     height:var(--cart-size-mobile)!important;
   }
 
-  /* Badge-Position leicht nach oben rechts */
-  .header.modern-header .header__icon--cart .cart-count-bubble{
-    transform:translate(40%,-40%)
+  /* Logo (Optispar) leicht nach links schieben */
+  .header__heading,
+  .header__heading-link{
+    left:50%;
+    transform:translateX(var(--logo-shift-mobile));
   }
 }
 
