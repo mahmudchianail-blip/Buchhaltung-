@@ -1,12 +1,377 @@
-<section class="optispar-demo">
-  <div class="optispar-demo__intro">
-    <h1 class="optispar-demo__title">Optispar</h1>
-    <p class="optispar-demo__subtitle">Trendige Gadgets</p>
-  </div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Optispar E-Commerce Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* --- New Loader Animations --- */
+      @keyframes form-from-stardust {
+        0% {
+          opacity: 0;
+          transform: scale(1.5) translateY(-20px);
+          filter: blur(10px) brightness(2);
+        }
+        50% {
+          opacity: 0.8;
+          filter: blur(2px) brightness(1.5);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+          filter: blur(0) brightness(1);
+        }
+      }
 
-  <div class="optispar-demo__scroll-room">
-    <p class="optispar-demo__scroll-copy">
-      Dieser Bereich ist eine einfache Demo-Fläche, damit du das Scrollverhalten des fixierten Headers ausprobieren kannst.
-    </p>
-  </div>
-</section>
+      @keyframes subtle-glow {
+        0%, 100% {
+          text-shadow: 0 0 8px rgba(255, 255, 255, 0.2), 0 0 20px rgba(192, 132, 252, 0.3);
+        }
+        50% {
+          text-shadow: 0 0 12px rgba(255, 255, 255, 0.3), 0 0 30px rgba(192, 132, 252, 0.5);
+        }
+      }
+
+      @keyframes fade-out {
+        from { opacity: 1; }
+        to { opacity: 0; }
+      }
+
+      /* --- Hero Text Reveal Animation --- */
+      @keyframes fade-in-up-scale {
+        0% {
+          opacity: 0;
+          transform: translateY(20px) scale(0.9);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      
+      /* --- New "Settle" Animation for Brand Name --- */
+      @keyframes settle-in-place {
+        0% {
+          opacity: 0;
+          transform: translateY(-30px) scale(1.15);
+          filter: blur(8px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          filter: blur(0);
+        }
+      }
+
+      .animate-fade-in-up-scale {
+        animation: fade-in-up-scale 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+      }
+      
+      /* Typing cursor animation */
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+      .cursor-blink {
+        animation: blink 1s step-start infinite;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/client": "https://aistudiocdn.com/react-dom@^19.2.0/client",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "three": "https://aistudiocdn.com/three@^0.166.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module">
+      import React from 'react';
+      import ReactDOM from 'react-dom/client';
+      import * as THREE from 'three';
+
+      const { useState, useEffect, useRef } = React;
+      
+      // --- StarsCanvas Component ---
+
+      const StarsCanvas = () => {
+        const canvasRef = useRef(null);
+
+        useEffect(() => {
+          const currentCanvas = canvasRef.current;
+          if (!currentCanvas) return;
+
+          const scene = new THREE.Scene();
+          const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+          const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+
+          renderer.setClearColor(0x000000, 0);
+          renderer.setSize(window.innerWidth, window.innerHeight);
+          renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+          currentCanvas.appendChild(renderer.domElement);
+          
+          const starsGeometry = new THREE.BufferGeometry();
+          const starsVertices = [];
+          for (let i = 0; i < 5000; i++) {
+              const x = (Math.random() - 0.5) * 2000;
+              const y = (Math.random() - 0.5) * 2000;
+              const z = (Math.random() - 0.5) * 2000;
+              starsVertices.push(x, y, z);
+          }
+          starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starsVertices, 3));
+
+          const starsMaterial = new THREE.PointsMaterial({
+              color: 0x915eff,
+              size: 1.5,
+              transparent: true,
+              opacity: 0.8,
+              blending: THREE.AdditiveBlending
+          });
+
+          const stars = new THREE.Points(starsGeometry, starsMaterial);
+          scene.add(stars);
+
+          camera.position.z = 1;
+
+          let animationFrameId;
+          const animate = () => {
+              animationFrameId = requestAnimationFrame(animate);
+              stars.rotation.x += 0.0002;
+              stars.rotation.y += 0.0002;
+              renderer.render(scene, camera);
+          };
+          animate();
+
+          const handleResize = () => {
+              camera.aspect = window.innerWidth / window.innerHeight;
+              camera.updateProjectionMatrix();
+              renderer.setSize(window.innerWidth, window.innerHeight);
+          };
+
+          window.addEventListener('resize', handleResize);
+
+          return () => {
+              cancelAnimationFrame(animationFrameId);
+              window.removeEventListener('resize', handleResize);
+              if (currentCanvas && renderer.domElement.parentElement) {
+                  currentCanvas.removeChild(renderer.domElement);
+              }
+          };
+        }, []);
+
+        return React.createElement('div', { ref: canvasRef, className: "w-full h-auto fixed inset-0 z-[-1] pointer-events-none" });
+      };
+
+
+      // --- Loader Component ---
+
+      const Loader = ({ isLoading }) => {
+        if (!isLoading) return null;
+
+        const brandName = "Optispar";
+        const LETTER_ANIMATION_DURATION = 1000;
+        const STAGGER_DELAY = 150;
+        const HOLD_DURATION = 800;
+        
+        const letters = brandName.split('');
+        const totalAnimationTime = (letters.length * STAGGER_DELAY) + LETTER_ANIMATION_DURATION + HOLD_DURATION;
+        const fadeOutDelay = (totalAnimationTime - 500) / 1000;
+
+        return React.createElement(
+          'div',
+          {
+            style: { animation: `fade-out 0.5s ${fadeOutDelay}s forwards` },
+            className: "fixed inset-0 z-[9999] flex items-center justify-center bg-[#0a0315] select-none",
+            'aria-live': "polite",
+            'aria-label': "Lade Optispar"
+          },
+          React.createElement(
+            'div',
+            {
+              className: "flex",
+              style: {
+                animationName: 'subtle-glow',
+                animationDuration: '2s',
+                animationDelay: `${(letters.length * STAGGER_DELAY)}ms`,
+                animationIterationCount: 'infinite',
+                animationTimingFunction: 'ease-in-out'
+              }
+            },
+            letters.map((letter, index) => React.createElement(
+              'h1',
+              {
+                key: `${letter}-${index}`,
+                style: {
+                  animationName: 'form-from-stardust',
+                  animationDuration: `${LETTER_ANIMATION_DURATION}ms`,
+                  animationDelay: `${index * STAGGER_DELAY}ms`,
+                  animationFillMode: 'forwards',
+                  animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)'
+                },
+                className: "text-6xl sm:text-7xl md:text-8xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-orange-500 opacity-0"
+              },
+              letter
+            ))
+          )
+        );
+      };
+
+
+      // --- ImageWithText Component ---
+
+      const HeroVariant = ({ isLoading }) => {
+          const TYPE_SPEED = 120;
+          const DELETE_SPEED = 70;
+          const DELAY = 2000;
+          const subtitles = ["Trendige Gadgets", "Smarte Lösungen", "Innovative Technik"];
+          
+          const [text, setText] = useState('');
+          const [subtitleIndex, setSubtitleIndex] = useState(0);
+          const [isDeleting, setIsDeleting] = useState(false);
+          const [canStartTyping, setCanStartTyping] = useState(false);
+
+          useEffect(() => {
+            if (!isLoading) {
+              const timer = setTimeout(() => setCanStartTyping(true), 800);
+              return () => clearTimeout(timer);
+            }
+          }, [isLoading]);
+
+          useEffect(() => {
+            if (!canStartTyping) return;
+            const handleTyping = () => {
+                const currentSubtitle = subtitles[subtitleIndex];
+                if (isDeleting) {
+                    if (text.length > 0) {
+                        setText(currentSubtitle.substring(0, text.length - 1));
+                    } else {
+                        setIsDeleting(false);
+                        setSubtitleIndex((prev) => (prev + 1) % subtitles.length);
+                    }
+                } else {
+                    if (text.length < currentSubtitle.length) {
+                        setText(currentSubtitle.substring(0, text.length + 1));
+                    } else {
+                        setTimeout(() => setIsDeleting(true), DELAY);
+                    }
+                }
+            };
+            const typingSpeed = isDeleting ? DELETE_SPEED : TYPE_SPEED;
+            const timer = setTimeout(handleTyping, typingSpeed);
+            return () => clearTimeout(timer);
+          }, [text, isDeleting, subtitleIndex, canStartTyping]);
+
+          const animationProps = (delay) => (!isLoading) ? {
+            style: {
+              opacity: 0,
+              animation: `fade-in-up-scale 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards`,
+              animationDelay: delay,
+            }
+          } : { style: { opacity: 0 }};
+
+          const brandAnimationProps = () => !isLoading ? {
+            style: {
+              opacity: 0,
+              animation: `settle-in-place 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards`,
+              animationDelay: '0.2s',
+            }
+          } : { style: { opacity: 0 }};
+
+          return React.createElement('section', { className: "relative bg-[#0a0315] text-white overflow-hidden" },
+            React.createElement(StarsCanvas),
+            React.createElement('div', { className: "relative z-20 min-h-screen flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8" },
+              React.createElement('h1', { className: "text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-200", ...animationProps('0s') }, "Willkommen bei"),
+              React.createElement('h2', { className: "text-6xl sm:text-7xl md:text-8xl font-extrabold my-3 bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-500 via-purple-600 to-pink-500 [text-shadow:0_0_25px_rgba(228,95,188,0.6)]", ...brandAnimationProps() }, "Optispar"),
+              React.createElement('div', { className: "h-10", ...animationProps('0.5s') },
+                React.createElement('p', { className: "text-2xl sm:text-3xl font-light text-gray-300" },
+                  React.createElement('span', null, text),
+                  React.createElement('span', { className: "cursor-blink font-light" }, "|")
+                )
+              ),
+              React.createElement('p', { className: "mt-6 max-w-2xl text-lg text-gray-400 leading-relaxed", ...animationProps('0.7s') }, "Ihr zuverlässiger Partner für sorgfältig ausgewählte Produkte, die Ihren Alltag erleichtern und bereichern."),
+              React.createElement('div', { className: "mt-8 flex justify-center", ...animationProps('0.9s') },
+                React.createElement('a', { href: "#", className: "inline-block bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-[length:200%_auto] text-white font-semibold py-3 px-10 rounded-full shadow-lg transform transition-all duration-500 ease-in-out hover:scale-105 hover:bg-right hover:shadow-2xl hover:shadow-purple-500/50 hover:brightness-110" }, "Jetzt Einkaufen")
+              )
+            )
+          );
+      }
+
+      const DefaultVariant = () => {
+          return React.createElement('section', { className: "bg-white" },
+            React.createElement('div', { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24" },
+              React.createElement('div', { className: "grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center" },
+                React.createElement('div', { className: "w-full h-auto bg-gray-100 rounded-lg flex items-center justify-center aspect-square" },
+                  React.createElement('img', { src: "https://picsum.photos/800/800?grayscale", alt: "Gefaltete Kleidung", className: "w-full h-full object-cover rounded-lg" })
+                ),
+                React.createElement('div', { className: "flex flex-col justify-center" },
+                  React.createElement('h1', { className: "text-4xl md:text-5xl font-bold text-gray-900 leading-tight mb-6" }, "Bild mit Text"),
+                  React.createElement('p', { className: "text-base md:text-lg text-gray-600 mb-8 leading-relaxed" }, "Kombiniere Text mit einem Bild, um den Fokus auf dein Produkt, deine Kollektion oder deinen Blog-Beitrag zu richten. Du kannst außerdem weitere Details über die Verfügbarkeit oder den Stil und sogar eine Bewertung hinzufügen."),
+                  React.createElement('div', { className: "mt-2" },
+                    React.createElement('a', { href: "#", className: "inline-block bg-gray-700 text-white font-semibold py-3 px-8 rounded-md hover:bg-gray-800 transition-colors duration-300" }, "Schaltflächenbeschreibung")
+                  )
+                )
+              )
+            )
+          );
+      };
+
+      const ImageWithText = ({ variant = 'default', isLoading = false }) => {
+        if (variant === 'hero') {
+          return React.createElement(HeroVariant, { isLoading });
+        }
+        return React.createElement(DefaultVariant);
+      };
+      
+
+      // --- App Component ---
+
+      const App = () => {
+        const [isLoading, setIsLoading] = useState(true);
+
+        useEffect(() => {
+          const timer = setTimeout(() => {
+            setIsLoading(false);
+          }, 3000);
+          return () => clearTimeout(timer);
+        }, []);
+
+        return React.createElement(
+          'div',
+          { className: "bg-[#0a0315] text-gray-800 font-sans" },
+          React.createElement(Loader, { isLoading }),
+          React.createElement(
+            'div',
+            { style: { opacity: isLoading ? 0 : 1, transition: 'opacity 0.5s ease-in' } },
+            React.createElement(
+              'main',
+              null,
+              React.createElement(ImageWithText, { variant: "hero", isLoading }),
+              React.createElement(ImageWithText),
+              React.createElement(ImageWithText)
+            )
+          )
+        );
+      };
+
+
+      // --- Entry Point ---
+      
+      const rootElement = document.getElementById('root');
+      if (!rootElement) {
+        throw new Error("Could not find root element to mount to");
+      }
+
+      const root = ReactDOM.createRoot(rootElement);
+      root.render(
+        React.createElement(React.StrictMode, null, React.createElement(App))
+      );
+    </script>
+  </body>
+</html>
