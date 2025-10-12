@@ -10,6 +10,9 @@ class OptisparHeader {
     this.searchBar = root.querySelector('#optispar-search-bar');
     this.searchClose = root.querySelector('[data-optispar-search-close]');
     this.searchInput = this.searchBar ? this.searchBar.querySelector('input[type="search"]') : null;
+    this.lastScrollY = window.scrollY;
+    this.hideOffset = 24;
+    this.revealOffset = 12;
     this.state = {
       menuOpen: false,
       searchOpen: false,
@@ -58,11 +61,48 @@ class OptisparHeader {
 
   handleScroll() {
     const threshold = 36;
-    if (window.scrollY > threshold) {
+    const currentY = window.scrollY;
+
+    if (currentY > threshold) {
       this.root.classList.add('optispar-header--scrolled');
     } else {
       this.root.classList.remove('optispar-header--scrolled');
     }
+
+    if (this.state.menuOpen || this.state.searchOpen) {
+      this.root.classList.remove('optispar-header--hidden');
+      if (this.wrapper) {
+        this.wrapper.classList.remove('optispar-section-header--compressed');
+      }
+      this.lastScrollY = currentY;
+      return;
+    }
+
+    if (currentY <= threshold + 4) {
+      this.root.classList.remove('optispar-header--hidden');
+      if (this.wrapper) {
+        this.wrapper.classList.remove('optispar-section-header--compressed');
+      }
+      this.lastScrollY = currentY;
+      return;
+    }
+
+    const goingDown = currentY > this.lastScrollY + this.hideOffset;
+    const goingUp = currentY < this.lastScrollY - this.revealOffset;
+
+    if (goingDown) {
+      this.root.classList.add('optispar-header--hidden');
+      if (this.wrapper) {
+        this.wrapper.classList.add('optispar-section-header--compressed');
+      }
+    } else if (goingUp) {
+      this.root.classList.remove('optispar-header--hidden');
+      if (this.wrapper) {
+        this.wrapper.classList.remove('optispar-section-header--compressed');
+      }
+    }
+
+    this.lastScrollY = currentY;
   }
 
   handleKeydown(event) {
@@ -89,6 +129,11 @@ class OptisparHeader {
         this.searchBar.classList.add('is-visible');
       });
       this.state.searchOpen = true;
+      this.root.classList.remove('optispar-header--hidden');
+      this.lastScrollY = window.scrollY;
+      if (this.wrapper) {
+        this.wrapper.classList.remove('optispar-section-header--compressed');
+      }
       if (this.searchToggle) {
         this.searchToggle.setAttribute('aria-expanded', 'true');
       }
@@ -108,6 +153,11 @@ class OptisparHeader {
         }
       }, 200);
       this.state.searchOpen = false;
+      this.root.classList.remove('optispar-header--hidden');
+      this.lastScrollY = window.scrollY;
+      if (this.wrapper) {
+        this.wrapper.classList.remove('optispar-section-header--compressed');
+      }
       if (!this.state.menuOpen) {
         document.removeEventListener('keydown', this.handleKeydown);
       }
@@ -121,6 +171,11 @@ class OptisparHeader {
     if (shouldOpen) {
       this.state.menuOpen = true;
       this.root.classList.add('optispar-header--menu-open');
+      this.root.classList.remove('optispar-header--hidden');
+      this.lastScrollY = window.scrollY;
+      if (this.wrapper) {
+        this.wrapper.classList.remove('optispar-section-header--compressed');
+      }
       this.mobileOverlay.hidden = false;
       requestAnimationFrame(() => {
         this.mobileOverlay.classList.add('is-visible');
@@ -143,6 +198,11 @@ class OptisparHeader {
         }
       }, 220);
       document.body.classList.remove('optispar-no-scroll');
+      this.root.classList.remove('optispar-header--hidden');
+      this.lastScrollY = window.scrollY;
+      if (this.wrapper) {
+        this.wrapper.classList.remove('optispar-section-header--compressed');
+      }
       if (!this.state.searchOpen) {
         document.removeEventListener('keydown', this.handleKeydown);
       }
