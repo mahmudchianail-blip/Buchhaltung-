@@ -1,293 +1,186 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom/client';
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Optispar Header</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Sanfter Übergang für Elemente, die ein- und ausgeblendet werden */
+        .transition-all {
+            transition: all 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
 
-// --- Icons (from components/Icons.tsx) ---
-interface IconProps {
-  className?: string;
-}
-
-const HamburgerIcon: React.FC<IconProps> = ({ className }) => (
-  <svg
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-  </svg>
-);
-
-const SearchIcon: React.FC<IconProps> = ({ className }) => (
-  <svg
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-    />
-  </svg>
-);
-
-const AccountIcon: React.FC<IconProps> = ({ className }) => (
-  <svg
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-    />
-  </svg>
-);
-
-const CartIcon: React.FC<IconProps> = ({ className }) => (
-  <svg
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-    />
-  </svg>
-);
-
-const CloseIcon: React.FC<IconProps> = ({ className }) => (
-  <svg
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-  </svg>
-);
-
-
-// --- Header Component (from components/Header.tsx) ---
-interface NavLink {
-  title: string;
-  url: string;
-  isActive?: boolean;
-}
-
-const navigationLinks: NavLink[] = [
-  { title: 'Home', url: '#', isActive: true },
-  { title: 'Catalog', url: '#' },
-  { title: 'Contact', url: '#' },
-];
-
-const Header: React.FC = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [cartItemCount] = useState(3);
-
-  useEffect(() => {
-    const handleEsc = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsMobileMenuOpen(false);
-        setIsSearchOpen(false);
-      }
-    };
-    window.addEventListener('keydown', handleEsc);
-    return () => {
-      window.removeEventListener('keydown', handleEsc);
-    };
-  }, []);
-
-  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
-  const closeMobileMenu = () => setIsMobileMenuOpen(false);
-  const toggleSearch = () => setIsSearchOpen(!isSearchOpen);
-  const closeSearch = () => setIsSearchOpen(false);
-
-  return (
-    <>
-      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md shadow-sm">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            {/* Left Section: Mobile Menu Toggle & Brand */}
-            <div className="flex items-center">
-              <button
-                type="button"
-                className="rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-800 lg:hidden"
-                onClick={toggleMobileMenu}
-                aria-controls="optispar-mobile-overlay"
-                aria-expanded={isMobileMenuOpen}
-              >
-                <span className="sr-only">Open menu</span>
-                <HamburgerIcon className="h-6 w-6" />
-              </button>
-              <a href="#" className="ml-2 lg:ml-0 flex-shrink-0 text-2xl font-bold text-gray-900">
-                Optispar
-              </a>
-            </div>
-
-            {/* Center Section: Desktop Navigation */}
-            <nav className="hidden lg:flex lg:items-center lg:space-x-8" aria-label="Navigation">
-              {navigationLinks.map((link) => (
-                <a
-                  key={link.title}
-                  href={link.url}
-                  className={`text-sm font-medium transition-colors ${
-                    link.isActive ? 'text-indigo-600' : 'text-gray-600 hover:text-gray-900'
-                  }`}
-                  aria-current={link.isActive ? 'page' : undefined}
-                >
-                  {link.title}
-                </a>
-              ))}
-            </nav>
-
-            {/* Right Section: Icons */}
-            <div className="flex items-center space-x-2 sm:space-x-4">
-              <button
-                type="button"
-                className="rounded-full p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-800"
-                onClick={toggleSearch}
-                aria-label="Search"
-              >
-                <SearchIcon className="h-6 w-6" />
-              </button>
-              <a href="#" className="rounded-full p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-800" aria-label="Account">
-                <AccountIcon className="h-6 w-6" />
-              </a>
-              <a href="#" className="relative rounded-full p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-800" aria-label="Cart">
-                <CartIcon className="h-6 w-6" />
-                {cartItemCount > 0 && (
-                  <span className="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-xs font-medium text-white">
-                    {cartItemCount}
-                  </span>
-                )}
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Search Bar */}
-        {isSearchOpen && (
-          <div className="absolute top-full left-0 w-full bg-white shadow-lg z-30" id="optispar-search-bar">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-              <div className="relative flex h-16 items-center">
-                <form action="#" method="get" className="w-full">
-                  <label htmlFor="OptisparHeaderSearch" className="sr-only">Search</label>
-                  <div className="relative">
-                    <input
-                      id="OptisparHeaderSearch"
-                      type="search"
-                      name="q"
-                      placeholder="Search"
-                      autoComplete="off"
-                      className="block w-full rounded-md border-gray-300 py-3 pl-10 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    />
-                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                      <SearchIcon className="h-5 w-5 text-gray-400" />
+    <div id="root">
+        <!-- Header Komponente -->
+        <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md shadow-sm">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="flex h-16 items-center justify-between">
+                    <!-- Linker Bereich: Mobiles Menü-Toggle & Marke -->
+                    <div class="flex items-center">
+                        <button
+                            type="button"
+                            id="mobile-menu-toggle"
+                            class="rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-800 lg:hidden"
+                            aria-controls="mobile-menu-overlay"
+                            aria-expanded="false"
+                        >
+                            <span class="sr-only">Menü öffnen</span>
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
+                        <a href="#" class="ml-2 lg:ml-0 flex-shrink-0 text-2xl font-bold text-gray-900">
+                            Optispar
+                        </a>
                     </div>
-                  </div>
-                </form>
-                <button
-                  type="button"
-                  className="ml-4 rounded-full p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-                  aria-label="Close search"
-                  onClick={closeSearch}
-                >
-                  <CloseIcon className="h-6 w-6" />
-                </button>
-              </div>
+
+                    <!-- Mittlerer Bereich: Desktop-Navigation -->
+                    <nav class="hidden lg:flex lg:items-center lg:space-x-8" aria-label="Navigation">
+                        <a href="#" class="text-sm font-medium transition-colors text-indigo-600" aria-current="page">Home</a>
+                        <a href="#" class="text-sm font-medium transition-colors text-gray-600 hover:text-gray-900">Catalog</a>
+                        <a href="#" class="text-sm font-medium transition-colors text-gray-600 hover:text-gray-900">Contact</a>
+                    </nav>
+
+                    <!-- Rechter Bereich: Icons -->
+                    <div class="flex items-center space-x-2 sm:space-x-4">
+                        <button
+                            type="button"
+                            id="search-toggle"
+                            class="rounded-full p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-800"
+                            aria-label="Search"
+                        >
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </button>
+                        <a href="#" class="rounded-full p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-800" aria-label="Account">
+                             <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                        </a>
+                        <a href="#" class="relative rounded-full p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-800" aria-label="Cart">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                            <span class="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-xs font-medium text-white">3</span>
+                        </a>
+                    </div>
+                </div>
             </div>
-          </div>
-        )}
-      </header>
 
-      {/* Mobile Menu Overlay */}
-      <div
-        id="optispar-mobile-overlay"
-        role="dialog"
-        aria-modal="true"
-        aria-label="Menu"
-        className={`fixed inset-0 z-50 lg:hidden transition-opacity duration-300 ease-in-out ${
-          isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}
-      >
-        <div className="fixed inset-0 bg-black/50" onClick={closeMobileMenu}></div>
-        <div
-          className={`relative h-full w-full max-w-xs transform bg-white shadow-xl transition-transform duration-300 ease-in-out ${
-            isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
-          }`}
-        >
-          <div className="flex h-16 items-center justify-between px-4 border-b">
-            <span className="text-xl font-bold text-gray-900">Optispar</span>
-            <button
-              type="button"
-              className="rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-800"
-              onClick={closeMobileMenu}
-              aria-label="Close menu"
-            >
-              <CloseIcon className="h-6 w-6" />
-            </button>
-          </div>
-          <nav className="mt-6 px-4" aria-label="Mobile Navigation">
-            <ul className="flex flex-col space-y-2">
-              {navigationLinks.map((link) => (
-                <li key={link.title}>
-                  <a
-                    href={link.url}
-                    onClick={closeMobileMenu}
-                    className={`block rounded-md py-2 px-3 text-base font-medium transition-colors ${
-                      link.isActive ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                    }`}
-                    aria-current={link.isActive ? 'page' : undefined}
-                  >
-                    {link.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+            <!-- Suchleiste -->
+            <div id="search-bar" class="absolute top-full left-0 w-full bg-white shadow-lg z-30 hidden">
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div class="relative flex h-16 items-center">
+                        <form action="#" method="get" class="w-full">
+                            <label for="HeaderSearch" class="sr-only">Suche</label>
+                            <div class="relative">
+                                <input id="HeaderSearch" type="search" name="q" placeholder="Suche" autocomplete="off" class="block w-full rounded-md border-gray-300 py-3 pl-10 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                    <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </form>
+                        <button type="button" id="search-close" class="ml-4 rounded-full p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700" aria-label="Suche schließen">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Mobiles Menü-Overlay -->
+        <div id="mobile-menu-overlay" role="dialog" aria-modal="true" aria-label="Menü" class="fixed inset-0 z-50 lg:hidden opacity-0 pointer-events-none transition-opacity duration-300 ease-in-out">
+            <div id="mobile-menu-backdrop" class="fixed inset-0 bg-black/50"></div>
+            <div id="mobile-menu-panel" class="relative h-full w-full max-w-xs transform bg-white shadow-xl -translate-x-full transition-transform duration-300 ease-in-out">
+                <div class="flex h-16 items-center justify-between px-4 border-b">
+                    <span class="text-xl font-bold text-gray-900">Optispar</span>
+                    <button type="button" id="mobile-menu-close" class="rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-800" aria-label="Menü schließen">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <nav class="mt-6 px-4" aria-label="Mobile Navigation">
+                    <ul class="flex flex-col space-y-2 mobile-nav-links">
+                        <li><a href="#" class="block rounded-md py-2 px-3 text-base font-medium transition-colors bg-indigo-50 text-indigo-700" aria-current="page">Home</a></li>
+                        <li><a href="#" class="block rounded-md py-2 px-3 text-base font-medium transition-colors text-gray-700 hover:bg-gray-50 hover:text-gray-900">Catalog</a></li>
+                        <li><a href="#" class="block rounded-md py-2 px-3 text-base font-medium transition-colors text-gray-700 hover:bg-gray-50 hover:text-gray-900">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
-      </div>
-    </>
-  );
-};
-
-
-// --- App Component (from App.tsx) ---
-const App: React.FC = () => {
-  return (
-    <div className="bg-gray-50 min-h-screen font-sans">
-      <Header />
     </div>
-  );
-};
 
-// --- Render App ---
-const rootElement = document.getElementById('root');
-if (!rootElement) {
-  throw new Error("Could not find root element to mount to");
-}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+            const mobileMenuPanel = document.getElementById('mobile-menu-panel');
+            const mobileMenuBackdrop = document.getElementById('mobile-menu-backdrop');
+            const mobileMenuCloseBtn = document.getElementById('mobile-menu-close');
+            const mobileNavLinks = document.querySelector('.mobile-nav-links');
 
-const root = ReactDOM.createRoot(rootElement);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+            const searchToggle = document.getElementById('search-toggle');
+            const searchBar = document.getElementById('search-bar');
+            const searchCloseBtn = document.getElementById('search-close');
+
+            const openMobileMenu = () => {
+                mobileMenuOverlay.classList.remove('opacity-0', 'pointer-events-none');
+                mobileMenuPanel.classList.remove('-translate-x-full');
+                mobileMenuPanel.classList.add('translate-x-0');
+                mobileMenuToggle.setAttribute('aria-expanded', 'true');
+            };
+
+            const closeMobileMenu = () => {
+                mobileMenuOverlay.classList.add('opacity-0', 'pointer-events-none');
+                mobileMenuPanel.classList.add('-translate-x-full');
+                mobileMenuPanel.classList.remove('translate-x-0');
+                mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            };
+
+            const toggleSearch = () => {
+                const isHidden = searchBar.classList.contains('hidden');
+                if (isHidden) {
+                    searchBar.classList.remove('hidden');
+                } else {
+                    searchBar.classList.add('hidden');
+                }
+            };
+
+            const closeSearch = () => {
+                searchBar.classList.add('hidden');
+            };
+
+            // Event Listeners
+            mobileMenuToggle.addEventListener('click', openMobileMenu);
+            mobileMenuCloseBtn.addEventListener('click', closeMobileMenu);
+            mobileMenuBackdrop.addEventListener('click', closeMobileMenu);
+            mobileNavLinks.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') {
+                    closeMobileMenu();
+                }
+            });
+
+            searchToggle.addEventListener('click', toggleSearch);
+            searchCloseBtn.addEventListener('click', closeSearch);
+
+            // Escape-Taste schließt Menüs
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeMobileMenu();
+                    closeSearch();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
