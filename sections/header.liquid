@@ -17,27 +17,6 @@
 {%- endif -%}
 
 <style>
-  /* Mobile: Icons enger + Cart größer */
-@media (max-width:749px){
-  .header__icons{gap:2px!important}
-  .header__icon,
-  .header__icons>a,
-  .header__icons>button,
-  .header__search .header__icon{margin:0!important;padding:2px!important;line-height:1}
-
-  /* Standardgröße für Suche & Nutzer */
-  .header__icon .svg-wrapper,
-  .header__icon svg{width:22px!important;height:22px!important}
-
-  /* Warenkorb deutlich größer */
-  .header__icon--cart{padding:8px!important}
-  .header__icon--cart .svg-wrapper svg,
-  .header__icon--cart svg{width:40px!important;height:32px!important}
-
-  /* Badge etwas nach oben rechts */
-  .header__icon--cart .cart-count-bubble{transform:translate(60%,-40%)}
-}
-
   header-drawer {
     justify-self: start;
     margin-left: -1.2rem;
