@@ -1,265 +1,178 @@
-<!DOCTYPE html>
-<html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Optispar E-Commerce Page</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+{%- comment -%}
+Optispar – Loader + Hero (Shopify-safe, ohne React), kompakt
+- Weißer Hintergrund, nur „Optispar“ animiert (Gradient + Drift)
+- Start-Loader mit Buchstaben
+- Typing-Text unter der Headline
+- Größen kleiner/kompakter
+{%- endcomment -%}
 
-    <style>
-      /* --- Loader Animations (dein Stil) --- */
-      @keyframes form-from-stardust {
-        0% { opacity: 0; transform: scale(1.5) translateY(-20px); filter: blur(10px) brightness(2); }
-        50% { opacity: 0.8; filter: blur(2px) brightness(1.5); }
-        100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0) brightness(1); }
-      }
-      @keyframes subtle-glow {
-        0%, 100% { text-shadow: 0 0 8px rgba(255, 255, 255, 0.2), 0 0 20px rgba(192, 132, 252, 0.3); }
-        50% { text-shadow: 0 0 12px rgba(255, 255, 255, 0.3), 0 0 30px rgba(192, 132, 252, 0.5); }
-      }
-      @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+<style>
+  /* Loader */
+  @keyframes form-from-stardust {
+    0% { opacity:0; transform: scale(1.5) translateY(-20px); filter: blur(10px) brightness(2); }
+    50% { opacity:.8; filter: blur(2px) brightness(1.5); }
+    100%{ opacity:1; transform: scale(1) translateY(0); filter: blur(0) brightness(1); }
+  }
+  @keyframes subtle-glow {
+    0%,100%{ text-shadow:0 0 8px rgba(255,255,255,.2), 0 0 20px rgba(192,132,252,.3);}
+    50%    { text-shadow:0 0 12px rgba(255,255,255,.3), 0 0 30px rgba(192,132,252,.5);}
+  }
+  @keyframes fade-out { from{opacity:1} to{opacity:0} }
 
-      /* --- Hero Reveal --- */
-      @keyframes fade-in-up-scale {
-        0% { opacity: 0; transform: translateY(20px) scale(0.9); }
-        100% { opacity: 1; transform: translateY(0) scale(1); }
-      }
-      @keyframes settle-in-place {
-        0% { opacity: 0; transform: translateY(-30px) scale(1.15); filter: blur(8px); }
-        100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-      }
+  /* Hero reveal */
+  @keyframes fade-in-up-scale {
+    0%{opacity:0; transform: translateY(20px) scale(.9);}
+    100%{opacity:1; transform: translateY(0) scale(1);}
+  }
+  @keyframes settle-in-place {
+    0%{opacity:0; transform: translateY(-30px) scale(1.15); filter: blur(8px);}
+    100%{opacity:1; transform: translateY(0) scale(1); filter: blur(0);}
+  }
 
-      /* Cursor */
-      @keyframes blink { 50% { opacity: 0; } }
-      .cursor-blink { animation: blink 1s step-start infinite; }
+  /* Nur „Optispar“ animieren */
+  .opti-brand {
+    display:inline-block;
+    background: linear-gradient(90deg,#00E08F,#0EA5E9,#7C3AED,#0EA5E9);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    background-size:300% 100%;
+    animation: opti-gradient 6s ease-in-out infinite, opti-drift 7.5s ease-in-out infinite;
+  }
+  @keyframes opti-gradient {
+    0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%}
+  }
+  @keyframes opti-drift {
+    0%{transform:translate(0,0) scale(1)}
+    20%{transform:translate(1px,-2px) scale(1.005)}
+    40%{transform:translate(2px,1px) scale(1.01)}
+    60%{transform:translate(-1px,-1px) scale(1.007)}
+    80%{transform:translate(-2px,2px) scale(1.003)}
+    100%{transform:translate(0,0) scale(1)}
+  }
 
-      /* --- Nur „Optispar“ animiert (Hintergrund bleibt weiß) --- */
-      .gradient-text {
-        background: linear-gradient(90deg, #00E08F, #0EA5E9, #7C3AED, #0EA5E9);
-        -webkit-background-clip: text; background-clip: text; color: transparent;
-        background-size: 300% 100%;
-        animation: gradient-move 6s ease-in-out infinite;
-      }
-      @keyframes gradient-move {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-      }
-      .brand-motion {
-        display: inline-block;
-        will-change: transform;
-        animation: brand-drift 7.5s ease-in-out infinite;
-      }
-      @keyframes brand-drift {
-        0%   { transform: translateY(0) translateX(0) scale(1); }
-        20%  { transform: translateY(-2px) translateX(1px) scale(1.005); }
-        40%  { transform: translateY(1px) translateX(2px) scale(1.01); }
-        60%  { transform: translateY(-1px) translateX(-1px) scale(1.007); }
-        80%  { transform: translateY(2px) translateX(-2px) scale(1.003); }
-        100% { transform: translateY(0) translateX(0) scale(1); }
-      }
+  /* Typing cursor */
+  @keyframes blink { 50%{opacity:0} }
+  .opti-cursor { animation: blink 1s step-start infinite; }
 
-      /* Bewegungen reduzieren */
-      @media (prefers-reduced-motion: reduce) {
-        .gradient-text, .brand-motion { animation: none !important; }
-      }
-    </style>
+  /* Layout (kompakt) */
+  .opti-hero { min-height: 72vh; display:flex; align-items:center; justify-content:center; text-align:center; padding: 0 1.25rem; }
+  .opti-heading-1 { font-size: clamp(28px, 3.2vw, 40px); font-weight: 700; color: #1f2937; margin: 0; }
+  .opti-heading-2 { font-size: clamp(40px, 5vw, 64px); font-weight: 800; margin: .4rem 0 0.75rem; }
+  .opti-subtyping { height: 2.2rem; font-size: clamp(18px, 2.6vw, 24px); font-weight: 300; color:#4b5563; }
+  .opti-text { margin: .75rem auto 0; max-width: 48rem; font-size: clamp(15px, 1.6vw, 18px); color:#6b7280; line-height: 1.65; }
+  .opti-btnwrap { margin-top: 1.25rem; }
+  .opti-btn {
+    display:inline-block; padding: .6rem 1.75rem; border-radius:999px; color:#fff; font-weight:600;
+    background-image: linear-gradient(90deg,#7c3aed,#db2777,#f97316);
+    background-size: 200% auto; transition: transform .3s ease, filter .3s ease, box-shadow .3s ease, background-position .5s ease;
+    box-shadow: 0 8px 20px rgba(124,58,237,.22);
+  }
+  .opti-btn:hover { transform: translateY(-2px) scale(1.03); background-position: right center; filter: brightness(1.05); box-shadow: 0 12px 28px rgba(124,58,237,.28); }
 
-    <!-- React via Import Map -->
-    <script type="importmap">
-    {
-      "imports": {
-        "react-dom/client": "https://aistudiocdn.com/react-dom@^19.2.0/client",
-        "react": "https://aistudiocdn.com/react@^19.2.0",
-        "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-        "react/": "https://aistudiocdn.com/react@^19.2.0/"
+  /* Loader layout */
+  .opti-loader { position:fixed; inset:0; z-index: 50; display:flex; align-items:center; justify-content:center; background:#fff; }
+  .opti-loader-word { display:flex; gap:.05em; animation: subtle-glow 2s ease-in-out infinite; }
+  .opti-loader-letter {
+    opacity:0; font-weight:800; line-height:1;
+    background: linear-gradient(90deg, #a78bfa, #ec4899, #fb923c);
+    -webkit-background-clip:text; background-clip:text; color:transparent; background-size:200% auto;
+    font-size: clamp(48px, 8vw, 100px);
+  }
+
+  /* Staging */
+  .opti-stage [data-reveal]{ opacity:0; transform: translateY(16px); }
+  .opti-ready [data-reveal]{ animation: fade-in-up-scale .6s cubic-bezier(.23,1,.32,1) forwards; }
+  .opti-ready [data-reveal].delay-1 { animation-delay: .15s; }
+  .opti-ready [data-reveal].delay-2 { animation-delay: .35s; }
+  .opti-ready [data-reveal].delay-3 { animation-delay: .55s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .opti-brand, .opti-ready [data-reveal]{ animation: none !important; }
+    .opti-loader{ display:none !important; }
+  }
+</style>
+
+<div class="opti-stage" id="optispar-hero-root">
+  <!-- Loader -->
+  <div class="opti-loader" id="optiLoader" aria-live="polite" aria-label="Lade Optispar">
+    <div class="opti-loader-word" id="optiLoaderWord"></div>
+  </div>
+
+  <!-- Hero -->
+  <section class="opti-hero">
+    <div>
+      <h1 class="opti-heading-1" data-reveal>Willkommen bei</h1>
+      <h2 class="opti-heading-2" data-reveal class="delay-1">
+        <span class="opti-brand">Optispar</span>
+      </h2>
+
+      <div class="opti-subtyping" data-reveal class="delay-2">
+        <span id="optiTyping"></span><span class="opti-cursor">|</span>
+      </div>
+
+      <p class="opti-text" data-reveal class="delay-2">
+        Ihr zuverlässiger Partner für sorgfältig ausgewählte Produkte, die Ihren Alltag erleichtern und bereichern.
+      </p>
+
+      <div class="opti-btnwrap" data-reveal class="delay-3">
+        <a href="/collections/all" class="opti-btn">Jetzt Einkaufen</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  (function(){
+    var root = document.getElementById('optispar-hero-root');
+    var loader = document.getElementById('optiLoader');
+    var wordEl = document.getElementById('optiLoaderWord');
+
+    /* ===== Loader: Buchstaben nacheinander ===== */
+    var brand = 'Optispar';
+    var LETTER_ANIM = 1000; // ms
+    var STAGGER = 150;      // ms
+    var HOLD = 800;         // ms
+
+    // baue Buchstaben
+    brand.split('').forEach(function(ch, i){
+      var span = document.createElement('span');
+      span.className = 'opti-loader-letter';
+      span.textContent = ch;
+      span.style.animation = 'form-from-stardust '+LETTER_ANIM+'ms cubic-bezier(0.16,1,0.3,1) '+(i*STAGGER)+'ms forwards';
+      wordEl.appendChild(span);
+    });
+
+    var total = (brand.length * STAGGER) + LETTER_ANIM + HOLD;
+
+    // Nach Gesamtzeit: Loader ausblenden, Content einblenden
+    setTimeout(function(){
+      loader.style.animation = 'fade-out .45s linear forwards';
+      setTimeout(function(){
+        loader.parentNode && loader.parentNode.removeChild(loader);
+        root.classList.remove('opti-stage');
+        root.classList.add('opti-ready');
+      }, 480);
+    }, Math.max(0, total-400));
+
+    /* ===== Typing-Effekt ===== */
+    var typingEl = document.getElementById('optiTyping');
+    var phrases = ['Trendige Gadgets','Smarte Lösungen','Innovative Technik'];
+    var i = 0, txt = '', del = false;
+    var TYPE_SPEED = 100, DELETE_SPEED = 60, DELAY = 1600;
+
+    function tick(){
+      var cur = phrases[i % phrases.length];
+      if(!del){
+        txt = cur.slice(0, txt.length+1);
+        typingEl.textContent = txt;
+        if(txt.length === cur.length){ setTimeout(function(){ del = true; }, DELAY); }
+      } else {
+        txt = cur.slice(0, Math.max(0, txt.length-1));
+        typingEl.textContent = txt;
+        if(txt.length === 0){ del = false; i++; }
       }
+      setTimeout(tick, del ? DELETE_SPEED : TYPE_SPEED);
     }
-    </script>
-  </head>
-
-  <body class="bg-white text-gray-900">
-    <div id="root"></div>
-
-    {% raw %}
-    <script type="module">
-      import React from 'react';
-      import ReactDOM from 'react-dom/client';
-      const { useState, useEffect } = React;
-
-      // ===== Loader =====
-      const Loader = ({ isLoading }) => {
-        if (!isLoading) return null;
-
-        const brandName = "Optispar";
-        const LETTER_ANIMATION_DURATION = 1000; // ms
-        const STAGGER_DELAY = 150;              // ms
-        const HOLD_DURATION = 800;              // ms
-
-        const letters = brandName.split('');
-        const totalAnimationTime =
-          (letters.length * STAGGER_DELAY) + LETTER_ANIMATION_DURATION + HOLD_DURATION;
-        const fadeOutDelay = (totalAnimationTime - 500) / 1000; // seconds
-
-        return React.createElement(
-          'div',
-          {
-            style: { animation: 'fade-out 0.5s ' + fadeOutDelay + 's forwards' },
-            className: "fixed inset-0 z-[9999] flex items-center justify-center bg-white select-none",
-            'aria-live': "polite",
-            'aria-label': "Lade Optispar"
-          },
-          React.createElement(
-            'div',
-            {
-              className: "flex",
-              style: {
-                animationName: 'subtle-glow',
-                animationDuration: '2s',
-                animationDelay: String(letters.length * STAGGER_DELAY) + 'ms',
-                animationIterationCount: 'infinite',
-                animationTimingFunction: 'ease-in-out'
-              }
-            },
-            letters.map((letter, index) =>
-              React.createElement(
-                'h1',
-                {
-                  key: letter + '-' + index,
-                  style: {
-                    animationName: 'form-from-stardust',
-                    animationDuration: String(LETTER_ANIMATION_DURATION) + 'ms',
-                    animationDelay: String(index * STAGGER_DELAY) + 'ms',
-                    animationFillMode: 'forwards',
-                    animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)'
-                  },
-                  className: "text-6xl sm:text-7xl md:text-8xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-orange-500 opacity-0"
-                },
-                letter
-              )
-            )
-          )
-        );
-      };
-
-      // ===== Hero =====
-      const HeroVariant = ({ isLoading }) => {
-        const TYPE_SPEED = 120, DELETE_SPEED = 70, DELAY = 2000;
-        const subtitles = ["Trendige Gadgets", "Smarte Lösungen", "Innovative Technik"];
-
-        const [text, setText] = useState('');
-        const [subtitleIndex, setSubtitleIndex] = useState(0);
-        const [isDeleting, setIsDeleting] = useState(false);
-        const [canStartTyping, setCanStartTyping] = useState(false);
-
-        useEffect(() => {
-          if (!isLoading) {
-            const timer = setTimeout(() => setCanStartTyping(true), 800);
-            return () => clearTimeout(timer);
-          }
-        }, [isLoading]);
-
-        useEffect(() => {
-          if (!canStartTyping) return;
-          const handleTyping = () => {
-            const current = subtitles[subtitleIndex];
-            if (isDeleting) {
-              if (text.length > 0) {
-                setText(current.substring(0, text.length - 1));
-              } else {
-                setIsDeleting(false);
-                setSubtitleIndex((prev) => (prev + 1) % subtitles.length);
-              }
-            } else {
-              if (text.length < current.length) {
-                setText(current.substring(0, text.length + 1));
-              } else {
-                setTimeout(() => setIsDeleting(true), DELAY);
-              }
-            }
-          };
-          const speed = isDeleting ? DELETE_SPEED : TYPE_SPEED;
-          const timer = setTimeout(handleTyping, speed);
-          return () => clearTimeout(timer);
-        }, [text, isDeleting, subtitleIndex, canStartTyping]);
-
-        const animationProps = (delay) =>
-          !isLoading
-            ? { style: { opacity: 0, animation: 'fade-in-up-scale 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards', animationDelay: delay } }
-            : { style: { opacity: 0 } };
-
-        const brandAnimationProps = () =>
-          !isLoading
-            ? { style: { opacity: 0, animation: 'settle-in-place 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards', animationDelay: '0.2s' } }
-            : { style: { opacity: 0 } };
-
-        return React.createElement(
-          'section',
-          { className: "relative bg-white text-gray-900 overflow-hidden" },
-          React.createElement(
-            'div',
-            { className: "relative z-20 min-h-screen flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8" },
-
-            React.createElement('h1',
-              Object.assign({ className: "text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-800" }, animationProps('0s')),
-              "Willkommen bei"
-            ),
-
-            // Nur das Wort „Optispar“ hat den Verlauf + Drift
-            React.createElement('h2',
-              Object.assign({ className: "text-6xl sm:text-7xl md:text-8xl font-extrabold my-3" }, brandAnimationProps()),
-              React.createElement('span', { className: "gradient-text brand-motion [text-shadow:0_0_15px_rgba(0,0,0,0.06)]" }, "Optispar")
-            ),
-
-            React.createElement('div',
-              Object.assign({ className: "h-10" }, animationProps('0.5s')),
-              React.createElement('p', { className: "text-2xl sm:text-3xl font-light text-gray-600" },
-                React.createElement('span', null, text),
-                React.createElement('span', { className: "cursor-blink font-light" }, "|")
-              )
-            ),
-
-            React.createElement('p',
-              Object.assign({ className: "mt-6 max-w-2xl text-lg text-gray-500 leading-relaxed" }, animationProps('0.7s')),
-              "Ihr zuverlässiger Partner für sorgfältig ausgewählte Produkte, die Ihren Alltag erleichtern und bereichern."
-            ),
-
-            React.createElement('div',
-              Object.assign({ className: "mt-8 flex justify-center" }, animationProps('0.9s')),
-              React.createElement('a', {
-                href: "#",
-                className: "inline-block bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-[length:200%_auto] text-white font-semibold py-3 px-10 rounded-full shadow-lg transform transition-all duration-500 ease-in-out hover:scale-105 hover:bg-right hover:shadow-2xl hover:shadow-purple-500/50 hover:brightness-110"
-              }, "Jetzt Einkaufen")
-            )
-          )
-        );
-      };
-
-      // ===== App =====
-      const App = () => {
-        const [isLoading, setIsLoading] = useState(true);
-        useEffect(() => {
-          const timer = setTimeout(() => setIsLoading(false), 3000); // Loader-Dauer (ms)
-          return () => clearTimeout(timer);
-        }, []);
-        return React.createElement(
-          'div',
-          { className: "bg-white text-gray-900 font-sans" },
-          React.createElement(Loader, { isLoading }),
-          React.createElement(
-            'div',
-            { style: { opacity: isLoading ? 0 : 1, transition: 'opacity 0.5s ease-in' } },
-            React.createElement('main', null, React.createElement(HeroVariant, { isLoading }))
-          )
-        );
-      };
-
-      // ===== Mount =====
-      const rootElement = document.getElementById('root');
-      if (!rootElement) { throw new Error("Could not find root element to mount to"); }
-      const root = ReactDOM.createRoot(rootElement);
-      root.render(React.createElement(React.StrictMode, null, React.createElement(App)));
-    </script>
-    {% endraw %}
-  </body>
-</html>
+    // starte Tippen leicht verzögert nach Loader
+    setTimeout(tick, total + 300);
+  })();
+</script>
