@@ -24,6 +24,11 @@
     },
     "featured_collection": {
       "type": "featured-collection",
+      "custom_css": [
+        "/* hide arrows + counter */.slider-buttons,.slider-button,.slider-counter {display: none !important; margin: 0 !important; height: 0 !important;}",
+        "/* optional: make it a static grid (no snap/scroll padding) */.slider {overflow: visible !important; scroll-snap-type: none !important;}",
+        ".slider--desktop,.slider--tablet {padding-inline: 0 !important;}"
+      ],
       "settings": {
         "collection": "all",
         "products_to_show": 16,
