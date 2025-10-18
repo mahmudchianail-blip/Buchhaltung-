@@ -11,46 +11,15 @@
   "sections": {
     "rich_text_xUmrHF": {
       "type": "rich-text",
-      "blocks": {
-        "heading_PQtKKq": {
-          "type": "heading",
-          "settings": {
-            "heading": "Optispar",
-            "heading_size": "h1"
-          }
-        },
-        "text_f4V8pX": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Ihr zuverlässiger Partner für sorgfältig ausgewählte Produkte, die Ihren Alltag erleichtern und bereichern.</p>"
-          }
-        },
-        "button_tJEzz9": {
-          "type": "button",
-          "settings": {
-            "button_label": "Shop",
-            "button_link": "shopify://collections/all",
-            "button_style_secondary": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
-          }
-        }
-      },
-      "block_order": [
-        "heading_PQtKKq",
-        "text_f4V8pX",
-        "button_tJEzz9"
+      "custom_css": [
+        "#optispar-hero-root {margin-top: -110px; }",
+        " .opti-hero {padding-top: 10px; }",
+        " .opti-heading-100 {margin-top: 0.4rem; }",
+        "/* Absatz in eine Zeile */.opti-text {white-space: nowrap; max-width: 100% !important; overflow: hidden; text-overflow: ellipsis;}",
+        "@media (min-width: 990px) {.opti-text {font-size: 16px; }}"
       ],
       "name": "t:sections.rich-text.presets.name",
-      "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
-        "color_scheme": "",
-        "full_width": true,
-        "padding_top": 28,
-        "padding_bottom": 28
-      }
+      "settings": {}
     },
     "featured_collection": {
       "type": "featured-collection",
