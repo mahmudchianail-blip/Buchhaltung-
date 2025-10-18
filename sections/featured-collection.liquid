@@ -164,6 +164,32 @@
   @media (prefers-reduced-motion: reduce) {
     .section-{{ section.id }}-wrap * { transition: none !important; animation: none !important; }
   }
+  /* === HARD OVERRIDE: UL-ID erzwingt 4 Spalten auf Desktop === */
+@media (min-width: 990px) {
+  /* 1) Grid direkt auf dem UL (eindeutige ID) */
+  #collection-{{ section.id }} #Slider-{{ section.id }} {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    grid-auto-flow: row !important;
+    gap: var(--gap) !important;
+  }
+
+  /* 2) Alle Kinder-<li> neutralisieren (kein min-/max-width, kein Flex) */
+  #collection-{{ section.id }} #Slider-{{ section.id }} > li {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    flex: initial !important;
+  }
+
+  /* 3) Falls Slider-Klassen aktiv sind, heb deren Breiten auf */
+  #collection-{{ section.id }} .slider--desktop #Slider-{{ section.id }} > li,
+  #collection-{{ section.id }} #Slider-{{ section.id }} > li.slider__slide {
+    flex: initial !important;
+    max-width: none !important;
+  }
+}
+
 {%- endstyle -%}
 
 {%- liquid
