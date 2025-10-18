@@ -25,7 +25,13 @@
 
   /* ===== Brand-only animation: the word with span.opti-brand ===== */
   .opti-brand {
+    display: inline-block;
     background: linear-gradient(90deg, {{ section.settings.brand_color_1 }}, {{ section.settings.brand_color_2 }}, {{ section.settings.brand_color_3 }}, {{ section.settings.brand_color_2 }});
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    background-size: 300% 100%;
+    will-change: transform, background-position, filter;
+    animation: opti-gradient-move 6s ease-in-out infinite, opti-drift 7.5s ease-in-out infinite;
+  }}, {{ section.settings.brand_color_2 }}, {{ section.settings.brand_color_3 }}, {{ section.settings.brand_color_2 }});
     -webkit-background-clip: text; background-clip: text; color: transparent;
     background-size: 300% 100%;
     animation: opti-gradient-move 6s ease-in-out infinite;
@@ -33,9 +39,9 @@
   @keyframes opti-gradient-move { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
 
   /* Optional underline that only reacts on hover */
-  .opti-underline { position: relative; }
-  .opti-underline:after { content:""; position:absolute; left:0; bottom:-.25em; width:0; height:3px; background: currentColor; opacity:.18; transition: width .4s ease; }
-  .opti-underline:hover:after { width: 55%; }
+  
+  
+  
 
   /* Body text */
   .opti-text { font-size: clamp(1rem, .95rem + .25vw, 1.125rem); }
@@ -45,7 +51,17 @@
   .opti-buttons .button:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(0,0,0,.1); }
 
   /* Respect reduced motion */
-  @media (prefers-reduced-motion: reduce) { .opti-brand { animation: none; } .opti-underline:after { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .opti-brand { animation: none; }  }
+  @keyframes opti-gradient-move { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+  @keyframes opti-drift {
+    0%   { transform: translateY(0) translateX(0) scale(1); }
+    20%  { transform: translateY(-2px) translateX(1px) scale(1.005); }
+    40%  { transform: translateY(1px) translateX(2px) scale(1.01); }
+    60%  { transform: translateY(-1px) translateX(-1px) scale(1.007); }
+    80%  { transform: translateY(2px) translateX(-2px) scale(1.003); }
+    100% { transform: translateY(0) translateX(0) scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce) { .opti-brand { animation: none; } }
 {%- endstyle -%}
 
 <div class="isolate{% unless section.settings.full_width %} page-width{% endunless %}">
@@ -55,7 +71,7 @@
         {%- for block in section.blocks -%}
           {%- case block.type -%}
             {%- when 'heading' -%}
-              <h2 class="opti-heading opti-underline rich-text__heading rte inline-richtext {{ block.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              <h2 class="opti-heading rich-text__heading rte inline-richtext {{ block.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                   {{ block.shopify_attributes }} {% if settings.animations_reveal_on_scroll %}data-cascade style="--animation-order: {{ forloop.index }};"{% endif %}>
                 {%- comment -%}
                   To animate only the word Optispar, wrap it: <span class="opti-brand">Optispar</span>
