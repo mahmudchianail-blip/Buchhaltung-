@@ -29,7 +29,6 @@
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
-
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
@@ -37,57 +36,111 @@
     }
   }
 
-  /* --- Übersicht (nur Kosmetik) --- */
-  #collection-{{ section.id }} .collection__title .title { margin-bottom: 0.25rem; }
-  #collection-{{ section.id }} .collection__divider {
-    margin: 0.5rem 0 1rem; border: 0; height: 1px; background: currentColor; opacity: .12;
-  }
-  #collection-{{ section.id }} .collection__description--clamp {
-    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  /* =========================================
+     MODERN & EINHEITLICH – nur in dieser Section
+     ========================================= */
+  #collection-{{ section.id }}{
+    --card-radius: 14px;
+    --card-shadow: 0 6px 20px rgba(0,0,0,.06);
+    --card-shadow-hover: 0 10px 30px rgba(0,0,0,.10);
+    --card-pad: 14px;
+    --title-lines: 2;
   }
 
-  /* ===============================
-     Einheitliche Bildgrößen (nur in dieser Section)
-     =============================== */
+  /* Titel / Subline optisch ruhiger */
+  #collection-{{ section.id }} .collection__title .title{margin-bottom:.25rem}
+  #collection-{{ section.id }} .collection__divider{
+    margin:.5rem 0 1rem;border:0;height:1px;background:currentColor;opacity:.12
+  }
+  #collection-{{ section.id }} .collection__description--clamp{
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden
+  }
+
+  /* Grid-Spaltenabstand etwas luftiger */
+  #collection-{{ section.id }} .product-grid{gap:18px}
+
+  /* Karte modernisieren (ohne Snippet anzufassen) */
+  #collection-{{ section.id }} .card--product{
+    border-radius:var(--card-radius);
+    overflow:hidden;
+    background:var(--color-base-background-1, #fff);
+    box-shadow:var(--card-shadow);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  {% if section.settings.modern_hover %}
+  #collection-{{ section.id }} .card--product:hover{
+    transform:translateY(-2px);
+    box-shadow:var(--card-shadow-hover);
+  }
+  {% endif %}
+
+  /* -----------------------------
+     Einheitliche Bilder (Aspect)
+     ----------------------------- */
   {% if section.settings.force_uniform_images %}
     {% assign ratio = '1/1' %}
-    {% if section.settings.uniform_ratio == 'portrait' %}
-      {% assign ratio = '3/4' %}
-    {% elsif section.settings.uniform_ratio == 'landscape' %}
-      {% assign ratio = '4/3' %}
+    {% if section.settings.uniform_ratio == 'portrait' %}{% assign ratio = '3/4' %}
+    {% elsif section.settings.uniform_ratio == 'landscape' %}{% assign ratio = '4/3' %}
     {% endif %}
 
-    /* Der Medien-Container der Produktkarte */
+    /* Hülle: echte Aspect-Ratio statt Padding-Hack */
     #collection-{{ section.id }} .card--product .card__media,
     #collection-{{ section.id }} .card--product .card__inner,
-    #collection-{{ section.id }} .card--product .media {
+    #collection-{{ section.id }} .card--product .media{
       aspect-ratio: {{ ratio }};
-      height: auto;
+      height:auto !important;
+      min-height:auto !important;
     }
+    /* Pseudo-Element von manchen Themes entfernen */
+    #collection-{{ section.id }} .card--product .media::before{content:none !important}
 
-    /* Das Bild selbst füllt die Fläche und wird sauber zugeschnitten */
+    /* Bild sauber zentriert + zugeschnitten */
     #collection-{{ section.id }} .card--product .media > img,
-    #collection-{{ section.id }} .card--product .media > picture > img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
+    #collection-{{ section.id }} .card--product .media picture > img{
+      width:100%;height:100%;
+      object-fit:cover;object-position:center;
+      display:block;
     }
+  {% endif %}
 
-    /* Falls das Theme mit Padding-Ratio arbeitet, sicherstellen, dass die Höhe nicht springt */
-    #collection-{{ section.id }} .card--product .media {
-      position: relative;
-    }
-    #collection-{{ section.id }} .card--product .media::before {
-      content: none !important;
-    }
+  /* -----------------------------
+     Einheitliche Kartenhöhen
+     ----------------------------- */
+  /* Innenleben mit Flex strukturieren – ohne Snippet zu ändern */
+  #collection-{{ section.id }} .card--product .card__content,
+  #collection-{{ section.id }} .card--product .card__information{
+    display:flex;flex-direction:column;gap:.35rem;padding:var(--card-pad)
+  }
+
+  /* Titel auf 2 Zeilen beschränken -> gleiche Höhe */
+  #collection-{{ section.id }} .card--product .card__heading,
+  #collection-{{ section.id }} .card--product .card__heading a{
+    display:-webkit-box;-webkit-box-orient:vertical;
+    -webkit-line-clamp:var(--title-lines);
+    overflow:hidden;text-overflow:ellipsis;
+    line-height:1.25
+  }
+
+  /* Preisblock nicht springen lassen */
+  #collection-{{ section.id }} .card--product .price{margin-top:.15rem}
+
+  /* Quick-Add / Buttons immer unten „kleben“ */
+  #collection-{{ section.id }} .card--product .card__content > *:last-child,
+  #collection-{{ section.id }} .card--product .card__information > *:last-child{
+    margin-top:auto
+  }
+
+  /* Sekundärbild sanft überblenden (falls aktiviert) */
+  {% if section.settings.show_secondary_image %}
+  #collection-{{ section.id }} .card--product .media > :is(img,picture){
+    transition:opacity .25s ease
+  }
+  #collection-{{ section.id }} .card--product:hover .media > :is(img,picture):first-child{opacity:0}
   {% endif %}
 {%- endstyle -%}
 
 {%- liquid
   assign products_to_display = section.settings.collection.all_products_count
-
   if section.settings.collection.all_products_count > section.settings.products_to_show
     assign products_to_display = section.settings.products_to_show
     assign more_in_collection = true
@@ -117,7 +170,7 @@
     id="collection-{{ section.id }}"
     data-id="{{ section.id }}"
   >
-    <!-- Übersicht: Titel -> Divider -> Beschreibung -->
+    <!-- Übersicht -->
     <div class="collection__title title-wrapper title-wrapper--no-top-margin page-width{% if show_mobile_slider %} title-wrapper--self-padded-tablet-down{% endif %}{% if show_desktop_slider %} collection__title--desktop-slider{% endif %}">
       {%- if section.settings.title != blank -%}
         <h2 class="title inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
@@ -269,9 +322,9 @@
   "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
     { "type": "collection", "id": "collection", "label": "t:sections.featured-collection.settings.collection.label" },
-    { "type": "range", "id": "products_to_show", "min": 2, "max": 25, "step": 1, "default": 4, "label": "t:sections.featured-collection.settings.products_to_show.label" },
+    { "type": "range", "id": "products_to_show", "min": 2, "max": 25, "step": 1, "default": 8, "label": "t:sections.featured-collection.settings.products_to_show.label" },
 
-    { "type": "header", "content": "t:sections.featured-collection.settings.header_text.content" },
+    { "type": "header", "content": "Überschrift" },
     { "type": "inline_richtext", "id": "title", "default": "t:sections.featured-collection.settings.title.default", "label": "t:sections.featured-collection.settings.title.label" },
     {
       "type": "select",
@@ -300,7 +353,7 @@
       "default": "body"
     },
 
-    { "type": "header", "content": "t:sections.featured-collection.settings.header_collection.content" },
+    { "type": "header", "content": "Darstellung" },
     { "type": "range", "id": "columns_desktop", "min": 1, "max": 6, "step": 1, "default": 4, "label": "t:sections.featured-collection.settings.columns_desktop.label" },
     { "type": "checkbox", "id": "enable_desktop_slider", "label": "t:sections.featured-collection.settings.enable_desktop_slider.label", "default": false },
     { "type": "checkbox", "id": "full_width", "label": "t:sections.featured-collection.settings.full_width.label", "default": false },
@@ -318,7 +371,22 @@
     },
     { "type": "color_scheme", "id": "color_scheme", "label": "t:sections.all.colors.label", "info": "t:sections.all.colors.has_cards_info", "default": "scheme-1" },
 
-    { "type": "header", "content": "t:sections.featured-collection.settings.header.content" },
+    { "type": "header", "content": "Bilder einheitlich & modern" },
+    { "type": "checkbox", "id": "force_uniform_images", "label": "Einheitliche Bildgrößen erzwingen", "default": true },
+    {
+      "type": "select",
+      "id": "uniform_ratio",
+      "label": "Bildformat",
+      "options": [
+        { "value": "square", "label": "Quadrat (1:1)" },
+        { "value": "portrait", "label": "Hochformat (3:4)" },
+        { "value": "landscape", "label": "Querformat (4:3)" }
+      ],
+      "default": "square"
+    },
+    { "type": "checkbox", "id": "modern_hover", "label": "Leichter Hover-Effekt", "default": true },
+
+    { "type": "header", "content": "Bilder/Shapes (Theme-Standard)" },
     {
       "type": "select",
       "id": "image_ratio",
@@ -349,17 +417,6 @@
     { "type": "checkbox", "id": "show_secondary_image", "default": false, "label": "t:sections.featured-collection.settings.show_secondary_image.label" },
     { "type": "checkbox", "id": "show_vendor", "default": false, "label": "t:sections.featured-collection.settings.show_vendor.label" },
     { "type": "checkbox", "id": "show_rating", "default": false, "label": "t:sections.featured-collection.settings.show_rating.label", "info": "t:sections.featured-collection.settings.show_rating.info" },
-    {
-      "type": "select",
-      "id": "quick_add",
-      "default": "none",
-      "label": "t:sections.main-collection-product-grid.settings.quick_add.label",
-      "options": [
-        { "value": "none", "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_1" },
-        { "value": "standard", "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_2" },
-        { "value": "bulk", "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_3" }
-      ]
-    },
 
     { "type": "header", "content": "t:sections.featured-collection.settings.header_mobile.content" },
     {
@@ -373,20 +430,6 @@
       ]
     },
     { "type": "checkbox", "id": "swipe_on_mobile", "default": false, "label": "t:sections.featured-collection.settings.swipe_on_mobile.label" },
-
-    { "type": "header", "content": "Einheitliche Bilder" },
-    { "type": "checkbox", "id": "force_uniform_images", "label": "Einheitliche Bildgrößen erzwingen", "default": true },
-    {
-      "type": "select",
-      "id": "uniform_ratio",
-      "label": "Bildformat",
-      "options": [
-        { "value": "square", "label": "Quadrat (1:1)" },
-        { "value": "portrait", "label": "Hochformat (3:4)" },
-        { "value": "landscape", "label": "Querformat (4:3)" }
-      ],
-      "default": "square"
-    },
 
     { "type": "header", "content": "t:sections.all.padding.section_padding_heading" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "t:sections.all.padding.padding_top", "default": 36 },
