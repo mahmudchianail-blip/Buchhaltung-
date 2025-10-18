@@ -49,7 +49,7 @@
     }
   }
 
-  /* ---------- Section Spacing (wie vorher, nur gekapselt) ---------- */
+  /* ---------- Section Spacing ---------- */
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
@@ -61,7 +61,7 @@
     }
   }
 
-  /* ---------- Header / Titel modern ---------- */
+  /* ---------- Header ---------- */
   .section-{{ section.id }}-wrap .collection__title {
     display: grid;
     gap: 8px;
@@ -77,12 +77,12 @@
     max-width: 70ch;
   }
 
-  /* ---------- Grid modernisieren ---------- */
+  /* ---------- Grid ---------- */
   .section-{{ section.id }}-wrap .product-grid {
     gap: var(--gap);
   }
 
-  /* ---------- Card Modern Look (ohne card-product.liquid anzufassen) ---------- */
+  /* ---------- Card ---------- */
   .section-{{ section.id }}-wrap .contains-card--product .card {
     border-radius: var(--card-radius);
     background: var(--card-bg);
@@ -99,7 +99,7 @@
     border-color: color-mix(in oklab, var(--color-foreground, #000) 18%, transparent);
   }
 
-  /* Bild-Zoom dezent */
+  /* Bild-Zoom */
   .section-{{ section.id }}-wrap .card__media img,
   .section-{{ section.id }}-wrap .card__inner img {
     transform: scale(1);
@@ -110,36 +110,24 @@
     transform: scale(1.04);
   }
 
-  /* ---------- Price & Buttons eleganter ---------- */
-  .section-{{ section.id }}-wrap .price {
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  }
+  /* Preis/Buttons */
+  .section-{{ section.id }}-wrap .price { font-weight: 700; letter-spacing: -0.01em; }
   .section-{{ section.id }}-wrap .button,
   .section-{{ section.id }}-wrap .button--secondary {
-    border-radius: 999px;
-    padding-inline: 18px;
-    min-height: 44px;
+    border-radius: 999px; padding-inline: 18px; min-height: 44px;
     box-shadow: 0 1px 1px rgb(0 0 0 / 0.05);
     transition: transform .18s ease, box-shadow .18s ease;
   }
-  .section-{{ section.id }}-wrap .button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 20px rgb(0 0 0 / 0.08);
-  }
+  .section-{{ section.id }}-wrap .button:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgb(0 0 0 / 0.08); }
 
-  /* ---------- Slider Buttons: pill + glass ---------- */
-  .section-{{ section.id }}-wrap .slider-buttons {
-    gap: 12px;
-    align-items: center;
-  }
+  /* Slider Buttons */
+  .section-{{ section.id }}-wrap .slider-buttons { gap: 12px; align-items: center; }
   .section-{{ section.id }}-wrap .slider-button {
     border-radius: 999px;
     background: color-mix(in oklab, var(--card-bg) 68%, transparent);
     border: 1px solid var(--card-border);
     box-shadow: var(--card-shadow);
-    width: 44px;
-    height: 44px;
+    width: 44px; height: 44px;
     transition: transform .18s ease, background .2s ease, border-color .2s ease;
     backdrop-filter: saturate(1.1) blur(6px);
   }
@@ -147,59 +135,39 @@
     transform: translateY(-1px);
     border-color: color-mix(in oklab, var(--color-foreground, #000) 20%, transparent);
   }
-  .section-{{ section.id }}-wrap .slider-counter {
-    font-weight: 600;
-    opacity: .85;
+  .section-{{ section.id }}-wrap .slider-counter { font-weight: 600; opacity: .85; }
+
+  /* View-all Button */
+  .section-{{ section.id }}-wrap .collection__view-all :where(.button,.button--secondary,.link) {
+    border-radius: 999px; padding-inline: 20px; min-height: 46px;
   }
 
-  /* ---------- „Alle anzeigen“-Button modern ---------- */
-  .section-{{ section.id }}-wrap .collection__view-all .button,
-  .section-{{ section.id }}-wrap .collection__view-all .button--secondary,
-  .section-{{ section.id }}-wrap .collection__view-all .link {
-    border-radius: 999px;
-    padding-inline: 20px;
-    min-height: 46px;
+  /* Focus */
+  .section-{{ section.id }}-wrap :where(a,button,[role="button"]):focus-visible {
+    outline: none; box-shadow: var(--ring-strong); border-radius: 12px;
   }
 
-  /* ---------- Better focus states ---------- */
-  .section-{{ section.id }}-wrap :where(a, button, [role="button"]):focus-visible {
-    outline: none;
-    box-shadow: var(--ring-strong);
-    border-radius: 12px;
-  }
-
-  /* ---------- Motion safe ---------- */
-  @media (prefers-reduced-motion: reduce) {
-    .section-{{ section.id }}-wrap * {
-      transition: none !important;
-      animation: none !important;
+  /* FIX: Immer 4 Spalten auf Desktop + Slider-Breite */
+  @media (min-width: 990px) {
+    #collection-{{ section.id }} .product-grid.grid--4-col-desktop {
+      grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    }
+    #collection-{{ section.id }} .product-grid.grid--4-col-desktop > .grid__item {
+      width: auto !important; min-width: 0 !important; flex: 0 0 auto !important;
+    }
+    #collection-{{ section.id }} .slider--desktop .grid__item.slider__slide {
+      flex: 0 0 25% !important; max-width: 25% !important;
     }
   }
-{%- endstyle -%}
-/* ---- FIX: Erzwinge 4 Spalten auf Desktop & entferne versteckte Mindestbreiten ---- */
-@media (min-width: 990px) {
-  #collection-{{ section.id }} .product-grid.grid--4-col-desktop {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-  }
-  #collection-{{ section.id }} .product-grid.grid--4-col-desktop > .grid__item {
-    width: auto !important;
-    min-width: 0 !important;
-    flex: 0 0 auto !important; /* falls ein Flex-Fallback greift */
-  }
-}
 
-/* Optional (nur wenn ein Slider aktiv ist und 3 Kacheln zeigt): 
-   mache die Slides breiter, damit 4 sichtbar sind */
-@media (min-width: 990px) {
-  #collection-{{ section.id }} .slider--desktop .grid__item.slider__slide {
-    flex: 0 0 calc(25%) !important;
-    max-width: calc(25%) !important;
+  /* Motion safe */
+  @media (prefers-reduced-motion: reduce) {
+    .section-{{ section.id }}-wrap * { transition: none !important; animation: none !important; }
   }
-}
+{%- endstyle -%}
 
 {%- liquid
   assign products_to_display = section.settings.collection.all_products_count
-
   if section.settings.collection.all_products_count > section.settings.products_to_show
     assign products_to_display = section.settings.products_to_show
     assign more_in_collection = true
@@ -229,16 +197,13 @@
     id="collection-{{ section.id }}"
     data-id="{{ section.id }}"
   >
-    <div class="collection__title title-wrapper title-wrapper--no-top-margin page-width{% if show_mobile_slider %} title-wrapper--self-padded-tablet-down{% endif %}{% if show_desktop_slider %} collection__title--desktop-slider{% endif %}">
+    <div class="collection__title title-wrapper title-wrapper--no-top-margin{% unless section.settings.full_width %} page-width{% endunless %}{% if show_mobile_slider %} title-wrapper--self-padded-tablet-down{% endif %}{% if show_desktop_slider %} collection__title--desktop-slider{% endif %}">
       {%- if section.settings.title != blank -%}
         <h2 class="title inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
           {{ section.settings.title }}
         </h2>
       {%- endif -%}
-      {%- if section.settings.description != blank
-        or section.settings.show_description
-        and section.settings.collection.description != empty
-      -%}
+      {%- if section.settings.description != blank or section.settings.show_description and section.settings.collection.description != empty -%}
         <div class="collection__description {{ section.settings.description_style }} rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
           {%- if section.settings.show_description -%}
             {{ section.settings.collection.description }}
@@ -249,7 +214,8 @@
       {%- endif -%}
     </div>
 
-    <slider-component class="slider-mobile-gutter{% if section.settings.full_width %} slider-component-full-width{% endif %}{% if show_mobile_slider == false %} page-width{% endif %}{% if show_desktop_slider == false and section.settings.full_width == false %} page-width-desktop{% endif %}{% if show_desktop_slider %} slider-component-desktop{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+    <!-- page-width nur, wenn NICHT Full width -->
+    <slider-component class="slider-mobile-gutter{% if section.settings.full_width %} slider-component-full-width{% endif %}{% if show_mobile_slider == false and section.settings.full_width == false %} page-width{% endif %}{% if show_desktop_slider == false and section.settings.full_width == false %} page-width-desktop{% endif %}{% if show_desktop_slider %} slider-component-desktop{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
       <ul
         id="Slider-{{ section.id }}"
         data-id="{{ section.id }}"
@@ -378,9 +344,7 @@
   "name": "t:sections.featured-collection.name",
   "tag": "section",
   "class": "section",
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
+  "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
     { "type": "collection", "id": "collection", "label": "t:sections.featured-collection.settings.collection.label" },
     { "type": "range", "id": "products_to_show", "min": 2, "max": 25, "step": 1, "default": 4, "label": "t:sections.featured-collection.settings.products_to_show.label" },
@@ -418,7 +382,8 @@
         { "value": "link", "label": "t:sections.featured-collection.settings.view_all_style.options__1.label" },
         { "value": "outline", "label": "t:sections.featured-collection.settings.view_all_style.options__2.label" },
         { "value": "solid", "label": "t:sections.featured-collection.settings.view_all_style.options__3.label" }
-      ], "default": "solid"
+      ],
+      "default": "solid"
     },
     { "type": "color_scheme", "id": "color_scheme", "label": "t:sections.all.colors.label", "info": "t:sections.all.colors.has_cards_info", "default": "scheme-1" },
 
