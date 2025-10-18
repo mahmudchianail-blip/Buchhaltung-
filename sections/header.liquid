@@ -441,7 +441,8 @@
   padding-left: clamp(12px, 2.4vw, 40px);
   padding-right: clamp(12px, 2.4vw, 40px);
   border-radius: var(--pill-radius) !important;
-  background: color-mix(in srgb, var(--color-background,#fff) 96%, transparent) !important;
+  background-color: rgba(var(--color-background), 0.92) !important;
+  background: color-mix(in srgb, var(--color-background,#fff) 92%, rgba(17, 17, 17, 0.18)) !important;
   box-shadow: var(--pill-shadow) !important;
   border: 1px solid var(--pill-border) !important;
   backdrop-filter: saturate(140%) blur(6px);
@@ -451,9 +452,10 @@
 
 /* Sticky feiner */
 .shopify-section-header-sticky .header{
-  background: color-mix(in srgb, var(--color-background,#fff) 98%, transparent) !important;
+  background-color: rgba(var(--color-background), 0.96) !important;
+  background: color-mix(in srgb, var(--color-background,#fff) 88%, rgba(17, 17, 17, 0.22)) !important;
   box-shadow: var(--pill-shadow-sticky) !important;
-  border-color: color-mix(in srgb, var(--pill-border) 85%, #000 0%) !important;
+  border-color: color-mix(in srgb, var(--pill-border) 85%, rgba(17, 17, 17, 0.45)) !important;
 }
 
 /* Desktop-Grid (Logo – Menü – Icons) */
