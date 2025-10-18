@@ -124,7 +124,6 @@
   "imports": {
     "react-dom/client": "https://aistudiocdn.com/react-dom@^19.2.0/client",
     "react": "https://aistudiocdn.com/react@^19.2.0",
-    "three": "https://aistudiocdn.com/three@^0.166.1",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
     "react/": "https://aistudiocdn.com/react@^19.2.0/"
   }
@@ -136,80 +135,8 @@
     <script type="module">
       import React from 'react';
       import ReactDOM from 'react-dom/client';
-      import * as THREE from 'three';
 
       const { useState, useEffect, useRef } = React;
-
-      // --- StarsCanvas Component ---
-
-      const StarsCanvas = () => {
-        const canvasRef = useRef(null);
-
-        useEffect(() => {
-          const currentCanvas = canvasRef.current;
-          if (!currentCanvas) return;
-
-          const scene = new THREE.Scene();
-          const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-          const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-
-          renderer.setClearColor(0x000000, 0);
-          renderer.setSize(window.innerWidth, window.innerHeight);
-          renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-          currentCanvas.appendChild(renderer.domElement);
-          
-          const starsGeometry = new THREE.BufferGeometry();
-          const starsVertices = [];
-          for (let i = 0; i < 5000; i++) {
-              const x = (Math.random() - 0.5) * 2000;
-              const y = (Math.random() - 0.5) * 2000;
-              const z = (Math.random() - 0.5) * 2000;
-              starsVertices.push(x, y, z);
-          }
-          starsGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starsVertices, 3));
-
-          const starsMaterial = new THREE.PointsMaterial({
-              color: 0x915eff,
-              size: 1.5,
-              transparent: true,
-              opacity: 0.8,
-              blending: THREE.AdditiveBlending
-          });
-
-          const stars = new THREE.Points(starsGeometry, starsMaterial);
-          scene.add(stars);
-
-          camera.position.z = 1;
-
-          let animationFrameId;
-          const animate = () => {
-              animationFrameId = requestAnimationFrame(animate);
-              stars.rotation.x += 0.0002;
-              stars.rotation.y += 0.0002;
-              renderer.render(scene, camera);
-          };
-          animate();
-
-          const handleResize = () => {
-              camera.aspect = window.innerWidth / window.innerHeight;
-              camera.updateProjectionMatrix();
-              renderer.setSize(window.innerWidth, window.innerHeight);
-          };
-
-          window.addEventListener('resize', handleResize);
-
-          return () => {
-              cancelAnimationFrame(animationFrameId);
-              window.removeEventListener('resize', handleResize);
-              if (currentCanvas && renderer.domElement.parentElement) {
-                  currentCanvas.removeChild(renderer.domElement);
-              }
-          };
-        }, []);
-
-        return React.createElement('div', { ref: canvasRef, className: "w-full h-auto fixed inset-0 z-[-1] pointer-events-none" });
-      };
-
 
       // --- Loader Component ---
 
@@ -229,7 +156,7 @@
           'div',
           {
             style: { animation: `fade-out 0.5s ${fadeOutDelay}s forwards` },
-            className: "fixed inset-0 z-[9999] flex items-center justify-center bg-[#0a0315] select-none",
+            className: "fixed inset-0 z-[9999] flex items-center justify-center bg-white select-none",
             'aria-live': "polite",
             'aria-label': "Lade Optispar"
           },
@@ -325,18 +252,17 @@
             }
           } : { style: { opacity: 0 }};
 
-          return React.createElement('section', { className: "relative bg-[#0a0315] text-white overflow-hidden" },
-            React.createElement(StarsCanvas),
+          return React.createElement('section', { className: "relative bg-white text-gray-900 overflow-hidden" },
             React.createElement('div', { className: "relative z-20 min-h-screen flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8" },
-              React.createElement('h1', { className: "text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-200", ...animationProps('0s') }, "Willkommen bei"),
-              React.createElement('h2', { className: "text-6xl sm:text-7xl md:text-8xl font-extrabold my-3 bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-500 via-purple-600 to-pink-500 [text-shadow:0_0_25px_rgba(228,95,188,0.6)]", ...brandAnimationProps() }, "Optispar"),
+              React.createElement('h1', { className: "text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-800", ...animationProps('0s') }, "Willkommen bei"),
+              React.createElement('h2', { className: "text-6xl sm:text-7xl md:text-8xl font-extrabold my-3 bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-500 via-purple-600 to-pink-500 [text-shadow:0_0_15px_rgba(228,95,188,0.4)]", ...brandAnimationProps() }, "Optispar"),
               React.createElement('div', { className: "h-10", ...animationProps('0.5s') },
-                React.createElement('p', { className: "text-2xl sm:text-3xl font-light text-gray-300" },
+                React.createElement('p', { className: "text-2xl sm:text-3xl font-light text-gray-600" },
                   React.createElement('span', null, text),
                   React.createElement('span', { className: "cursor-blink font-light" }, "|")
                 )
               ),
-              React.createElement('p', { className: "mt-6 max-w-2xl text-lg text-gray-400 leading-relaxed", ...animationProps('0.7s') }, "Ihr zuverlässiger Partner für sorgfältig ausgewählte Produkte, die Ihren Alltag erleichtern und bereichern."),
+              React.createElement('p', { className: "mt-6 max-w-2xl text-lg text-gray-500 leading-relaxed", ...animationProps('0.7s') }, "Ihr zuverlässiger Partner für sorgfältig ausgewählte Produkte, die Ihren Alltag erleichtern und bereichern."),
               React.createElement('div', { className: "mt-8 flex justify-center", ...animationProps('0.9s') },
                 React.createElement('a', { href: "#", className: "inline-block bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-[length:200%_auto] text-white font-semibold py-3 px-10 rounded-full shadow-lg transform transition-all duration-500 ease-in-out hover:scale-105 hover:bg-right hover:shadow-2xl hover:shadow-purple-500/50 hover:brightness-110" }, "Jetzt Einkaufen")
               )
@@ -358,7 +284,7 @@
 
         return React.createElement(
           'div',
-          { className: "bg-[#0a0315] text-gray-800 font-sans" },
+          { className: "bg-white text-gray-900 font-sans" },
           React.createElement(Loader, { isLoading }),
           React.createElement(
             'div',
