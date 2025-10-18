@@ -82,7 +82,7 @@
   }
 
   .section-header {
-    position: sticky; /* This is for fixing a Safari z-index issue. PR #2147 */
+    position: sticky; /* Safari z-index fix */
     margin-bottom: {{ section.settings.margin_bottom | times: 0.75 | round: 0 }}px;
   }
 
@@ -314,9 +314,7 @@
 
 {% javascript %}
   class StickyHeader extends HTMLElement {
-    constructor() {
-      super();
-    }
+    constructor() { super(); }
 
     connectedCallback() {
       this.header = document.querySelector('.section-header');
@@ -379,11 +377,7 @@
           requestAnimationFrame(this.reveal.bind(this));
         } else {
           window.clearTimeout(this.isScrolling);
-
-          this.isScrolling = setTimeout(() => {
-            this.preventReveal = false;
-          }, 66);
-
+          this.isScrolling = setTimeout(() => { this.preventReveal = false; }, 66);
           requestAnimationFrame(this.hide.bind(this));
         }
       } else if (scrollTop <= this.headerBounds.top) {
@@ -466,11 +460,26 @@
   </script>
 {%- endif -%}
 
-/* =========================================================
-   MODERNER HEADER – CSS-OVERRIDES (kein HTML geändert)
-   ========================================================= */
 <style>
-  /* 1) Dreispaltiges Layout (Desktop): Logo links, Menü zentriert, Icons rechts */
+  /* ============================
+     MODERNER HEADER – OVERRIDES
+     (nur CSS; kein HTML geändert)
+     ============================ */
+
+  /* 0) Sicherheit: visuell versteckte Texte wirklich verstecken (Screenreader behalten) */
+  .visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  /* 1) Desktop: Logo links, Menü zentriert, Icons rechts */
   @media (min-width: 990px) {
     .header.page-width {
       display: grid;
@@ -479,16 +488,11 @@
       align-items: center;
       gap: 1.25rem;
     }
-
-    /* Logo-Block (nutzt bestehenden Wrapper/Heading) */
     .header .header__heading,
     .header .header__heading-link,
-    .header .header__heading-logo-wrapper {
-      grid-area: logo;
-    }
+    .header .header__heading-logo-wrapper { grid-area: logo; }
     .header .header__heading { margin: 0; }
 
-    /* Menü (Dawn rendert .header__inline-menu über Snippets) */
     .header .header__inline-menu {
       grid-area: nav;
       justify-self: center;
@@ -497,7 +501,6 @@
       align-items: center;
     }
 
-    /* Icons & Suche */
     .header .header__icons {
       grid-area: actions;
       justify-self: end;
@@ -507,24 +510,25 @@
     }
   }
 
-  /* 2) Moderne Navigation mit Underline-Hover */
+  /* 2) Menü-Hover Underline (dezent, modern) */
   @media (min-width: 990px) {
     .header .header__inline-menu .list-menu__item--link {
       position: relative;
       font-weight: 600;
       letter-spacing: .02em;
       text-decoration: none;
-      padding: .6rem 0; /* kompakter */
+      padding: .6rem 0;
+      transition: color .18s ease;
     }
     .header .header__inline-menu .list-menu__item--link::after {
       content: "";
       position: absolute;
-      left: 0; bottom: -4px;
+      left: 0; bottom: -6px;
       width: 100%; height: 2px;
       transform: scaleX(0);
       transform-origin: left;
       background: currentColor;
-      opacity: .6;
+      opacity: .65;
       transition: transform .22s ease;
     }
     .header .header__inline-menu .list-menu__item--link:hover::after,
@@ -533,19 +537,21 @@
     }
   }
 
-  /* 3) Sticky-Polish + Shadow beim Scrollen (nutzt vorhandene Klassen) */
+  /* 3) Sticky: ruhiger, ohne Flackern */
+  .header-wrapper { z-index: 10; } /* über Content */
   .shopify-section-header-sticky .header {
-    backdrop-filter: saturate(180%) blur(8px);
-    box-shadow: 0 8px 24px rgba(0,0,0,.06);
+    background: var(--color-background, #fff);
+    box-shadow: 0 10px 30px rgba(0,0,0,.07);
+    transition: box-shadow .25s ease, background .25s ease, padding .25s ease;
+    will-change: box-shadow, background;
   }
-  /* Logo leicht verkleinern, wenn über Header gescrolled wird */
   .scrolled-past-header .header__heading-logo-wrapper {
-    transform: scale(.9);
+    transform: scale(.94);
     transform-origin: left center;
     transition: transform .25s ease;
   }
 
-  /* 4) Kompaktere Icons als moderne Buttons */
+  /* 4) Icon-Buttons sauber */
   .header .header__icons .link.focus-inset,
   .header .header__icons a.header__icon {
     position: relative;
@@ -554,45 +560,32 @@
     justify-content: center;
     width: 40px; height: 40px;
     border-radius: 999px;
-    border: 1px solid var(--color-foreground-20, rgba(0,0,0,.12));
-    transition: transform .15s ease, background .15s ease;
+    border: 1px solid var(--color-foreground-20, rgba(0,0,0,.14));
+    transition: transform .15s ease, background .15s ease, border-color .15s ease;
+    backdrop-filter: none;
   }
   .header .header__icons .link.focus-inset:hover,
   .header .header__icons a.header__icon:hover {
-    background: var(--color-background-contrast, rgba(0,0,0,.04));
+    background: var(--color-background-contrast, rgba(0,0,0,.05));
   }
   .header .header__icons .link.focus-inset:active,
-  .header .header__icons a.header__icon:active {
-    transform: scale(.98);
-  }
-  /* Cart-Badge besser positionieren */
+  .header .header__icons a.header__icon:active { transform: scale(.98); }
+
+  /* Cart-Badge positionieren */
   #cart-icon-bubble .cart-count-bubble {
     position: absolute;
     top: -6px; right: -6px;
   }
 
-  /* 5) Suche dezenter (greift auf dein bestehendes Search-Modal/Input) */
+  /* 5) Suche im Modal/input dezenter (greift vorhandene Felder) */
   details-modal .search__input,
   predictive-search input[type="search"] {
     border-radius: 999px;
     padding: .7rem 1rem;
-    border: 1px solid var(--color-foreground-20, rgba(0,0,0,.12));
+    border: 1px solid var(--color-foreground-20, rgba(0,0,0,.14));
   }
 
-  /* 6) Announcement-Bar (optional) – nur aktiv, wenn du dem Wrapper
-        zusätzlich die Klasse 'announcement--modern' gibst */
-  .header-wrapper.announcement--modern::before {
-    content: "🚚 Versandbereit · Verpackt mit Liebe · Heute bestellen, schnell geliefert.";
-    display: block;
-    background: #13a10e; /* Optispar-Grün anpassen */
-    color: #fff;
-    font-weight: 700;
-    letter-spacing: .02em;
-    text-align: center;
-    padding: .5rem 1rem;
-  }
-
-  /* 7) Kleine Abstands-Optimierungen */
+  /* 6) angenehme Seitenränder */
   .header { padding-left: 1.5rem; padding-right: 1.5rem; }
   @media (min-width: 990px) {
     .header { padding-left: 3rem; padding-right: 3rem; }
@@ -609,22 +602,10 @@
       "type": "select",
       "id": "logo_position",
       "options": [
-        {
-          "value": "top-left",
-          "label": "t:sections.header.settings.logo_position.options__2.label"
-        },
-        {
-          "value": "top-center",
-          "label": "t:sections.header.settings.logo_position.options__3.label"
-        },
-        {
-          "value": "middle-left",
-          "label": "t:sections.header.settings.logo_position.options__1.label"
-        },
-        {
-          "value": "middle-center",
-          "label": "t:sections.header.settings.logo_position.options__4.label"
-        }
+        { "value": "top-left", "label": "t:sections.header.settings.logo_position.options__2.label" },
+        { "value": "top-center", "label": "t:sections.header.settings.logo_position.options__3.label" },
+        { "value": "middle-left", "label": "t:sections.header.settings.logo_position.options__1.label" },
+        { "value": "middle-center", "label": "t:sections.header.settings.logo_position.options__4.label" }
       ],
       "default": "middle-left",
       "label": "t:sections.header.settings.logo_position.label",
@@ -634,14 +615,8 @@
       "type": "select",
       "id": "mobile_logo_position",
       "options": [
-        {
-          "value": "center",
-          "label": "t:sections.header.settings.mobile_logo_position.options__1.label"
-        },
-        {
-          "value": "left",
-          "label": "t:sections.header.settings.mobile_logo_position.options__2.label"
-        }
+        { "value": "center", "label": "t:sections.header.settings.mobile_logo_position.options__1.label" },
+        { "value": "left", "label": "t:sections.header.settings.mobile_logo_position.options__2.label" }
       ],
       "default": "center",
       "label": "t:sections.header.settings.mobile_logo_position.label"
@@ -656,18 +631,9 @@
       "type": "select",
       "id": "menu_type_desktop",
       "options": [
-        {
-          "value": "dropdown",
-          "label": "t:sections.header.settings.menu_type_desktop.options__1.label"
-        },
-        {
-          "value": "mega",
-          "label": "t:sections.header.settings.menu_type_desktop.options__2.label"
-        },
-        {
-          "value": "drawer",
-          "label": "t:sections.header.settings.menu_type_desktop.options__3.label"
-        }
+        { "value": "dropdown", "label": "t:sections.header.settings.menu_type_desktop.options__1.label" },
+        { "value": "mega", "label": "t:sections.header.settings.menu_type_desktop.options__2.label" },
+        { "value": "drawer", "label": "t:sections.header.settings.menu_type_desktop.options__3.label" }
       ],
       "default": "dropdown",
       "label": "t:sections.header.settings.menu_type_desktop.label"
@@ -676,22 +642,10 @@
       "type": "select",
       "id": "sticky_header_type",
       "options": [
-        {
-          "value": "none",
-          "label": "t:sections.header.settings.sticky_header_type.options__1.label"
-        },
-        {
-          "value": "on-scroll-up",
-          "label": "t:sections.header.settings.sticky_header_type.options__2.label"
-        },
-        {
-          "value": "always",
-          "label": "t:sections.header.settings.sticky_header_type.options__3.label"
-        },
-        {
-          "value": "reduce-logo-size",
-          "label": "t:sections.header.settings.sticky_header_type.options__4.label"
-        }
+        { "value": "none", "label": "t:sections.header.settings.sticky_header_type.options__1.label" },
+        { "value": "on-scroll-up", "label": "t:sections.header.settings.sticky_header_type.options__2.label" },
+        { "value": "always", "label": "t:sections.header.settings.sticky_header_type.options__3.label" },
+        { "value": "reduce-logo-size", "label": "t:sections.header.settings.sticky_header_type.options__4.label" }
       ],
       "default": "on-scroll-up",
       "label": "t:sections.header.settings.sticky_header_type.label"
@@ -702,90 +656,19 @@
       "default": true,
       "label": "t:sections.header.settings.show_line_separator.label"
     },
-    {
-      "type": "header",
-      "content": "t:sections.header.settings.header__1.content"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "default": "scheme-1"
-    },
-    {
-      "type": "color_scheme",
-      "id": "menu_color_scheme",
-      "label": "t:sections.header.settings.menu_color_scheme.label",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.header.settings.header__utilities.content"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_country_selector",
-      "default": true,
-      "label": "t:sections.header.settings.enable_country_selector.label",
-      "info": "t:sections.header.settings.enable_country_selector.info"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_language_selector",
-      "default": true,
-      "label": "t:sections.header.settings.enable_language_selector.label",
-      "info": "t:sections.header.settings.enable_language_selector.info"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_customer_avatar",
-      "default": true,
-      "label": "t:sections.header.settings.enable_customer_avatar.label",
-      "info": "t:sections.header.settings.enable_customer_avatar.info"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.all.spacing"
-    },
-    {
-      "type": "range",
-      "id": "margin_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.header.settings.margin_bottom.label",
-      "default": 0
-    },
-    {
-      "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 36,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
-      "default": 20
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 36,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
-      "default": 20
-    }
+    { "type": "header", "content": "t:sections.header.settings.header__1.content" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "t:sections.all.colors.label", "default": "scheme-1" },
+    { "type": "color_scheme", "id": "menu_color_scheme", "label": "t:sections.header.settings.menu_color_scheme.label", "default": "scheme-1" },
+    { "type": "header", "content": "t:sections.header.settings.header__utilities.content" },
+    { "type": "checkbox", "id": "enable_country_selector", "default": true, "label": "t:sections.header.settings.enable_country_selector.label", "info": "t:sections.header.settings.enable_country_selector.info" },
+    { "type": "checkbox", "id": "enable_language_selector", "default": true, "label": "t:sections.header.settings.enable_language_selector.label", "info": "t:sections.header.settings.enable_language_selector.info" },
+    { "type": "checkbox", "id": "enable_customer_avatar", "default": true, "label": "t:sections.header.settings.enable_customer_avatar.label", "info": "t:sections.header.settings.enable_customer_avatar.info" },
+    { "type": "header", "content": "t:sections.all.spacing" },
+    { "type": "range", "id": "margin_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "t:sections.header.settings.margin_bottom.label", "default": 0 },
+    { "type": "header", "content": "t:sections.all.padding.section_padding_heading" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 36, "step": 4, "unit": "px", "label": "t:sections.all.padding.padding_top", "default": 20 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 36, "step": 4, "unit": "px", "label": "t:sections.all.padding.padding_bottom", "default": 20 }
   ],
-  "blocks": [
-    {
-      "type": "@app"
-    }
-  ]
+  "blocks": [{ "type": "@app" }]
 }
 {% endschema %}
