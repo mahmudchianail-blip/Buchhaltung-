@@ -176,6 +176,26 @@
     }
   }
 {%- endstyle -%}
+/* ---- FIX: Erzwinge 4 Spalten auf Desktop & entferne versteckte Mindestbreiten ---- */
+@media (min-width: 990px) {
+  #collection-{{ section.id }} .product-grid.grid--4-col-desktop {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+  #collection-{{ section.id }} .product-grid.grid--4-col-desktop > .grid__item {
+    width: auto !important;
+    min-width: 0 !important;
+    flex: 0 0 auto !important; /* falls ein Flex-Fallback greift */
+  }
+}
+
+/* Optional (nur wenn ein Slider aktiv ist und 3 Kacheln zeigt): 
+   mache die Slides breiter, damit 4 sichtbar sind */
+@media (min-width: 990px) {
+  #collection-{{ section.id }} .slider--desktop .grid__item.slider__slide {
+    flex: 0 0 calc(25%) !important;
+    max-width: calc(25%) !important;
+  }
+}
 
 {%- liquid
   assign products_to_display = section.settings.collection.all_products_count
