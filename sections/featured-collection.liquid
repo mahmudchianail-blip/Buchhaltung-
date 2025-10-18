@@ -36,6 +36,24 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  /* --- leichte Layout-Verbesserung nur für die Übersicht --- */
+  #collection-{{ section.id }} .collection__title .title {
+    margin-bottom: 0.25rem;
+  }
+  #collection-{{ section.id }} .collection__divider {
+    margin: 0.5rem 0 1rem;
+    border: 0;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.12;
+  }
+  #collection-{{ section.id }} .collection__description--clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 {%- endstyle -%}
 
 {%- liquid
@@ -72,17 +90,20 @@
     id="collection-{{ section.id }}"
     data-id="{{ section.id }}"
   >
+    <!-- ÜBERSICHT: Titel -> Divider -> Beschreibung (nur Reihenfolge & kleine Styles geändert) -->
     <div class="collection__title title-wrapper title-wrapper--no-top-margin page-width{% if show_mobile_slider %} title-wrapper--self-padded-tablet-down{% endif %}{% if show_desktop_slider %} collection__title--desktop-slider{% endif %}">
       {%- if section.settings.title != blank -%}
         <h2 class="title inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
           {{ section.settings.title }}
         </h2>
       {%- endif -%}
+
       {%- if section.settings.description != blank
         or section.settings.show_description
         and section.settings.collection.description != empty
       -%}
-        <div class="collection__description {{ section.settings.description_style }} rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        <hr class="collection__divider{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+        <div class="collection__description {{ section.settings.description_style }} collection__description--clamp rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
           {%- if section.settings.show_description -%}
             {{ section.settings.collection.description }}
           {%- else -%}
@@ -236,11 +257,11 @@
       "step": 1,
       "default": 4,
       "label": "t:sections.featured-collection.settings.products_to_show.label"
-    },     
+    },
     {
       "type": "header",
       "content": "t:sections.featured-collection.settings.header_text.content"
-    },   
+    },
     {
       "type": "inline_richtext",
       "id": "title",
@@ -251,26 +272,11 @@
       "type": "select",
       "id": "heading_size",
       "options": [
-        {
-          "value": "h2",
-          "label": "t:sections.all.heading_size.options__1.label"
-        },
-        {
-          "value": "h1",
-          "label": "t:sections.all.heading_size.options__2.label"
-        },
-        {
-          "value": "h0",
-          "label": "t:sections.all.heading_size.options__3.label"
-        },
-        {
-          "value": "hxl",
-          "label": "t:sections.all.heading_size.options__4.label"
-        },
-        {
-          "value": "hxxl",
-          "label": "t:sections.all.heading_size.options__5.label"
-        }
+        { "value": "h2", "label": "t:sections.all.heading_size.options__1.label" },
+        { "value": "h1", "label": "t:sections.all.heading_size.options__2.label" },
+        { "value": "h0", "label": "t:sections.all.heading_size.options__3.label" },
+        { "value": "hxl", "label": "t:sections.all.heading_size.options__4.label" },
+        { "value": "hxxl", "label": "t:sections.all.heading_size.options__5.label" }
       ],
       "default": "h1",
       "label": "t:sections.all.heading_size.label"
@@ -284,32 +290,23 @@
       "type": "checkbox",
       "id": "show_description",
       "label": "t:sections.featured-collection.settings.show_description.label",
-      "default": false   
+      "default": false
     },
     {
       "type": "select",
       "id": "description_style",
       "label": "t:sections.featured-collection.settings.description_style.label",
       "options": [
-        {
-          "value": "body",
-          "label": "t:sections.featured-collection.settings.description_style.options__1.label"
-        },
-        {
-          "value": "subtitle",
-          "label": "t:sections.featured-collection.settings.description_style.options__2.label"
-        },
-        {
-          "value": "uppercase",
-          "label": "t:sections.featured-collection.settings.description_style.options__3.label"
-        }
+        { "value": "body", "label": "t:sections.featured-collection.settings.description_style.options__1.label" },
+        { "value": "subtitle", "label": "t:sections.featured-collection.settings.description_style.options__2.label" },
+        { "value": "uppercase", "label": "t:sections.featured-collection.settings.description_style.options__3.label" }
       ],
       "default": "body"
     },
     {
       "type": "header",
       "content": "t:sections.featured-collection.settings.header_collection.content"
-    },    
+    },
     {
       "type": "range",
       "id": "columns_desktop",
@@ -319,7 +316,7 @@
       "default": 4,
       "label": "t:sections.featured-collection.settings.columns_desktop.label"
     },
-        {
+    {
       "type": "checkbox",
       "id": "enable_desktop_slider",
       "label": "t:sections.featured-collection.settings.enable_desktop_slider.label",
@@ -343,21 +340,12 @@
       "id": "view_all_style",
       "label": "t:sections.featured-collection.settings.view_all_style.label",
       "options": [
-        {
-          "value": "link",
-          "label": "t:sections.featured-collection.settings.view_all_style.options__1.label"
-        },
-        {
-          "value": "outline",
-          "label": "t:sections.featured-collection.settings.view_all_style.options__2.label"
-        },
-        {
-          "value": "solid",
-          "label": "t:sections.featured-collection.settings.view_all_style.options__3.label"
-        }
+        { "value": "link", "label": "t:sections.featured-collection.settings.view_all_style.options__1.label" },
+        { "value": "outline", "label": "t:sections.featured-collection.settings.view_all_style.options__2.label" },
+        { "value": "solid", "label": "t:sections.featured-collection.settings.view_all_style.options__3.label" }
       ],
       "default": "solid"
-    }, 
+    },
     {
       "type": "color_scheme",
       "id": "color_scheme",
@@ -373,18 +361,9 @@
       "type": "select",
       "id": "image_ratio",
       "options": [
-        {
-          "value": "adapt",
-          "label": "t:sections.featured-collection.settings.image_ratio.options__1.label"
-        },
-        {
-          "value": "portrait",
-          "label": "t:sections.featured-collection.settings.image_ratio.options__2.label"
-        },
-        {
-          "value": "square",
-          "label": "t:sections.featured-collection.settings.image_ratio.options__3.label"
-        }
+        { "value": "adapt", "label": "t:sections.featured-collection.settings.image_ratio.options__1.label" },
+        { "value": "portrait", "label": "t:sections.featured-collection.settings.image_ratio.options__2.label" },
+        { "value": "square", "label": "t:sections.featured-collection.settings.image_ratio.options__3.label" }
       ],
       "default": "adapt",
       "label": "t:sections.featured-collection.settings.image_ratio.label"
@@ -393,38 +372,14 @@
       "type": "select",
       "id": "image_shape",
       "options": [
-        {
-          "value": "default",
-          "label": "t:sections.all.image_shape.options__1.label"
-        },
-        {
-          "value": "arch",
-          "label": "t:sections.all.image_shape.options__2.label"
-        },
-        {
-          "value": "blob",
-          "label": "t:sections.all.image_shape.options__3.label"
-        },
-        {
-          "value": "chevronleft",
-          "label": "t:sections.all.image_shape.options__4.label"
-        },
-        {
-          "value": "chevronright",
-          "label": "t:sections.all.image_shape.options__5.label"
-        },
-        {
-          "value": "diamond",
-          "label": "t:sections.all.image_shape.options__6.label"
-        },
-        {
-          "value": "parallelogram",
-          "label": "t:sections.all.image_shape.options__7.label"
-        },
-        {
-          "value": "round",
-          "label": "t:sections.all.image_shape.options__8.label"
-        }
+        { "value": "default", "label": "t:sections.all.image_shape.options__1.label" },
+        { "value": "arch", "label": "t:sections.all.image_shape.options__2.label" },
+        { "value": "blob", "label": "t:sections.all.image_shape.options__3.label" },
+        { "value": "chevronleft", "label": "t:sections.all.image_shape.options__4.label" },
+        { "value": "chevronright", "label": "t:sections.all.image_shape.options__5.label" },
+        { "value": "diamond", "label": "t:sections.all.image_shape.options__6.label" },
+        { "value": "parallelogram", "label": "t:sections.all.image_shape.options__7.label" },
+        { "value": "round", "label": "t:sections.all.image_shape.options__8.label" }
       ],
       "default": "default",
       "label": "t:sections.all.image_shape.label"
@@ -454,18 +409,9 @@
       "default": "none",
       "label": "t:sections.main-collection-product-grid.settings.quick_add.label",
       "options": [
-        {
-          "value": "none",
-          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_1"
-        },
-        {
-          "value": "standard",
-          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_2"
-        },
-        {
-          "value": "bulk",
-          "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_3"
-        }
+        { "value": "none", "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_1" },
+        { "value": "standard", "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_2" },
+        { "value": "bulk", "label": "t:sections.main-collection-product-grid.settings.quick_add.options.option_3" }
       ]
     },
     {
@@ -478,22 +424,16 @@
       "default": "2",
       "label": "t:sections.featured-collection.settings.columns_mobile.label",
       "options": [
-        {
-          "value": "1",
-          "label": "t:sections.featured-collection.settings.columns_mobile.options__1.label"
-        },
-        {
-          "value": "2",
-          "label": "t:sections.featured-collection.settings.columns_mobile.options__2.label"
-        }
+        { "value": "1", "label": "t:sections.featured-collection.settings.columns_mobile.options__1.label" },
+        { "value": "2", "label": "t:sections.featured-collection.settings.columns_mobile.options__2.label" }
       ]
-    },    
+    },
     {
       "type": "checkbox",
       "id": "swipe_on_mobile",
       "default": false,
       "label": "t:sections.featured-collection.settings.swipe_on_mobile.label"
-    },          
+    },
     {
       "type": "header",
       "content": "t:sections.all.padding.section_padding_heading"
