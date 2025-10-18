@@ -194,6 +194,23 @@
   background: #fff !important;   /* setzt den Section-Background auf Weiß */
   --card-bg: #fff;                /* Karten bekommen ebenfalls Weiß (ohne Transparenz) */
 }
+/* Versand-Info: unter Titel, über Preis (nur in dieser Section) */
+.section-{{ section.id }}-wrap .price::before,
+.section-{{ section.id }}-wrap .card-information .price::before {
+  content: "Lieferung 1–3 Werktage · Kostenloser Versand";
+  display: block;
+  color: #10b981;           /* grün */
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.35;
+  margin-bottom: 4px;       /* Abstand zum Preis */
+  letter-spacing: .01em;
+}
+
+/* etwas Feintuning, falls nötig */
+.section-{{ section.id }}-wrap .price {
+  margin-top: 2px;
+}
 
 {%- endstyle -%}
 
