@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Optispar E-Commerce Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
-      /* --- Loader Animations --- */
+      /* --- Loader Animations (dein Stil) --- */
       @keyframes form-from-stardust {
         0% { opacity: 0; transform: scale(1.5) translateY(-20px); filter: blur(10px) brightness(2); }
         50% { opacity: 0.8; filter: blur(2px) brightness(1.5); }
@@ -18,7 +19,7 @@
       }
       @keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
 
-      /* --- Hero Text Reveal Animation --- */
+      /* --- Hero Reveal --- */
       @keyframes fade-in-up-scale {
         0% { opacity: 0; transform: translateY(20px) scale(0.9); }
         100% { opacity: 1; transform: translateY(0) scale(1); }
@@ -27,25 +28,44 @@
         0% { opacity: 0; transform: translateY(-30px) scale(1.15); filter: blur(8px); }
         100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
       }
-      .animate-fade-in-up-scale {
-        animation: fade-in-up-scale 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-      }
 
-      /* Header Icons (dein Code) */
-      @keyframes jiggle { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-1px) rotate(-2deg); } }
-      @keyframes wheel-roll { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-      @keyframes search-tilt { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-15deg); } }
-      @keyframes user-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.5px); } }
-      .group:hover .cart-body { animation: jiggle 0.4s ease-in-out; }
-      .group:hover .cart-wheel { transform-origin: center; animation: wheel-roll 0.6s ease-out; }
-      .group:hover .search-icon-shape { transform-origin: center; animation: search-tilt 0.4s ease-in-out; }
-      .group:hover .user-head { animation: user-bob 0.4s ease-in-out; }
-      .transition-springy { transition-property: all; transition-duration: 300ms; transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
-
-      /* Cursor blink */
+      /* Cursor */
       @keyframes blink { 50% { opacity: 0; } }
       .cursor-blink { animation: blink 1s step-start infinite; }
+
+      /* --- Nur „Optispar“ animiert (Hintergrund bleibt weiß) --- */
+      .gradient-text {
+        background: linear-gradient(90deg, #00E08F, #0EA5E9, #7C3AED, #0EA5E9);
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+        background-size: 300% 100%;
+        animation: gradient-move 6s ease-in-out infinite;
+      }
+      @keyframes gradient-move {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      .brand-motion {
+        display: inline-block;
+        will-change: transform;
+        animation: brand-drift 7.5s ease-in-out infinite;
+      }
+      @keyframes brand-drift {
+        0%   { transform: translateY(0) translateX(0) scale(1); }
+        20%  { transform: translateY(-2px) translateX(1px) scale(1.005); }
+        40%  { transform: translateY(1px) translateX(2px) scale(1.01); }
+        60%  { transform: translateY(-1px) translateX(-1px) scale(1.007); }
+        80%  { transform: translateY(2px) translateX(-2px) scale(1.003); }
+        100% { transform: translateY(0) translateX(0) scale(1); }
+      }
+
+      /* Bewegungen reduzieren */
+      @media (prefers-reduced-motion: reduce) {
+        .gradient-text, .brand-motion { animation: none !important; }
+      }
     </style>
+
+    <!-- React via Import Map -->
     <script type="importmap">
     {
       "imports": {
@@ -57,26 +77,29 @@
     }
     </script>
   </head>
+
   <body class="bg-white text-gray-900">
     <div id="root"></div>
+
+    {% raw %}
     <script type="module">
       import React from 'react';
       import ReactDOM from 'react-dom/client';
-
       const { useState, useEffect } = React;
 
-      /* --- Loader Component --- */
+      // ===== Loader =====
       const Loader = ({ isLoading }) => {
         if (!isLoading) return null;
 
         const brandName = "Optispar";
-        const LETTER_ANIMATION_DURATION = 1000;
-        const STAGGER_DELAY = 150;
-        const HOLD_DURATION = 800;
+        const LETTER_ANIMATION_DURATION = 1000; // ms
+        const STAGGER_DELAY = 150;              // ms
+        const HOLD_DURATION = 800;              // ms
 
         const letters = brandName.split('');
-        const totalAnimationTime = (letters.length * STAGGER_DELAY) + LETTER_ANIMATION_DURATION + HOLD_DURATION;
-        const fadeOutDelay = (totalAnimationTime - 500) / 1000;
+        const totalAnimationTime =
+          (letters.length * STAGGER_DELAY) + LETTER_ANIMATION_DURATION + HOLD_DURATION;
+        const fadeOutDelay = (totalAnimationTime - 500) / 1000; // seconds
 
         return React.createElement(
           'div',
@@ -98,30 +121,30 @@
                 animationTimingFunction: 'ease-in-out'
               }
             },
-            letters.map((letter, index) => React.createElement(
-              'h1',
-              {
-                key: letter + '-' + index,
-                style: {
-                  animationName: 'form-from-stardust',
-                  animationDuration: String(LETTER_ANIMATION_DURATION) + 'ms',
-                  animationDelay: String(index * STAGGER_DELAY) + 'ms',
-                  animationFillMode: 'forwards',
-                  animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)'
+            letters.map((letter, index) =>
+              React.createElement(
+                'h1',
+                {
+                  key: letter + '-' + index,
+                  style: {
+                    animationName: 'form-from-stardust',
+                    animationDuration: String(LETTER_ANIMATION_DURATION) + 'ms',
+                    animationDelay: String(index * STAGGER_DELAY) + 'ms',
+                    animationFillMode: 'forwards',
+                    animationTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)'
+                  },
+                  className: "text-6xl sm:text-7xl md:text-8xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-orange-500 opacity-0"
                 },
-                className: "text-6xl sm:text-7xl md:text-8xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-orange-500 opacity-0"
-              },
-              letter
-            ))
+                letter
+              )
+            )
           )
         );
       };
 
-      /* --- Hero Component (kompaktere Größen) --- */
+      // ===== Hero =====
       const HeroVariant = ({ isLoading }) => {
-        const TYPE_SPEED = 120;
-        const DELETE_SPEED = 70;
-        const DELAY = 2000;
+        const TYPE_SPEED = 120, DELETE_SPEED = 70, DELAY = 2000;
         const subtitles = ["Trendige Gadgets", "Smarte Lösungen", "Innovative Technik"];
 
         const [text, setText] = useState('');
@@ -139,81 +162,86 @@
         useEffect(() => {
           if (!canStartTyping) return;
           const handleTyping = () => {
-            const currentSubtitle = subtitles[subtitleIndex];
+            const current = subtitles[subtitleIndex];
             if (isDeleting) {
               if (text.length > 0) {
-                setText(currentSubtitle.substring(0, text.length - 1));
+                setText(current.substring(0, text.length - 1));
               } else {
                 setIsDeleting(false);
                 setSubtitleIndex((prev) => (prev + 1) % subtitles.length);
               }
             } else {
-              if (text.length < currentSubtitle.length) {
-                setText(currentSubtitle.substring(0, text.length + 1));
+              if (text.length < current.length) {
+                setText(current.substring(0, text.length + 1));
               } else {
                 setTimeout(() => setIsDeleting(true), DELAY);
               }
             }
           };
-          const typingSpeed = isDeleting ? DELETE_SPEED : TYPE_SPEED;
-          const timer = setTimeout(handleTyping, typingSpeed);
+          const speed = isDeleting ? DELETE_SPEED : TYPE_SPEED;
+          const timer = setTimeout(handleTyping, speed);
           return () => clearTimeout(timer);
         }, [text, isDeleting, subtitleIndex, canStartTyping]);
 
-        const animationProps = (delay) => (!isLoading) ? {
-          style: {
-            opacity: 0,
-            animation: 'fade-in-up-scale 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards',
-            animationDelay: delay,
-          }
-        } : { style: { opacity: 0 } };
+        const animationProps = (delay) =>
+          !isLoading
+            ? { style: { opacity: 0, animation: 'fade-in-up-scale 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards', animationDelay: delay } }
+            : { style: { opacity: 0 } };
 
-        const brandAnimationProps = () => !isLoading ? {
-          style: {
-            opacity: 0,
-            animation: 'settle-in-place 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards',
-            animationDelay: '0.2s',
-          }
-        } : { style: { opacity: 0 } };
+        const brandAnimationProps = () =>
+          !isLoading
+            ? { style: { opacity: 0, animation: 'settle-in-place 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards', animationDelay: '0.2s' } }
+            : { style: { opacity: 0 } };
 
-        return React.createElement('section', { className: "relative bg-white text-gray-900 overflow-hidden" },
-          React.createElement('div', { className: "relative z-20 min-h-[70vh] md:min-h-[80vh] flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8" },
-            React.createElement('h1', { className: "text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-800", ...animationProps('0s') }, "Willkommen bei"),
-            React.createElement('h2', { className: "text-5xl sm:text-6xl md:text-7xl font-extrabold my-2 bg-clip-text text-transparent", ...brandAnimationProps() },
-              React.createElement('span', { className: "bg-gradient-to-r from-fuchsia-500 via-purple-600 to-pink-500 [text-shadow:0_0_15px_rgba(228,95,188,0.35)]" },
-                React.createElement('span', { className: "brand-motion" }, "Optispar")
-              )
+        return React.createElement(
+          'section',
+          { className: "relative bg-white text-gray-900 overflow-hidden" },
+          React.createElement(
+            'div',
+            { className: "relative z-20 min-h-screen flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8" },
+
+            React.createElement('h1',
+              Object.assign({ className: "text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-800" }, animationProps('0s')),
+              "Willkommen bei"
             ),
-            React.createElement('div', { className: "h-10", ...animationProps('0.5s') },
-              React.createElement('p', { className: "text-xl sm:text-2xl font-light text-gray-600" },
+
+            // Nur das Wort „Optispar“ hat den Verlauf + Drift
+            React.createElement('h2',
+              Object.assign({ className: "text-6xl sm:text-7xl md:text-8xl font-extrabold my-3" }, brandAnimationProps()),
+              React.createElement('span', { className: "gradient-text brand-motion [text-shadow:0_0_15px_rgba(0,0,0,0.06)]" }, "Optispar")
+            ),
+
+            React.createElement('div',
+              Object.assign({ className: "h-10" }, animationProps('0.5s')),
+              React.createElement('p', { className: "text-2xl sm:text-3xl font-light text-gray-600" },
                 React.createElement('span', null, text),
                 React.createElement('span', { className: "cursor-blink font-light" }, "|")
               )
             ),
-            React.createElement('p', { className: "mt-4 max-w-2xl text-base sm:text-lg text-gray-500 leading-relaxed", ...animationProps('0.7s') },
+
+            React.createElement('p',
+              Object.assign({ className: "mt-6 max-w-2xl text-lg text-gray-500 leading-relaxed" }, animationProps('0.7s')),
               "Ihr zuverlässiger Partner für sorgfältig ausgewählte Produkte, die Ihren Alltag erleichtern und bereichern."
             ),
-            React.createElement('div', { className: "mt-6 flex justify-center", ...animationProps('0.9s') },
+
+            React.createElement('div',
+              Object.assign({ className: "mt-8 flex justify-center" }, animationProps('0.9s')),
               React.createElement('a', {
                 href: "#",
-                className: "inline-block bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-[length:200%_auto] text-white font-semibold py-2.5 px-8 rounded-full shadow-lg transform transition-all duration-500 ease-in-out hover:scale-105 hover:bg-right hover:shadow-2xl hover:shadow-purple-500/50 hover:brightness-110"
+                className: "inline-block bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-[length:200%_auto] text-white font-semibold py-3 px-10 rounded-full shadow-lg transform transition-all duration-500 ease-in-out hover:scale-105 hover:bg-right hover:shadow-2xl hover:shadow-purple-500/50 hover:brightness-110"
               }, "Jetzt Einkaufen")
             )
           )
         );
-      }
+      };
 
-      /* --- App Component --- */
+      // ===== App =====
       const App = () => {
         const [isLoading, setIsLoading] = useState(true);
-
         useEffect(() => {
-          const timer = setTimeout(() => {
-            setIsLoading(false);
-          }, 3000);
+          const timer = setTimeout(() => setIsLoading(false), 3000); // Loader-Dauer (ms)
           return () => clearTimeout(timer);
         }, []);
-
         return React.createElement(
           'div',
           { className: "bg-white text-gray-900 font-sans" },
@@ -221,25 +249,17 @@
           React.createElement(
             'div',
             { style: { opacity: isLoading ? 0 : 1, transition: 'opacity 0.5s ease-in' } },
-            React.createElement(
-              'main',
-              null,
-              React.createElement(HeroVariant, { isLoading })
-            )
+            React.createElement('main', null, React.createElement(HeroVariant, { isLoading }))
           )
         );
       };
 
-      /* --- Entry Point --- */
+      // ===== Mount =====
       const rootElement = document.getElementById('root');
-      if (!rootElement) {
-        throw new Error("Could not find root element to mount to");
-      }
-
+      if (!rootElement) { throw new Error("Could not find root element to mount to"); }
       const root = ReactDOM.createRoot(rootElement);
-      root.render(
-        React.createElement(React.StrictMode, null, React.createElement(App))
-      );
+      root.render(React.createElement(React.StrictMode, null, React.createElement(App)));
     </script>
+    {% endraw %}
   </body>
 </html>
