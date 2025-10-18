@@ -1,8 +1,10 @@
 {% comment %}
-  Optispar – Rich Text (white background, brand-only animation)
-  - Clean white card, no global animated background
-  - Only the word “Optispar” gets a subtle animated gradient text effect
-  - Smooth, accessible (respects reduced motion)
+  Optispar – Rich Text (white background, brand-only animation) + Intro Loader + Typing Hero
+  - Weißer Hintergrund
+  - Nur „Optispar“ hat smarte Verlauf/Drift-Animation
+  - Intro-Loader: Buchstaben „Optispar“ erscheinen nacheinander (stardust), halten kurz, faden aus
+  - Danach content staged + Typing-Subtitle
+  - Vanilla JS, keine Frameworks notwendig
 {% endcomment %}
 
 {{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
@@ -12,85 +14,76 @@
   @media screen and (min-width: 750px) { .section-{{ section.id }}-padding { padding-top: {{ section.settings.padding_top }}px; padding-bottom: {{ section.settings.padding_bottom }}px; } }
 
   /* ===== Clean white card ===== */
-  .opti-card {
-    background: #fff; /* bleibt weiß */
-    border-radius: {{ section.settings.corner_radius }}px;
-    box-shadow: 0 10px 24px rgba(0,0,0,{{ section.settings.shadow_strength | divided_by: 100.0 }});
-  }
-
+  .opti-card { background:#fff; border-radius: {{ section.settings.corner_radius }}px; box-shadow: 0 10px 24px rgba(0,0,0,{{ section.settings.shadow_strength | divided_by: 100.0 }}); position: relative; overflow: hidden; }
   .opti-content { max-width: {{ section.settings.max_width }}px; margin-inline: auto; }
-
-  /* Headings */
   .opti-heading { line-height: 1.1; }
 
-  /* ===== Brand-only animation: the word with span.opti-brand ===== */
-  .opti-brand {
-    display: inline-block;
-    background: linear-gradient(90deg, {{ section.settings.brand_color_1 }}, {{ section.settings.brand_color_2 }}, {{ section.settings.brand_color_3 }}, {{ section.settings.brand_color_2 }});
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    background-size: 300% 100%;
-    will-change: transform, background-position, filter;
-    animation: opti-gradient-move 6s ease-in-out infinite, opti-drift 7.5s ease-in-out infinite;
-  }}, {{ section.settings.brand_color_2 }}, {{ section.settings.brand_color_3 }}, {{ section.settings.brand_color_2 }});
-    -webkit-background-clip: text; background-clip: text; color: transparent;
-    background-size: 300% 100%;
-    animation: opti-gradient-move 6s ease-in-out infinite;
-  }
+  /* ===== Brand-only animation (word Optispar) ===== */
+  .opti-brand { display:inline-block; background: linear-gradient(90deg, {{ section.settings.brand_color_1 }}, {{ section.settings.brand_color_2 }}, {{ section.settings.brand_color_3 }}, {{ section.settings.brand_color_2 }}); -webkit-background-clip:text; background-clip:text; color:transparent; background-size:300% 100%; will-change: transform, background-position; animation: opti-gradient-move 6s ease-in-out infinite, opti-drift 7.5s ease-in-out infinite; }
   @keyframes opti-gradient-move { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+  @keyframes opti-drift { 0%{ transform: translateY(0) translateX(0) scale(1);} 20%{ transform: translateY(-2px) translateX(1px) scale(1.005);} 40%{ transform: translateY(1px) translateX(2px) scale(1.01);} 60%{ transform: translateY(-1px) translateX(-1px) scale(1.007);} 80%{ transform: translateY(2px) translateX(-2px) scale(1.003);} 100%{ transform: translateY(0) translateX(0) scale(1);} }
 
-  /* Optional underline that only reacts on hover */
-  
-  
-  
+  /* ===== Loader animations (from your HTML) ===== */
+  @keyframes form-from-stardust { 0%{opacity:0; transform:scale(1.5) translateY(-20px); filter:blur(10px) brightness(2);} 50%{opacity:.8; filter:blur(2px) brightness(1.5);} 100%{opacity:1; transform:scale(1) translateY(0); filter:blur(0) brightness(1);} }
+  @keyframes subtle-glow { 0%,100%{ text-shadow:0 0 8px rgba(255,255,255,.2), 0 0 20px rgba(192,132,252,.3);} 50%{ text-shadow:0 0 12px rgba(255,255,255,.3), 0 0 30px rgba(192,132,252,.5);} }
+  @keyframes fade-out { from{opacity:1;} to{opacity:0;} }
+  @keyframes fade-in-up-scale { 0%{opacity:0; transform:translateY(20px) scale(.9);} 100%{opacity:1; transform:translateY(0) scale(1);} }
+  @keyframes settle-in-place { 0%{opacity:0; transform:translateY(-30px) scale(1.15); filter:blur(8px);} 100%{opacity:1; transform:translateY(0) scale(1); filter:blur(0);} }
+  @keyframes blink { 50%{opacity:0;} }
 
-  /* Body text */
-  .opti-text { font-size: clamp(1rem, .95rem + .25vw, 1.125rem); }
+  .cursor-blink { animation: blink 1s step-start infinite; }
 
-  /* Buttons – dezente Interaktion */
-  .opti-buttons .button { border-radius: 999px; transition: transform .15s ease, box-shadow .15s ease; }
-  .opti-buttons .button:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(0,0,0,.1); }
+  /* Loader layout */
+  .opti-loader { position: fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; background:#fff; }
+  .opti-loader__word { display:flex; gap:.05em; animation: subtle-glow 2s ease-in-out infinite; }
+  .opti-loader__letter { opacity:0; font-weight:800; line-height:1; background: linear-gradient(90deg, #a78bfa, #ec4899, #fb923c); -webkit-background-clip:text; background-clip:text; color:transparent; background-size:200% auto; font-size: clamp(48px, 8vw, 120px); }
 
-  /* Respect reduced motion */
-  @media (prefers-reduced-motion: reduce) { .opti-brand { animation: none; }  }
-  @keyframes opti-gradient-move { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-  @keyframes opti-drift {
-    0%   { transform: translateY(0) translateX(0) scale(1); }
-    20%  { transform: translateY(-2px) translateX(1px) scale(1.005); }
-    40%  { transform: translateY(1px) translateX(2px) scale(1.01); }
-    60%  { transform: translateY(-1px) translateX(-1px) scale(1.007); }
-    80%  { transform: translateY(2px) translateX(-2px) scale(1.003); }
-    100% { transform: translateY(0) translateX(0) scale(1); }
-  }
-  @media (prefers-reduced-motion: reduce) { .opti-brand { animation: none; } }
+  /* Staging: hide content until loader finished */
+  .opti-section--loading .rich-text__blocks > * { opacity:0; transform:translateY(18px); transition: opacity .5s ease, transform .5s ease; }
+  .opti-section--ready   .rich-text__blocks > * { opacity:1; transform:none; }
+  .opti-section--ready   .rich-text__blocks > *[data-order] { transition-delay: calc(80ms * var(--opti-order)); }
+
+  @media (prefers-reduced-motion: reduce) { .opti-brand { animation:none; } .opti-loader { display:none; } .opti-section--loading .rich-text__blocks > * { opacity:1; transform:none; } }
 {%- endstyle -%}
 
 <div class="isolate{% unless section.settings.full_width %} page-width{% endunless %}">
-  <div class="opti-card rich-text content-container color-{{ section.settings.color_scheme }} gradient{% if section.settings.full_width %} rich-text--full-width content-container--full-width{% endif %} section-{{ section.id }}-padding">
+  <div class="opti-card rich-text content-container color-{{ section.settings.color_scheme }} gradient{% if section.settings.full_width %} rich-text--full-width content-container--full-width{% endif %} section-{{ section.id }}-padding opti-section {% if section.settings.intro_reveal %}opti-section--loading{% else %}opti-section--ready{% endif %}">
+
+    {% if section.settings.intro_reveal %}
+      <div class="opti-loader" aria-live="polite" aria-label="Lade Optispar" data-section-id="{{ section.id }}" style="animation: fade-out .5s linear {{ 0 | plus: 0 }}s forwards; opacity:1;">
+        <div class="opti-loader__word" data-word>{{ section.settings.intro_title | default: 'Optispar' }}</div>
+      </div>
+    {% endif %}
+
     <div class="rich-text__wrapper rich-text__wrapper--{{ section.settings.desktop_content_position }}{% if section.settings.full_width %} page-width{% endif %}">
       <div class="rich-text__blocks {{ section.settings.content_alignment }} opti-content">
+        {%- assign __i = 0 -%}
         {%- for block in section.blocks -%}
+          {%- assign __i = __i | plus: 1 -%}
           {%- case block.type -%}
             {%- when 'heading' -%}
               <h2 class="opti-heading rich-text__heading rte inline-richtext {{ block.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                  {{ block.shopify_attributes }} {% if settings.animations_reveal_on_scroll %}data-cascade style="--animation-order: {{ forloop.index }};"{% endif %}>
-                {%- comment -%}
-                  To animate only the word Optispar, wrap it: <span class="opti-brand">Optispar</span>
-                {%- endcomment -%}
+                  {{ block.shopify_attributes }} data-order style="--opti-order: {{ __i }};{% if settings.animations_reveal_on_scroll %} --animation-order: {{ forloop.index }};{% endif %}">
                 {{ block.settings.heading | replace: 'Optispar', '<span class="opti-brand">Optispar</span>' }}
               </h2>
             {%- when 'caption' -%}
-              <p class="rich-text__caption {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %} caption-with-letter-spacing"
-                 {{ block.shopify_attributes }} {% if settings.animations_reveal_on_scroll %}data-cascade style="--animation-order: {{ forloop.index }};"{% endif %}>
+              <p class="rich-text__caption caption-with-letter-spacing{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                 {{ block.shopify_attributes }} data-order style="--opti-order: {{ __i }};{% if settings.animations_reveal_on_scroll %} --animation-order: {{ forloop.index }};{% endif %}">
                 {{ block.settings.caption | escape }}
               </p>
             {%- when 'text' -%}
               <div class="opti-text rich-text__text rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                   {{ block.shopify_attributes }} {% if settings.animations_reveal_on_scroll %}data-cascade style="--animation-order: {{ forloop.index }};"{% endif %}>
+                   {{ block.shopify_attributes }} data-order style="--opti-order: {{ __i }};{% if settings.animations_reveal_on_scroll %} --animation-order: {{ forloop.index }};{% endif %}">
                 {{ block.settings.text }}
+                {% if section.settings.typing_enable %}
+                  <div class="opti-typing" data-typing style="opacity:0; animation: fade-in-up-scale .6s cubic-bezier(0.23,1,0.32,1) .2s forwards;">
+                    <span data-typing-text class="text-body">&nbsp;</span><span class="cursor-blink">|</span>
+                  </div>
+                {% endif %}
               </div>
             {%- when 'button' -%}
               <div class="opti-buttons rich-text__buttons{% if block.settings.button_label != blank and block.settings.button_label_2 != blank %} rich-text__buttons--multiple{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-                   {{ block.shopify_attributes }} {% if settings.animations_reveal_on_scroll %}data-cascade style="--animation-order: {{ forloop.index }};"{% endif %}>
+                   {{ block.shopify_attributes }} data-order style="--opti-order: {{ __i }};{% if settings.animations_reveal_on_scroll %} --animation-order: {{ forloop.index }};{% endif %}">
                 {%- if block.settings.button_label != blank -%}
                   <a {% if block.settings.button_link == blank %} role="link" aria-disabled="true"{% else %} href="{{ block.settings.button_link }}"{% endif %}
                      class="button{% if block.settings.button_style_secondary %} button--secondary{% else %} button--primary{% endif %}">
@@ -110,6 +103,73 @@
     </div>
   </div>
 </div>
+
+{% if section.settings.intro_reveal or section.settings.typing_enable %}
+<script>
+  (function(){
+    var section = document.currentScript.previousElementSibling.querySelector('.opti-section');
+    if(!section) return;
+
+    // ===== Loader logic =====
+    var introEnabled = {{ section.settings.intro_reveal | json }};
+    if(introEnabled){
+      var loader = section.querySelector('.opti-loader');
+      if(loader){
+        var wordEl = loader.querySelector('[data-word]');
+        var brand = (wordEl && wordEl.textContent ? wordEl.textContent : 'Optispar');
+        wordEl.textContent = '';
+        var letters = brand.split('');
+        var LETTER_ANIM = 1000; // ms
+        var STAGGER = 150; // ms
+        var HOLD = 800; // ms
+        letters.forEach(function(ch, i){
+          var span = document.createElement('span');
+          span.className = 'opti-loader__letter';
+          span.textContent = ch;
+          span.style.animation = 'form-from-stardust '+LETTER_ANIM+'ms cubic-bezier(0.16,1,0.3,1) '+(i*STAGGER)+'ms forwards';
+          wordEl.appendChild(span);
+        });
+        var total = (letters.length * STAGGER) + LETTER_ANIM + HOLD;
+        // fade out & reveal content
+        setTimeout(function(){ loader.style.animation = 'fade-out .5s linear forwards'; }, Math.max(0, total-500));
+        setTimeout(function(){ loader.remove(); section.classList.remove('opti-section--loading'); section.classList.add('opti-section--ready'); }, total+100);
+      } else {
+        section.classList.add('opti-section--ready');
+      }
+    }
+
+    // ===== Typing effect =====
+    var typingEnabled = {{ section.settings.typing_enable | json }};
+    if(typingEnabled){
+      var el = section.querySelector('[data-typing-text]');
+      if(el){
+        var list = {{ section.settings.typing_list | json }}; // comma separated -> array by Shopify
+        if(typeof list === 'string'){ list = list.split(',').map(function(s){return s.trim();}).filter(Boolean); }
+        if(!list || !list.length){ list = ['Trendige Gadgets','Smarte Lösungen','Innovative Technik']; }
+        var typeSpeed = {{ section.settings.type_speed | json }} || 120;
+        var deleteSpeed = {{ section.settings.delete_speed | json }} || 70;
+        var delay = ({{ section.settings.type_delay | json }} || 2000);
+        var idx = 0, text = '', deleting = false;
+        function tick(){
+          var current = list[idx % list.length];
+          if(!deleting){
+            text = current.slice(0, text.length+1);
+            el.textContent = text;
+            if(text.length === current.length){ setTimeout(function(){ deleting = true; }, delay); }
+          } else {
+            text = current.slice(0, Math.max(0, text.length-1)); el.textContent = text;
+            if(text.length === 0){ deleting = false; idx++; }
+          }
+          setTimeout(tick, deleting ? deleteSpeed : typeSpeed);
+        }
+        // small reveal
+        var typingWrap = section.querySelector('[data-typing]'); if(typingWrap){ typingWrap.style.opacity = '1'; }
+        tick();
+      }
+    }
+  })();
+</script>
+{% endif %}
 
 {% schema %}
 {
@@ -141,13 +201,24 @@
     { "type": "color", "id": "brand_color_2", "label": "Brand color 2", "default": "#0EA5E9" },
     { "type": "color", "id": "brand_color_3", "label": "Brand color 3", "default": "#7C3AED" },
 
+    { "type": "header", "content": "Intro / Loader" },
+    { "type": "checkbox", "id": "intro_reveal", "default": true, "label": "Intro aktivieren (großes Optispar beim Laden)" },
+    { "type": "text", "id": "intro_title", "label": "Intro-Titel (Logo-Text)", "default": "Optispar" },
+
+    { "type": "header", "content": "Typing Subtitle" },
+    { "type": "checkbox", "id": "typing_enable", "default": true, "label": "Typing-Text unter Überschrift aktivieren" },
+    { "type": "text", "id": "typing_list", "label": "Phrasen (Kommagetrennt)", "default": "Trendige Gadgets, Smarte Lösungen, Innovative Technik" },
+    { "type": "number", "id": "type_speed", "label": "Tippspeed (ms)", "default": 120 },
+    { "type": "number", "id": "delete_speed", "label": "Löschspeed (ms)", "default": 70 },
+    { "type": "number", "id": "type_delay", "label": "Pause nach kompletter Phrase (ms)", "default": 2000 },
+
     { "type": "header", "content": "t:sections.all.padding.section_padding_heading" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "t:sections.all.padding.padding_top", "default": 40 },
     { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "t:sections.all.padding.padding_bottom", "default": 52 }
   ],
   "blocks": [
     { "type": "heading", "name": "t:sections.rich-text.blocks.heading.name", "limit": 3, "settings": [
-        { "type": "inline_richtext", "id": "heading", "default": "Optispar – Modern sauber & klar", "label": "t:sections.rich-text.blocks.heading.settings.heading.label" },
+        { "type": "inline_richtext", "id": "heading", "default": "Willkommen bei Optispar", "label": "t:sections.rich-text.blocks.heading.settings.heading.label" },
         { "type": "select", "id": "heading_size", "options": [
             { "value": "h2", "label": "t:sections.all.heading_size.options__1.label" },
             { "value": "h1", "label": "t:sections.all.heading_size.options__2.label" },
@@ -169,11 +240,11 @@
           ], "default": "medium", "label": "t:sections.rich-text.blocks.caption.settings.caption_size.label" }
       ] },
     { "type": "text", "name": "t:sections.rich-text.blocks.text.name", "limit": 3, "settings": [
-        { "type": "richtext", "id": "text", "default": "<p>Zeige klare Botschaften auf ruhigem, weißen Hintergrund. Nur <strong>Optispar</strong> pulsiert dezent im Verlauf.</p>", "label": "t:sections.rich-text.blocks.text.settings.text.label" }
+        { "type": "richtext", "id": "text", "default": "<p>Ihr zuverlässiger Partner für sorgfältig ausgewählte Produkte, die Ihren Alltag erleichtern und bereichern.</p>", "label": "t:sections.rich-text.blocks.text.settings.text.label" }
       ] },
     { "type": "button", "name": "t:sections.rich-text.blocks.buttons.name", "limit": 2, "settings": [
         { "type": "header", "content": "t:sections.rich-text.blocks.buttons.settings.header_button1.content" },
-        { "type": "text", "id": "button_label", "default": "Jetzt shoppen", "label": "t:sections.rich-text.blocks.buttons.settings.button_label_1.label", "info": "t:sections.rich-text.blocks.buttons.settings.button_label_1.info" },
+        { "type": "text", "id": "button_label", "default": "Jetzt einkaufen", "label": "t:sections.rich-text.blocks.buttons.settings.button_label_1.label", "info": "t:sections.rich-text.blocks.buttons.settings.button_label_1.info" },
         { "type": "url", "id": "button_link", "label": "t:sections.rich-text.blocks.buttons.settings.button_link_1.label" },
         { "type": "checkbox", "id": "button_style_secondary", "default": false, "label": "t:sections.rich-text.blocks.buttons.settings.button_style_secondary_1.label" },
         { "type": "header", "content": "t:sections.rich-text.blocks.buttons.settings.header_button2.content" },
@@ -182,6 +253,6 @@
         { "type": "checkbox", "id": "button_style_secondary_2", "default": false, "label": "t:sections.rich-text.blocks.buttons.settings.button_style_secondary_2.label" }
       ] }
   ],
-  "presets": [ { "name": "Optispar – White + Brand Animation", "blocks": [ { "type": "heading" }, { "type": "text" }, { "type": "button" } ] } ]
+  "presets": [ { "name": "Optispar – Intro + Typing", "blocks": [ { "type": "heading" }, { "type": "text" }, { "type": "button" } ] } ]
 }
 {% endschema %}
