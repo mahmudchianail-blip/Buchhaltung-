@@ -17,7 +17,7 @@
         ".opti-heading-100 {margin-top: 0.4rem;}",
         " /* Absatz in eine Zeile */.opti-text {white-space: nowrap; max-width: 100% !important; overflow: hidden; text-overflow: ellipsis;}",
         "@media (min-width: 990px) {.opti-text {font-size: 16px; }}",
-        "#optispar-hero-root{margin-bottom:-120px}"
+        "#optispar-hero-root {margin-bottom: -120px;}"
       ],
       "name": "t:sections.rich-text.presets.name",
       "settings": {}
@@ -26,7 +26,7 @@
       "type": "featured-collection",
       "settings": {
         "collection": "all",
-        "products_to_show": 14,
+        "products_to_show": 16,
         "title": "",
         "heading_size": "h1",
         "description": "",
@@ -46,6 +46,8 @@
         "quick_add": "none",
         "columns_mobile": "2",
         "swipe_on_mobile": false,
+        "force_uniform_images": true,
+        "uniform_ratio": "square",
         "padding_top": 44,
         "padding_bottom": 36
       }
