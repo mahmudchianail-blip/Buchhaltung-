@@ -12,11 +12,12 @@
     "rich_text_xUmrHF": {
       "type": "rich-text",
       "custom_css": [
-        "#optispar-hero-root {margin-top: -110px; }",
-        " .opti-hero {padding-top: 10px; }",
-        " .opti-heading-100 {margin-top: 0.4rem; }",
-        "/* Absatz in eine Zeile */.opti-text {white-space: nowrap; max-width: 100% !important; overflow: hidden; text-overflow: ellipsis;}",
-        "@media (min-width: 990px) {.opti-text {font-size: 16px; }}"
+        "#optispar-hero-root {margin-top: -110px;}",
+        ".opti-hero {padding-top: 10px;}",
+        ".opti-heading-100 {margin-top: 0.4rem;}",
+        " /* Absatz in eine Zeile */.opti-text {white-space: nowrap; max-width: 100% !important; overflow: hidden; text-overflow: ellipsis;}",
+        "@media (min-width: 990px) {.opti-text {font-size: 16px; }}",
+        "#optispar-hero-root{margin-bottom:-120px}"
       ],
       "name": "t:sections.rich-text.presets.name",
       "settings": {}
