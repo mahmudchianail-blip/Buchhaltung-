@@ -460,108 +460,84 @@
   </script>
 {%- endif -%}
 
-/* ================================
-   MODERN FLOATING / ROUNDED HEADER
-   ================================ */
 <style>
+/* === MODERN FULL-WIDTH ROUNDED HEADER (CSS-only) ===
+   - Full width (keine äußeren Ränder)
+   - Keine sichtbaren Kommentare außerhalb <style>
+   - Mobile Drawer modern gestaltet
+*/
+
+/* Grundwerte */
 :root{
   --hdr-radius-m:14px;
-  --hdr-radius-d:22px;
-  --hdr-gap-x-m:1rem;
-  --hdr-gap-x-d:2rem;
-  --hdr-gap-top:.75rem;
-  --hdr-shadow:0 18px 40px rgba(0,0,0,.10);
-  --hdr-shadow-sticky:0 12px 28px rgba(0,0,0,.08);
+  --hdr-radius-d:18px;
+  --hdr-shadow:0 14px 34px rgba(0,0,0,.08);
+  --hdr-shadow-sticky:0 10px 28px rgba(0,0,0,.07);
   --hdr-border:rgba(0,0,0,.08);
 }
 
-/* Wrapper dezent – Innenleben wird „Card“ */
-.section-header{ background: transparent; }
+/* Wrapper clean halten */
+.header-wrapper.gradient{ background: transparent; }
+.header-wrapper--border-bottom{ border-bottom: 0; }
 
-/* Runde, schwebende Karte */
+/* Header als full-width Card (ohne Außenabstand) */
+.section-header{ background: transparent; }
 .header{
-  background: color-mix(in srgb, var(--color-background, #fff) 94%, transparent);
+  margin: 0;                             /* FULL WIDTH */
   border-radius: var(--hdr-radius-m);
+  background: color-mix(in srgb, var(--color-background,#fff) 96%, transparent);
   box-shadow: var(--hdr-shadow);
-  margin: var(--hdr-gap-top) var(--hdr-gap-x-m) 0 var(--hdr-gap-x-m);
-  overflow: hidden;
   border: 1px solid var(--hdr-border);
   backdrop-filter: saturate(140%) blur(6px);
   -webkit-backdrop-filter: saturate(140%) blur(6px);
-  transition: box-shadow .25s ease, border-color .25s ease, background .25s ease, border-radius .25s ease;
+  transition: border-radius .24s ease, background .24s ease, box-shadow .24s ease;
+}
+@media (min-width:990px){
+  .header{ border-radius: var(--hdr-radius-d); }
 }
 
-/* Desktop-Feinschliff */
-@media (min-width: 990px){
-  .header{
-    border-radius: var(--hdr-radius-d);
-    margin: var(--hdr-gap-top) var(--hdr-gap-x-d) 0 var(--hdr-gap-x-d);
-  }
-}
-
-/* Sticky ruhig & kompakt */
+/* Sticky ruhiger */
 .shopify-section-header-sticky .header{
-  border-radius: calc(var(--hdr-radius-d) - 4px);
   box-shadow: var(--hdr-shadow-sticky);
-  border-color: color-mix(in srgb, var(--hdr-border) 85%, #000 0%);
-  background: color-mix(in srgb, var(--color-background, #fff) 98%, transparent);
+  background: color-mix(in srgb, var(--color-background,#fff) 98%, transparent);
 }
 
-/* Menü: Pill-Hover statt harter Unterlinie */
-@media (min-width: 990px){
+/* Menü (Desktop): pill-hover */
+@media (min-width:990px){
   .header .header__inline-menu .list-menu__item--link{
-    position: relative;
-    font-weight: 600;
-    letter-spacing: .02em;
-    padding: .55rem .7rem;
-    border-radius: 999px;
-    transition: background .18s ease, color .18s ease;
+    padding:.55rem .7rem; border-radius:999px; transition:background .18s ease,color .18s ease;
   }
   .header .header__inline-menu .list-menu__item--link:hover,
-  .header .header__inline-menu .list-menu__item--link:focus-visible{
-    background: rgba(0,0,0,.05);
-  }
-  .header .header__inline-menu .list-menu__item--link[aria-current="page"]{
-    background: rgba(0,0,0,.07);
-  }
+  .header .header__inline-menu .list-menu__item--link:focus-visible{ background: rgba(0,0,0,.05); }
+  .header .header__inline-menu .list-menu__item--link[aria-current="page"]{ background: rgba(0,0,0,.07); }
 }
 
-/* Icon-Buttons als runde Pills */
+/* Icon-Pills */
 .header .header__icons .link.focus-inset,
 .header .header__icons a.header__icon{
-  width: 40px; height: 40px; border-radius: 999px;
-  display: inline-flex; align-items: center; justify-content: center;
-  border: 1px solid rgba(0,0,0,.12);
-  background: rgba(255,255,255,.6);
+  width:40px;height:40px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid rgba(0,0,0,.12); background: rgba(255,255,255,.6);
   transition: background .2s ease, transform .12s ease, border-color .2s ease;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
 }
 .header .header__icons .link.focus-inset:hover,
-.header .header__icons a.header__icon:hover{
-  background: rgba(255,255,255,.9);
-  border-color: rgba(0,0,0,.18);
-}
+.header .header__icons a.header__icon:hover{ background: rgba(255,255,255,.9); border-color: rgba(0,0,0,.18); }
 .header .header__icons .link.focus-inset:active,
 .header .header__icons a.header__icon:active{ transform: scale(.98); }
 
-/* Cart-Badge rund und harmonisch */
+/* Cart-Badge */
 #cart-icon-bubble .cart-count-bubble{
   position:absolute; top:-6px; right:-6px;
-  min-width:18px; height:18px; border-radius:999px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:.75rem; line-height:1; padding:0 .25rem;
-  background:#111; color:#fff;
+  min-width:18px;height:18px;border-radius:999px;display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;line-height:1;padding:0 .25rem;background:#111;color:#fff;
 }
 
-/* Suche runder & ruhiger */
+/* Suche */
 details-modal .search__input,
 predictive-search input[type="search"]{
-  border-radius: 999px;
-  padding: .7rem 1rem;
-  border: 1px solid rgba(0,0,0,.14);
-  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+  border-radius:999px;padding:.7rem 1rem;border:1px solid rgba(0,0,0,.14);
   background: rgba(255,255,255,.85);
+  transition:border-color .2s ease, box-shadow .2s ease, background .2s ease;
 }
 details-modal .search__input:focus,
 predictive-search input[type="search"]:focus{
@@ -569,31 +545,23 @@ predictive-search input[type="search"]:focus{
   box-shadow: 0 0 0 3px rgba(0,0,0,.06);
 }
 
-/* Mega/Dropdown: runde Ecken & ruhiger Shadow */
-header-menu .mega-menu,
-header-menu .submenu{
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0,0,0,.10);
-  border: 1px solid rgba(0,0,0,.06);
-  background: var(--color-background, #fff);
+/* MOBILE: Hamburger sichtbar & Drawer modern */
+@media (max-width:989px){
+  header-drawer{ display:flex; } /* sicherstellen, dass das Icon sichtbar bleibt */
+  .header{ border-radius: var(--hdr-radius-m); }
 }
 
-/* Mobile-Luft & runde Touch-Ziele */
-@media (max-width: 989px){
-  .header{ margin-left: var(--hdr-gap-x-m); margin-right: var(--hdr-gap-x-m); }
-  .list-menu__item--link{ padding: .9rem .25rem; border-radius: 10px; }
-}
+/* Drawer/Offcanvas Styling (Dawn: menu-drawer) */
+.menu-drawer{ border-top-left-radius: 18px; border-top-right-radius: 18px; overflow:hidden; }
+.menu-drawer__navigation{ background: var(--color-background,#fff); }
+.menu-drawer__inner-container{ box-shadow: 0 -10px 30px rgba(0,0,0,.08); border-top:1px solid rgba(0,0,0,.06); }
+.menu-drawer__menu-item{ padding: 1rem 1.25rem; border-radius: 10px; }
+.menu-drawer__menu-item:hover{ background: rgba(0,0,0,.04); }
 
-/* Entfernt die harte, vollbreite „Rechteck“-Optik des Wrappers */
-.header-wrapper.gradient{ background: transparent; }
-.header-wrapper--border-bottom{ border-bottom: 0; }
-
-/* Sicherheit: visuell versteckte Texte richtig verstecken */
+/* Visually hidden sicher verstecken */
 .visually-hidden{
-  position:absolute!important;width:1px!important;height:1px!important;
-  padding:0!important;margin:-1px!important;overflow:hidden!important;
-  clip:rect(0 0 0 0)!important;white-space:nowrap!important;border:0!important;
+  position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;
+  overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important;border:0!important;
 }
 </style>
 
