@@ -37,7 +37,7 @@
   }
 
   /* ============================
-     OPTISPAR – Modern Card Styles
+     Modern Card + Einheitliche Bilder
      (nur in dieser Section)
      ============================ */
   #collection-{{ section.id }}{
@@ -47,16 +47,11 @@
     --opt-card-pad: 14px;
     --opt-title-lines: 2;
     --opt-green: {{ section.settings.delivery_badge_color | default: '#16a34a' }};
+    --delivery-text: "{{ section.settings.delivery_text | escape }}";
   }
 
-  /* Titel / Beschreibung ruhiger */
-  #collection-{{ section.id }} .collection__title .title{ margin-bottom:.25rem; }
-  #collection-{{ section.id }} .collection__description{ max-width: 70ch; }
-
-  /* Grid-Abstand etwas luftiger */
+  /* Karten-Optik */
   #collection-{{ section.id }} .product-grid{ gap:18px; }
-
-  /* Karte modernisieren (Snippet bleibt unberührt) */
   #collection-{{ section.id }} .card--product{
     border-radius:var(--opt-card-radius);
     overflow:hidden;
@@ -71,9 +66,7 @@
   }
   {% endif %}
 
-  /* -----------------------------
-     Einheitliche Bilder (Aspect)
-     ----------------------------- */
+  /* Einheitliche Bilder (Aspect Ratio) */
   {% if section.settings.force_uniform_images %}
     {% assign ratio = '1/1' %}
     {% if section.settings.uniform_ratio == 'portrait' %}{% assign ratio = '3/4' %}
@@ -83,8 +76,7 @@
     #collection-{{ section.id }} .card--product .card__inner,
     #collection-{{ section.id }} .card--product .media{
       aspect-ratio: {{ ratio }};
-      height:auto !important;
-      min-height:auto !important;
+      height:auto !important; min-height:auto !important;
     }
     #collection-{{ section.id }} .card--product .media::before{ content:none !important; }
     #collection-{{ section.id }} .card--product .media > img,
@@ -93,9 +85,7 @@
     }
   {% endif %}
 
-  /* -----------------------------
-     Gleich hohe Karten (Clamp)
-     ----------------------------- */
+  /* Gleich hohe Karten (Clamp + Flex) */
   #collection-{{ section.id }} .card--product .card__content,
   #collection-{{ section.id }} .card--product .card__information{
     display:flex; flex-direction:column; gap:.35rem; padding:var(--opt-card-pad);
@@ -108,9 +98,7 @@
   #collection-{{ section.id }} .card--product .card__content > *:last-child,
   #collection-{{ section.id }} .card--product .card__information > *:last-child{ margin-top:auto; }
 
-  /* -----------------------------
-     Moderner Preis
-     ----------------------------- */
+  /* Moderner Preis */
   {% if section.settings.modern_price %}
   #collection-{{ section.id }} .card--product .price{
     display:flex; align-items:baseline; gap:.5rem; margin-top:.15rem;
@@ -124,17 +112,23 @@
   }
   {% endif %}
 
-  /* -----------------------------
-     Liefer-Badge (unter der Karte)
-     ----------------------------- */
-  #collection-{{ section.id }} .opt-delivery{
-    display:flex; align-items:center; gap:.5rem;
-    color: var(--opt-green);
-    font-weight: 700; font-size: 14px; line-height:1;
-    padding: 8px 2px 0 2px;
+  /* ============================
+     Grüner Liefer-Hinweis
+     exakt: UNTER Name, ÜBER Preis
+     (ohne Snippet-Änderung – via ::after)
+     ============================ */
+  /* nur zeigen, wenn auf <li> die Klasse gesetzt ist */
+  #collection-{{ section.id }} li.opt-delivery-enabled .card--product .card__heading{
+    margin-bottom: .25rem;
   }
-  #collection-{{ section.id }} .opt-delivery .opt-dot{
-    width:8px; height:8px; border-radius:999px; background:var(--opt-green);
+  #collection-{{ section.id }} li.opt-delivery-enabled .card--product .card__heading::after{
+    content: var(--delivery-text);
+    display:block;
+    margin-top:6px;
+    color: var(--opt-green);
+    font-weight:700;
+    font-size:14px;
+    line-height:1.1;
   }
 {%- endstyle -%}
 
@@ -207,9 +201,24 @@
               {% if lazy_load == false and forloop.index > max_columns_to_show %}
                 {% assign lazy_load = true %}
               {% endif %}
+
+              {%- comment -%}
+                Klasse "opt-delivery-enabled" nur setzen, wenn:
+                - Lieferbadge im Customizer aktiv ist UND
+                - (falls gewünscht) Produkt verfügbar ist
+              {%- endcomment -%}
+              {% assign show_badge_li = false %}
+              {% if section.settings.show_delivery_badge %}
+                {% if section.settings.delivery_only_in_stock %}
+                  {% if product.available %}{% assign show_badge_li = true %}{% endif %}
+                {% else %}
+                  {% assign show_badge_li = true %}
+                {% endif %}
+              {% endif %}
+
               <li
                 id="Slide-{{ section.id }}-{{ forloop.index }}"
-                class="grid__item{% if show_mobile_slider or show_desktop_slider %} slider__slide{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                class="grid__item{% if show_mobile_slider or show_desktop_slider %} slider__slide{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}{% if show_badge_li %} opt-delivery-enabled{% endif %}"
                 {% if settings.animations_reveal_on_scroll %}
                   data-cascade
                   style="--animation-order: {{ forloop.index }};"
@@ -227,23 +236,6 @@
                   section_id: section.id,
                   quick_add: section.settings.quick_add
                 %}
-
-                {%- comment -%}
-                  Liefer-Badge unter der Karte (keine Änderung am Snippet nötig)
-                {%- endcomment -%}
-                {% if section.settings.show_delivery_badge %}
-                  {% assign show_badge = true %}
-                  {% if section.settings.delivery_only_in_stock and product.available == false %}
-                    {% assign show_badge = false %}
-                  {% endif %}
-                  {% if show_badge %}
-                    <div class="opt-delivery">
-                      <span class="opt-dot"></span>
-                      {{ section.settings.delivery_text }}
-                    </div>
-                  {% endif %}
-                {% endif %}
-
               </li>
               {%- assign skip_card_product_styles = true -%}
             {%- endfor -%}
@@ -251,7 +243,7 @@
         {%- else -%}
           {%- for i in (1..section.settings.columns_desktop) -%}
             <li
-              class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+              class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}{% if section.settings.show_delivery_badge %} opt-delivery-enabled{% endif %}"
               {% if settings.animations_reveal_on_scroll %}
                 data-cascade
                 style="--animation-order: {{ forloop.index }};"
@@ -274,13 +266,6 @@
                 lazy_load: false,
                 placeholder_image: placeholder_image
               %}
-
-              {% if section.settings.show_delivery_badge %}
-                <div class="opt-delivery">
-                  <span class="opt-dot"></span>
-                  {{ section.settings.delivery_text }}
-                </div>
-              {% endif %}
             </li>
           {%- endfor -%}
         {%- endif -%}
@@ -344,7 +329,7 @@
   "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
     { "type": "collection", "id": "collection", "label": "t:sections.featured-collection.settings.collection.label" },
-    { "type": "range", "id": "products_to_show", "min": 2, "max": 25, "step": 1, "default": 8, "label": "t:sections.featured-collection.settings.products_to_show.label" },
+    { "type": "range", "id": "products_to_show", "min": 2, "max": 25, "step": 1, "default": 12, "label": "t:sections.featured-collection.settings.products_to_show.label" },
 
     { "type": "header", "content": "Überschrift" },
     { "type": "inline_richtext", "id": "title", "default": "t:sections.featured-collection.settings.title.default", "label": "t:sections.featured-collection.settings.title.label" },
@@ -365,7 +350,7 @@
     { "type": "checkbox", "id": "show_description", "label": "t:sections.featured-collection.settings.show_description.label", "default": false },
 
     { "type": "header", "content": "Darstellung" },
-    { "type": "range", "id": "columns_desktop", "min": 1, "max": 6, "step": 1, "default": 4, "label": "t:sections.featured-collection.settings.columns_desktop.label" },
+    { "type": "range", "id": "columns_desktop", "min": 1, "max": 6, "step": 1, "default": 6, "label": "t:sections.featured-collection.settings.columns_desktop.label" },
     { "type": "checkbox", "id": "enable_desktop_slider", "label": "t:sections.featured-collection.settings.enable_desktop_slider.label", "default": false },
     { "type": "checkbox", "id": "full_width", "label": "t:sections.featured-collection.settings.full_width.label", "default": false },
     { "type": "checkbox", "id": "show_view_all", "default": true, "label": "t:sections.featured-collection.settings.show_view_all.label", "info": "t:sections.featured-collection.settings.show_view_all.info" },
@@ -399,9 +384,9 @@
     { "type": "checkbox", "id": "modern_price", "label": "Moderner Preisstil", "default": true },
 
     { "type": "header", "content": "Liefer-Hinweis" },
-    { "type": "checkbox", "id": "show_delivery_badge", "label": "Lieferhinweis unter Produkten anzeigen", "default": true },
+    { "type": "checkbox", "id": "show_delivery_badge", "label": "Lieferhinweis anzeigen (unter Titel, über Preis)", "default": true },
     { "type": "text", "id": "delivery_text", "label": "Text", "default": "Lieferung 1–3 Tage · Gratis" },
-    { "type": "checkbox", "id": "delivery_only_in_stock", "label": "Nur anzeigen, wenn Produkt verfügbar", "default": false },
+    { "type": "checkbox", "id": "delivery_only_in_stock", "label": "Nur anzeigen, wenn Produkt verfügbar", "default": true },
     { "type": "color", "id": "delivery_badge_color", "label": "Farbe (Grün)", "default": "#16a34a" },
 
     { "type": "header", "content": "t:sections.featured-collection.settings.header.content" },
