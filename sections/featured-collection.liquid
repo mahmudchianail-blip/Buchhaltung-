@@ -37,8 +37,7 @@
   }
 
   /* ============================
-     Modern Card + Einheitliche Bilder
-     (nur in dieser Section)
+     Modern Card + Einheitliche Bilder (nur diese Section)
      ============================ */
   #collection-{{ section.id }}{
     --opt-card-radius: 14px;
@@ -47,10 +46,8 @@
     --opt-card-pad: 14px;
     --opt-title-lines: 2;
     --opt-green: {{ section.settings.delivery_badge_color | default: '#16a34a' }};
-    --delivery-text: "{{ section.settings.delivery_text | escape }}";
   }
 
-  /* Karten-Optik */
   #collection-{{ section.id }} .product-grid{ gap:18px; }
   #collection-{{ section.id }} .card--product{
     border-radius:var(--opt-card-radius);
@@ -66,7 +63,7 @@
   }
   {% endif %}
 
-  /* Einheitliche Bilder (Aspect Ratio) */
+  /* Einheitliche Bilder */
   {% if section.settings.force_uniform_images %}
     {% assign ratio = '1/1' %}
     {% if section.settings.uniform_ratio == 'portrait' %}{% assign ratio = '3/4' %}
@@ -85,7 +82,7 @@
     }
   {% endif %}
 
-  /* Gleich hohe Karten (Clamp + Flex) */
+  /* Gleich hohe Karten */
   #collection-{{ section.id }} .card--product .card__content,
   #collection-{{ section.id }} .card--product .card__information{
     display:flex; flex-direction:column; gap:.35rem; padding:var(--opt-card-pad);
@@ -112,23 +109,15 @@
   }
   {% endif %}
 
-  /* ============================
-     Grüner Liefer-Hinweis
-     exakt: UNTER Name, ÜBER Preis
-     (ohne Snippet-Änderung – via ::after)
-     ============================ */
-  /* nur zeigen, wenn auf <li> die Klasse gesetzt ist */
-  #collection-{{ section.id }} li.opt-delivery-enabled .card--product .card__heading{
-    margin-bottom: .25rem;
-  }
-  #collection-{{ section.id }} li.opt-delivery-enabled .card--product .card__heading::after{
-    content: var(--delivery-text);
-    display:block;
-    margin-top:6px;
+  /* Grüner Liefer-Hinweis (echtes DOM-Element, zwischen Titel & Preis) */
+  #collection-{{ section.id }} .opt-delivery-inline{
+    display:flex; align-items:center; gap:8px;
     color: var(--opt-green);
-    font-weight:700;
-    font-size:14px;
-    line-height:1.1;
+    font-weight:700; font-size:14px; line-height:1.1;
+    margin-top:6px;
+  }
+  #collection-{{ section.id }} .opt-delivery-inline::before{
+    content:''; width:8px; height:8px; border-radius:999px; background:var(--opt-green);
   }
 {%- endstyle -%}
 
@@ -203,9 +192,7 @@
               {% endif %}
 
               {%- comment -%}
-                Klasse "opt-delivery-enabled" nur setzen, wenn:
-                - Lieferbadge im Customizer aktiv ist UND
-                - (falls gewünscht) Produkt verfügbar ist
+                Markiere LI für die Lieferung-Einblendung
               {%- endcomment -%}
               {% assign show_badge_li = false %}
               {% if section.settings.show_delivery_badge %}
@@ -321,6 +308,57 @@
   </div>
 </div>
 
+{%- comment -%}
+  JS: Fügt den Liefer-Text direkt NACH dem Titel und VOR dem Preis ein.
+{%- endcomment -%}
+<script>
+(function(){
+  var root = document.getElementById('collection-{{ section.id }}');
+  if(!root) return;
+
+  var text = {{ section.settings.delivery_text | json }};
+  var color = {{ section.settings.delivery_badge_color | json }};
+  var showBadge = {{ section.settings.show_delivery_badge | json }};
+
+  function inject(){
+    if(!showBadge) return;
+    root.querySelectorAll('li.opt-delivery-enabled .card--product .card__information')
+      .forEach(function(info){
+        if(info.querySelector('.opt-delivery-inline')) return;
+        var el = document.createElement('div');
+        el.className = 'opt-delivery-inline';
+        el.textContent = text;
+        el.style.color = color;
+
+        var price = info.querySelector('.price');
+        if(price){
+          info.insertBefore(el, price); // exakt über dem Preis
+        } else {
+          var heading = info.querySelector('.card__heading');
+          if(heading && heading.nextSibling){
+            info.insertBefore(el, heading.nextSibling);
+          } else if(heading){
+            info.appendChild(el);
+          } else {
+            info.prepend(el);
+          }
+        }
+    });
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', inject);
+  } else {
+    inject();
+  }
+
+  // Re-run im Theme-Editor bei Section-Events
+  document.addEventListener('shopify:section:load', inject);
+  document.addEventListener('shopify:section:select', inject);
+  document.addEventListener('shopify:section:unload', inject);
+})();
+</script>
+
 {% schema %}
 {
   "name": "t:sections.featured-collection.name",
@@ -384,7 +422,7 @@
     { "type": "checkbox", "id": "modern_price", "label": "Moderner Preisstil", "default": true },
 
     { "type": "header", "content": "Liefer-Hinweis" },
-    { "type": "checkbox", "id": "show_delivery_badge", "label": "Lieferhinweis anzeigen (unter Titel, über Preis)", "default": true },
+    { "type": "checkbox", "id": "show_delivery_badge", "label": "Lieferhinweis zwischen Titel & Preis einfügen", "default": true },
     { "type": "text", "id": "delivery_text", "label": "Text", "default": "Lieferung 1–3 Tage · Gratis" },
     { "type": "checkbox", "id": "delivery_only_in_stock", "label": "Nur anzeigen, wenn Produkt verfügbar", "default": true },
     { "type": "color", "id": "delivery_badge_color", "label": "Farbe (Grün)", "default": "#16a34a" },
