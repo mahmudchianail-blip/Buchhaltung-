@@ -42,7 +42,7 @@
     text-wrap: balance;
   }
 
-  /* Moderner CTA – zusätzliche Klasse: .button--modern */
+  /* Moderner CTA – zusätzliche Klasse: .button--modern (Basis) */
   .section-{{ section.id }}-padding .button.button--modern{
     --btn-grad: linear-gradient(90deg,#34d399 0%,#60a5fa 45%,#a78bfa 100%);
     --btn-shadow: 0 8px 20px rgba(0,0,0,.08);
@@ -68,28 +68,14 @@
 
     transition: transform .18s ease, box-shadow .18s ease, background-position .6s linear;
   }
-
-  /* Pfeil als kleines Micro-Signal, ohne den Label-Text zu ändern */
-  .section-{{ section.id }}-padding .button.button--modern::after{
-    content: "→";
-    font-weight: 700;
-    transform: translateX(0);
-    transition: transform .18s ease;
-  }
-
   .section-{{ section.id }}-padding .button.button--modern:hover{
     transform: translateY(-1px);
     background-position: 100% 0;
     box-shadow: 0 12px 28px rgba(0,0,0,.12);
   }
-  .section-{{ section.id }}-padding .button.button--modern:hover::after{
-    transform: translateX(2px);
-  }
-
   .section-{{ section.id }}-padding .button.button--modern:active{
     transform: translateY(0);
   }
-
   .section-{{ section.id }}-padding .button.button--modern:focus-visible{
     outline: 0;
     box-shadow:
@@ -97,7 +83,7 @@
       0 0 0 6px rgba(52,211,153,.45);
   }
 
-  /* Wenn im Editor „Sekundär“ (Outline) gewählt ist: edler Gradient-Rand */
+  /* Outline-Variante (Editor „Sekundär“) – edler Gradient-Rand */
   .section-{{ section.id }}-padding .button--secondary.button--modern{
     color: #111827;
     background:
@@ -108,74 +94,86 @@
 
   /* Bewegungsarme Nutzer: keine Animationen */
   @media (prefers-reduced-motion: reduce){
-    .section-{{ section.id }}-padding .button.button--modern,
-    .section-{{ section.id }}-padding .button.button--modern::after{
-      transition: none !important;
+    .section-{{ section.id }}-padding .button.button--modern{ transition: none !important; }
+  }
+
+  /* === CTA wie Bild 2: kräftiger Pill-Gradient, fett, kein Pfeil/Underline === */
+  #ImageWithText--{{ section.id }} .button.button--modern{
+    --btn-grad-strong: linear-gradient(135deg,#6D28D9 0%, #6366F1 45%, #EC4899 100%);
+    background-image: var(--btn-grad-strong) !important;
+    color: #fff !important;
+
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-inline: auto; place-self: center;
+    padding: 1rem 1.6rem;
+    border: 0 !important;
+    border-radius: 9999px;
+    text-decoration: none !important;
+    font-weight: 800;
+    line-height: 1;
+    gap: 0;
+
+    box-shadow: 0 10px 24px rgba(109,40,217,.22);
+    background-size: 200% 100%;
+    background-position: 0 0;
+    transition: transform .18s ease, box-shadow .18s ease, background-position .6s linear;
+  }
+  #ImageWithText--{{ section.id }} .button.button--modern:hover{
+    transform: translateY(-1px);
+    background-position: 100% 0;
+    box-shadow: 0 14px 30px rgba(109,40,217,.28);
+  }
+  #ImageWithText--{{ section.id }} .button.button--modern:focus-visible{
+    outline: 0;
+    box-shadow:
+      0 0 0 3px rgba(255,255,255,.95),
+      0 0 0 6px rgba(99,102,241,.45);
+  }
+  /* Theme-Pseudoelemente & Pfeile aus */
+  #ImageWithText--{{ section.id }} .button.button--modern::before,
+  #ImageWithText--{{ section.id }} .button.button--modern::after{
+    content: none !important;
+  }
+  #ImageWithText--{{ section.id }} .button--secondary.button--modern{
+    background-image: var(--btn-grad-strong) !important;
+    color: #fff !important;
+    border: 0 !important;
+    box-shadow: 0 10px 24px rgba(109,40,217,.22);
+  }
+
+  /* === Bild ohne Rand/Box + 3D-Tilt Vorbereitung === */
+  .section-{{ section.id }}-padding .image-with-text__media{
+    background: transparent !important;
+    border: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    overflow: visible;
+    perspective: 900px;           /* Basis für 3D */
+  }
+  .section-{{ section.id }}-padding .image-with-text__media.gradient,
+  .section-{{ section.id }}-padding .image-with-text__media.background-transparent{
+    background: transparent !important;
+  }
+  .section-{{ section.id }}-padding .image-with-text__media img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    will-change: transform;
+    transform: translateZ(0);
+    transition: transform .2s ease;
+    backface-visibility: hidden;
+    pointer-events: none;         /* Events bleiben auf dem Wrapper */
+  }
+  @media (hover: hover){
+    .section-{{ section.id }}-padding .image-with-text__media:hover img{
+      filter: drop-shadow(0 24px 36px rgba(0,0,0,.15));
     }
   }
-  /* === CTA wie Bild 2: Pill + starker Gradient, kein Underline, kein Pfeil === */
 
-#ImageWithText--{{ section.id }} .button.button--modern{
-  /* Farben/Look */
-  --btn-grad-strong: linear-gradient(135deg,#6D28D9 0%, #6366F1 45%, #EC4899 100%);
-  background-image: var(--btn-grad-strong) !important;
-  color: #fff !important;
-
-  /* Form & Layout */
-  display: inline-flex; align-items: center; justify-content: center;
-  margin-inline: auto; place-self: center;
-  padding: 1rem 1.6rem;
-  border: 0 !important;
-  border-radius: 9999px;
-  text-decoration: none !important;   /* kein Unterstrich */
-  font-weight: 800;                   /* wie im Beispiel fett */
-  line-height: 1;
-  gap: 0;
-
-  /* Glanz */
-  box-shadow: 0 10px 24px rgba(109,40,217,.22);
-  background-size: 200% 100%;
-  background-position: 0 0;
-  transition: transform .18s ease, box-shadow .18s ease, background-position .6s linear;
-}
-
-/* Hover/Active – dezent, ohne Layoutsprung */
-#ImageWithText--{{ section.id }} .button.button--modern:hover{
-  transform: translateY(-1px);
-  background-position: 100% 0;
-  box-shadow: 0 14px 30px rgba(109,40,217,.28);
-}
-#ImageWithText--{{ section.id }} .button.button--modern:active{
-  transform: translateY(0);
-}
-
-/* Fokus-Ring (barrierefrei) */
-#ImageWithText--{{ section.id }} .button.button--modern:focus-visible{
-  outline: 0;
-  box-shadow:
-    0 0 0 3px rgba(255,255,255,.95),
-    0 0 0 6px rgba(99,102,241,.45);
-}
-
-/* Theme-Ränder und Pfeile zuverlässig aus */
-#ImageWithText--{{ section.id }} .button.button--modern::before,
-#ImageWithText--{{ section.id }} .button.button--modern::after{
-  content: none !important;     /* kein Pfeil, kein Theme-Pseudo-Element */
-}
-
-/* Falls im Editor „Sekundär/Outline“ aktiv ist: trotzdem wie gefüllt darstellen */
-#ImageWithText--{{ section.id }} .button--secondary.button--modern{
-  background-image: var(--btn-grad-strong) !important;
-  color: #fff !important;
-  border: 0 !important;
-  box-shadow: 0 10px 24px rgba(109,40,217,.22);
-}
-
-/* Bewegungsarme Nutzer */
-@media (prefers-reduced-motion: reduce){
-  #ImageWithText--{{ section.id }} .button.button--modern{ transition: none !important; }
-}
-
+  /* OPTIONAL: bündig ohne Innenabstand (wenn wirklich edge-to-edge gewünscht) */
+  /* .section-{{ section.id }}-padding .page-width{ padding-left:0 !important; padding-right:0 !important; } */
 {%- endstyle -%}
 
 {%- liquid
@@ -271,113 +269,101 @@
   </div>
 </div>
 
+<script>
+(() => {
+  const root = document.querySelector('.section-{{ section.id }}-padding');
+  if (!root) return;
+  const wrap = root.querySelector('.image-with-text__media');
+  const img  = wrap && wrap.querySelector('img');
+  if (!wrap || !img) return;
+
+  // Auf Touch-Geräten & bei reduzierter Bewegung deaktivieren
+  if (matchMedia('(pointer: coarse)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  let rafId = null;
+  const reset = () => { img.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)'; };
+
+  const onMove = (e) => {
+    const r = wrap.getBoundingClientRect();
+    const nx = (e.clientX - r.left) / r.width - 0.5;   // -0.5…0.5
+    const ny = (e.clientY - r.top)  / r.height - 0.5;
+
+    const rotX = (-ny) * 12;  // Deg
+    const rotY = ( nx) * 18;
+    const scale = 1.03;
+
+    cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(() => {
+      img.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${scale})`;
+    });
+  };
+
+  wrap.addEventListener('mousemove', onMove);
+  wrap.addEventListener('mouseleave', reset);
+})();
+</script>
+
 {% schema %}
 {
   "name": "t:sections.image-with-text.name",
   "class": "section",
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
+  "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "image",
-      "label": "t:sections.image-with-text.settings.image.label"
-    },
-    {
-      "type": "select",
-      "id": "height",
-      "options": [
+    { "type": "image_picker", "id": "image", "label": "t:sections.image-with-text.settings.image.label" },
+    { "type": "select", "id": "height", "options": [
         { "value": "adapt", "label": "t:sections.image-with-text.settings.height.options__1.label" },
         { "value": "small", "label": "t:sections.image-with-text.settings.height.options__2.label" },
-        { "value": "medium", "label": "t:sections.image-with-text.settings.height.options__3.label" },
+        { "value": "medium","label": "t:sections.image-with-text.settings.height.options__3.label" },
         { "value": "large", "label": "t:sections.image-with-text.settings.height.options__4.label" }
-      ],
-      "default": "adapt",
-      "label": "t:sections.image-with-text.settings.height.label"
+      ], "default": "adapt", "label": "t:sections.image-with-text.settings.height.label"
     },
-    {
-      "type": "select",
-      "id": "desktop_image_width",
-      "options": [
+    { "type": "select", "id": "desktop_image_width", "options": [
         { "value": "small", "label": "t:sections.image-with-text.settings.desktop_image_width.options__1.label" },
-        { "value": "medium", "label": "t:sections.image-with-text.settings.desktop_image_width.options__2.label" },
+        { "value": "medium","label": "t:sections.image-with-text.settings.desktop_image_width.options__2.label" },
         { "value": "large", "label": "t:sections.image-with-text.settings.desktop_image_width.options__3.label" }
-      ],
-      "default": "medium",
-      "label": "t:sections.image-with-text.settings.desktop_image_width.label"
+      ], "default": "medium", "label": "t:sections.image-with-text.settings.desktop_image_width.label"
     },
-    {
-      "type": "select",
-      "id": "layout",
-      "options": [
+    { "type": "select", "id": "layout", "options": [
         { "value": "image_first", "label": "t:sections.image-with-text.settings.layout.options__1.label" },
         { "value": "text_first",  "label": "t:sections.image-with-text.settings.layout.options__2.label" }
-      ],
-      "default": "image_first",
-      "label": "t:sections.image-with-text.settings.layout.label"
+      ], "default": "image_first", "label": "t:sections.image-with-text.settings.layout.label"
     },
-    {
-      "type": "select",
-      "id": "image_behavior",
-      "options": [
-        { "value": "none",    "label": "t:sections.all.animation.image_behavior.options__1.label" },
-        { "value": "ambient", "label": "t:sections.all.animation.image_behavior.options__2.label" },
-        { "value": "zoom-in", "label": "t:sections.all.animation.image_behavior.options__4.label" }
-      ],
-      "default": "none",
-      "label": "t:sections.all.animation.image_behavior.label"
+    { "type": "select", "id": "image_behavior", "options": [
+        { "value": "none",   "label": "t:sections.all.animation.image_behavior.options__1.label" },
+        { "value": "ambient","label": "t:sections.all.animation.image_behavior.options__2.label" },
+        { "value": "zoom-in","label": "t:sections.all.animation.image_behavior.options__4.label" }
+      ], "default": "none", "label": "t:sections.all.animation.image_behavior.label"
     },
     { "type": "header", "content": "t:sections.image-with-text.settings.header.content" },
-    {
-      "type": "select",
-      "id": "content_layout",
-      "options": [
+    { "type": "select", "id": "content_layout", "options": [
         { "value": "no-overlap", "label": "t:sections.image-with-text.settings.content_layout.options__1.label" },
         { "value": "overlap",    "label": "t:sections.image-with-text.settings.content_layout.options__2.label" }
-      ],
-      "default": "no-overlap",
-      "label": "t:sections.image-with-text.settings.content_layout.label"
+      ], "default": "no-overlap", "label": "t:sections.image-with-text.settings.content_layout.label"
     },
-    {
-      "type": "select",
-      "id": "desktop_content_position",
-      "options": [
-        { "value": "top",    "label": "t:sections.image-with-text.settings.desktop_content_position.options__1.label" },
-        { "value": "middle", "label": "t:sections.image-with-text.settings.desktop_content_position.options__2.label" },
-        { "value": "bottom", "label": "t:sections.image-with-text.settings.desktop_content_position.options__3.label" }
-      ],
-      "default": "top",
-      "label": "t:sections.image-with-text.settings.desktop_content_position.label"
+    { "type": "select", "id": "desktop_content_position", "options": [
+        { "value": "top",   "label": "t:sections.image-with-text.settings.desktop_content_position.options__1.label" },
+        { "value": "middle","label": "t:sections.image-with-text.settings.desktop_content_position.options__2.label" },
+        { "value": "bottom","label": "t:sections.image-with-text.settings.desktop_content_position.options__3.label" }
+      ], "default": "top", "label": "t:sections.image-with-text.settings.desktop_content_position.label"
     },
-    {
-      "type": "select",
-      "id": "desktop_content_alignment",
-      "options": [
-        { "value": "left",   "label": "t:sections.image-with-text.settings.desktop_content_alignment.options__1.label" },
-        { "value": "center", "label": "t:sections.image-with-text.settings.desktop_content_alignment.options__2.label" },
-        { "value": "right",  "label": "t:sections.image-with-text.settings.desktop_content_alignment.options__3.label" }
-      ],
-      "default": "left",
-      "label": "t:sections.image-with-text.settings.desktop_content_alignment.label"
+    { "type": "select", "id": "desktop_content_alignment", "options": [
+        { "value": "left",  "label": "t:sections.image-with-text.settings.desktop_content_alignment.options__1.label" },
+        { "value": "center","label": "t:sections.image-with-text.settings.desktop_content_alignment.options__2.label" },
+        { "value": "right", "label": "t:sections.image-with-text.settings.desktop_content_alignment.options__3.label" }
+      ], "default": "left", "label": "t:sections.image-with-text.settings.desktop_content_alignment.label"
     },
-    {
-      "type": "select",
-      "id": "mobile_content_alignment",
-      "options": [
-        { "value": "left",   "label": "t:sections.image-with-text.settings.mobile_content_alignment.options__1.label" },
-        { "value": "center", "label": "t:sections.image-with-text.settings.mobile_content_alignment.options__2.label" },
-        { "value": "right",  "label": "t:sections.image-with-text.settings.mobile_content_alignment.options__3.label" }
-      ],
-      "default": "left",
-      "label": "t:sections.image-with-text.settings.mobile_content_alignment.label"
+    { "type": "select", "id": "mobile_content_alignment", "options": [
+        { "value": "left",  "label": "t:sections.image-with-text.settings.mobile_content_alignment.options__1.label" },
+        { "value": "center","label": "t:sections.image-with-text.settings.mobile_content_alignment.options__2.label" },
+        { "value": "right", "label": "t:sections.image-with-text.settings.mobile_content_alignment.options__3.label" }
+      ], "default": "left", "label": "t:sections.image-with-text.settings.mobile_content_alignment.label"
     },
     { "type": "header", "content": "t:sections.image-with-text.settings.header_colors.content" },
     { "type": "color_scheme", "id": "section_color_scheme", "label": "t:sections.all.colors.label", "default": "scheme-1" },
     { "type": "color_scheme", "id": "color_scheme", "label": "t:sections.multirow.settings.container_color_scheme.label", "default": "scheme-1" },
     { "type": "header", "content": "t:sections.all.padding.section_padding_heading" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "t:sections.all.padding.padding_top", "default": 36 },
-    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "t:sections.all.padding.padding_bottom", "default": 36 }
+    { "type": "range", "id": "padding_bottom","min": 0, "max": 100, "step": 4, "unit": "px", "label": "t:sections.all.padding.padding_bottom", "default": 36 }
   ],
   "blocks": [
     {
@@ -386,18 +372,13 @@
       "limit": 1,
       "settings": [
         { "type": "inline_richtext", "id": "heading", "default": "t:sections.image-with-text.blocks.heading.settings.heading.default", "label": "t:sections.image-with-text.blocks.heading.settings.heading.label" },
-        {
-          "type": "select",
-          "id": "heading_size",
-          "options": [
+        { "type": "select", "id": "heading_size", "options": [
             { "value": "h2",  "label": "t:sections.all.heading_size.options__1.label" },
             { "value": "h1",  "label": "t:sections.all.heading_size.options__2.label" },
             { "value": "h0",  "label": "t:sections.all.heading_size.options__3.label" },
             { "value": "hxl", "label": "t:sections.all.heading_size.options__4.label" },
             { "value": "hxxl","label": "t:sections.all.heading_size.options__5.label" }
-          ],
-          "default": "h1",
-          "label": "t:sections.all.heading_size.label"
+          ], "default": "h1", "label": "t:sections.all.heading_size.label"
         }
       ]
     },
@@ -407,26 +388,16 @@
       "limit": 1,
       "settings": [
         { "type": "text", "id": "caption", "default": "t:sections.image-with-text.blocks.caption.settings.text.default", "label": "t:sections.image-with-text.blocks.caption.settings.text.label" },
-        {
-          "type": "select",
-          "id": "text_style",
-          "options": [
+        { "type": "select", "id": "text_style", "options": [
             { "value": "subtitle", "label": "t:sections.image-with-text.blocks.caption.settings.text_style.options__1.label" },
             { "value": "caption-with-letter-spacing", "label": "t:sections.image-with-text.blocks.caption.settings.text_style.options__2.label" }
-          ],
-          "default": "caption-with-letter-spacing",
-          "label": "t:sections.image-with-text.blocks.caption.settings.text_style.label"
+          ], "default": "caption-with-letter-spacing", "label": "t:sections.image-with-text.blocks.caption.settings.text_style.label"
         },
-        {
-          "type": "select",
-          "id": "text_size",
-          "options": [
+        { "type": "select", "id": "text_size", "options": [
             { "value": "small",  "label": "t:sections.image-with-text.blocks.caption.settings.caption_size.options__1.label" },
             { "value": "medium", "label": "t:sections.image-with-text.blocks.caption.settings.caption_size.options__2.label" },
             { "value": "large",  "label": "t:sections.image-with-text.blocks.caption.settings.caption_size.options__3.label" }
-          ],
-          "default": "medium",
-          "label": "t:sections.image-with-text.blocks.caption.settings.caption_size.label"
+          ], "default": "medium", "label": "t:sections.image-with-text.blocks.caption.settings.caption_size.label"
         }
       ]
     },
@@ -436,15 +407,10 @@
       "limit": 1,
       "settings": [
         { "type": "richtext", "id": "text", "default": "t:sections.image-with-text.blocks.text.settings.text.default", "label": "t:sections.image-with-text.blocks.text.settings.text.label" },
-        {
-          "type": "select",
-          "id": "text_style",
-          "options": [
-            { "value": "body",     "label": "t:sections.image-with-text.blocks.text.settings.text_style.options__1.label" },
-            { "value": "subtitle", "label": "t:sections.image-with-text.blocks.text.settings.text_style.options__2.label" }
-          ],
-          "default": "body",
-          "label": "t:sections.image-with-text.blocks.text.settings.text_style.label"
+        { "type": "select", "id": "text_style", "options": [
+            { "value": "body",    "label": "t:sections.image-with-text.blocks.text.settings.text_style.options__1.label" },
+            { "value": "subtitle","label": "t:sections.image-with-text.blocks.text.settings.text_style.options__2.label" }
+          ], "default": "body", "label": "t:sections.image-with-text.blocks.text.settings.text_style.label"
         }
       ]
     },
@@ -460,10 +426,7 @@
     }
   ],
   "presets": [
-    {
-      "name": "t:sections.image-with-text.presets.name",
-      "blocks": [{ "type": "heading" }, { "type": "text" }, { "type": "button" }]
-    }
+    { "name": "t:sections.image-with-text.presets.name", "blocks": [{ "type": "heading" }, { "type": "text" }, { "type": "button" }] }
   ]
 }
 {% endschema %}
