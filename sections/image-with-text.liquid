@@ -113,6 +113,47 @@
       transition: none !important;
     }
   }
+  /* === PATCH: Button wirklich zentrieren & Pfeil rechts, ohne „Schleichen“ === */
+
+/* 1) Elternblock mittig haben wir schon – hier das <a> selbst fix zentrieren */
+#ImageWithText--{{ section.id }} .button{
+  margin-inline: auto;        /* horizontale Mitte */
+  place-self: center;         /* falls Theme justify-self:start setzt */
+  display: inline-flex;       /* für saubere Pfeil-Platzierung */
+  flex-direction: row;        /* Text links, Pfeil rechts */
+  align-items: center;
+  gap: .6rem;
+  white-space: nowrap;        /* kein Zeilenumbruch => keine Breiten-Sprünge */
+}
+
+/* 2) Theme-Pfeil links zuverlässig entfernen */
+#ImageWithText--{{ section.id }} .button::before{
+  content: none !important;
+}
+
+/* 3) Unser Pfeil bleibt rechts und bewegt sich ohne Reflow */
+#ImageWithText--{{ section.id }} .button.button--modern::after{
+  content: "→";
+  font-weight: 700;
+  transform: translateX(0);
+  transition: transform .18s ease;
+}
+#ImageWithText--{{ section.id }} .button.button--modern:hover::after{
+  transform: translateX(2px);
+}
+
+/* 4) Wenn im Editor „Sekundär/Outline“ gewählt wurde, trotzdem gefüllt (optional) */
+#ImageWithText--{{ section.id }} .button--secondary.button--modern{
+  background-image: var(--btn-grad);
+  color: #fff;
+  border: 0 !important;
+}
+
+/* 5) Keine Layout-Sprünge durch Fokus/Hover-Border */
+#ImageWithText--{{ section.id }} .button.button--modern{
+  border-width: 0 !important;
+}
+
 {%- endstyle -%}
 
 {%- liquid
