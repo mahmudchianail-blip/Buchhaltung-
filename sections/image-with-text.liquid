@@ -113,48 +113,67 @@
       transition: none !important;
     }
   }
-  /* === PATCH: Rand weg + sauberer Pfeil rechts ===================== */
+  /* === CTA wie Bild 2: Pill + starker Gradient, kein Underline, kein Pfeil === */
 
-/* Rand/Outline zuverlässig entfernen (Theme setzt oft Border + ::before) */
 #ImageWithText--{{ section.id }} .button.button--modern{
-  border: none !important;
-  outline: none !important;
-  box-shadow: var(--btn-shadow); /* dein weicher Shadow bleibt */
+  /* Farben/Look */
+  --btn-grad-strong: linear-gradient(135deg,#6D28D9 0%, #6366F1 45%, #EC4899 100%);
+  background-image: var(--btn-grad-strong) !important;
+  color: #fff !important;
+
+  /* Form & Layout */
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-inline: auto; place-self: center;
+  padding: 1rem 1.6rem;
+  border: 0 !important;
+  border-radius: 9999px;
+  text-decoration: none !important;   /* kein Unterstrich */
+  font-weight: 800;                   /* wie im Beispiel fett */
+  line-height: 1;
+  gap: 0;
+
+  /* Glanz */
+  box-shadow: 0 10px 24px rgba(109,40,217,.22);
+  background-size: 200% 100%;
+  background-position: 0 0;
+  transition: transform .18s ease, box-shadow .18s ease, background-position .6s linear;
 }
 
-/* Theme-Border-Pseudoelement deaktivieren */
-#ImageWithText--{{ section.id }} .button.button--modern::before{
-  content: none !important;
+/* Hover/Active – dezent, ohne Layoutsprung */
+#ImageWithText--{{ section.id }} .button.button--modern:hover{
+  transform: translateY(-1px);
+  background-position: 100% 0;
+  box-shadow: 0 14px 30px rgba(109,40,217,.28);
+}
+#ImageWithText--{{ section.id }} .button.button--modern:active{
+  transform: translateY(0);
 }
 
-/* Pfeil: ersetzt den Textpfeil durch ein crispes SVG (bleibt rechts) */
+/* Fokus-Ring (barrierefrei) */
+#ImageWithText--{{ section.id }} .button.button--modern:focus-visible{
+  outline: 0;
+  box-shadow:
+    0 0 0 3px rgba(255,255,255,.95),
+    0 0 0 6px rgba(99,102,241,.45);
+}
+
+/* Theme-Ränder und Pfeile zuverlässig aus */
+#ImageWithText--{{ section.id }} .button.button--modern::before,
 #ImageWithText--{{ section.id }} .button.button--modern::after{
-  /* überschreibt frühere content:"→" Regel */
-  content: "";
-  width: 1.05em;
-  height: 1.05em;
-  margin-left: .5rem;
-  background-color: currentColor;            /* übernimmt Textfarbe (weiß) */
-  -webkit-mask: url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000'>\
-<path d='M8.22 4.22a.75.75 0 011.06 0l7.5 7.5a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 11-1.06-1.06L14.94 12 8.22 5.28a.75.75 0 010-1.06z'/>\
-</svg>") no-repeat center / contain;
-  mask: url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000'>\
-<path d='M8.22 4.22a.75.75 0 011.06 0l7.5 7.5a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 11-1.06-1.06L14.94 12 8.22 5.28a.75.75 0 010-1.06z'/>\
-</svg>") no-repeat center / contain;
-  transform: translateX(0);
-  transition: transform .18s ease;
+  content: none !important;     /* kein Pfeil, kein Theme-Pseudo-Element */
 }
 
-/* dezentes „Wischen“ nach rechts – ohne Layoutsprung */
-#ImageWithText--{{ section.id }} .button.button--modern:hover::after{
-  transform: translateX(3px);
+/* Falls im Editor „Sekundär/Outline“ aktiv ist: trotzdem wie gefüllt darstellen */
+#ImageWithText--{{ section.id }} .button--secondary.button--modern{
+  background-image: var(--btn-grad-strong) !important;
+  color: #fff !important;
+  border: 0 !important;
+  box-shadow: 0 10px 24px rgba(109,40,217,.22);
 }
 
-/* Falls irgendein Fokusrand doch erscheint, nimm unseren Ring */
-#ImageWithText--{{ section.id }} .button.button--modern:focus{
-  outline: none !important;
+/* Bewegungsarme Nutzer */
+@media (prefers-reduced-motion: reduce){
+  #ImageWithText--{{ section.id }} .button.button--modern{ transition: none !important; }
 }
 
 {%- endstyle -%}
