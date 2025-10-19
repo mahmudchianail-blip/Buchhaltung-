@@ -113,45 +113,48 @@
       transition: none !important;
     }
   }
-  /* === PATCH: Button wirklich zentrieren & Pfeil rechts, ohne „Schleichen“ === */
+  /* === PATCH: Rand weg + sauberer Pfeil rechts ===================== */
 
-/* 1) Elternblock mittig haben wir schon – hier das <a> selbst fix zentrieren */
-#ImageWithText--{{ section.id }} .button{
-  margin-inline: auto;        /* horizontale Mitte */
-  place-self: center;         /* falls Theme justify-self:start setzt */
-  display: inline-flex;       /* für saubere Pfeil-Platzierung */
-  flex-direction: row;        /* Text links, Pfeil rechts */
-  align-items: center;
-  gap: .6rem;
-  white-space: nowrap;        /* kein Zeilenumbruch => keine Breiten-Sprünge */
+/* Rand/Outline zuverlässig entfernen (Theme setzt oft Border + ::before) */
+#ImageWithText--{{ section.id }} .button.button--modern{
+  border: none !important;
+  outline: none !important;
+  box-shadow: var(--btn-shadow); /* dein weicher Shadow bleibt */
 }
 
-/* 2) Theme-Pfeil links zuverlässig entfernen */
-#ImageWithText--{{ section.id }} .button::before{
+/* Theme-Border-Pseudoelement deaktivieren */
+#ImageWithText--{{ section.id }} .button.button--modern::before{
   content: none !important;
 }
 
-/* 3) Unser Pfeil bleibt rechts und bewegt sich ohne Reflow */
+/* Pfeil: ersetzt den Textpfeil durch ein crispes SVG (bleibt rechts) */
 #ImageWithText--{{ section.id }} .button.button--modern::after{
-  content: "→";
-  font-weight: 700;
+  /* überschreibt frühere content:"→" Regel */
+  content: "";
+  width: 1.05em;
+  height: 1.05em;
+  margin-left: .5rem;
+  background-color: currentColor;            /* übernimmt Textfarbe (weiß) */
+  -webkit-mask: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000'>\
+<path d='M8.22 4.22a.75.75 0 011.06 0l7.5 7.5a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 11-1.06-1.06L14.94 12 8.22 5.28a.75.75 0 010-1.06z'/>\
+</svg>") no-repeat center / contain;
+  mask: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000'>\
+<path d='M8.22 4.22a.75.75 0 011.06 0l7.5 7.5a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 11-1.06-1.06L14.94 12 8.22 5.28a.75.75 0 010-1.06z'/>\
+</svg>") no-repeat center / contain;
   transform: translateX(0);
   transition: transform .18s ease;
 }
+
+/* dezentes „Wischen“ nach rechts – ohne Layoutsprung */
 #ImageWithText--{{ section.id }} .button.button--modern:hover::after{
-  transform: translateX(2px);
+  transform: translateX(3px);
 }
 
-/* 4) Wenn im Editor „Sekundär/Outline“ gewählt wurde, trotzdem gefüllt (optional) */
-#ImageWithText--{{ section.id }} .button--secondary.button--modern{
-  background-image: var(--btn-grad);
-  color: #fff;
-  border: 0 !important;
-}
-
-/* 5) Keine Layout-Sprünge durch Fokus/Hover-Border */
-#ImageWithText--{{ section.id }} .button.button--modern{
-  border-width: 0 !important;
+/* Falls irgendein Fokusrand doch erscheint, nimm unseren Ring */
+#ImageWithText--{{ section.id }} .button.button--modern:focus{
+  outline: none !important;
 }
 
 {%- endstyle -%}
