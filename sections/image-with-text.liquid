@@ -113,48 +113,60 @@
       transition: none !important;
     }
   }
-  /* === PATCH: Rand weg + sauberer Pfeil rechts ===================== */
+  /* === CLEAN CTA: zurück zu Theme-Farben, kein Rand, eleganter Pfeil === */
 
-/* Rand/Outline zuverlässig entfernen (Theme setzt oft Border + ::before) */
+/* Pfeile/Umrandungen vom Theme sicher aus */
+#ImageWithText--{{ section.id }} .button.button--modern::before{ content: none !important; }
+
+/* Button-Layout (Pill) + Zentrierung */
 #ImageWithText--{{ section.id }} .button.button--modern{
-  border: none !important;
-  outline: none !important;
-  box-shadow: var(--btn-shadow); /* dein weicher Shadow bleibt */
+  /* Farben vom Theme nutzen – KEIN Verlauf */
+  background-image: none !important;
+  /* NICHT hart färben -> Theme regelt (primary/secondary) */
+  color: inherit;
+
+  display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
+  margin-inline: auto; place-self: center;
+  padding: .95rem 1.35rem;
+  border: none !important;                 /* kein schwarzer Rand */
+  border-radius: 999px;                     /* moderne Pill-Form */
+  box-shadow: 0 10px 22px rgba(0,0,0,.08);  /* weicher Schatten */
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+#ImageWithText--{{ section.id }} .button.button--modern:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(0,0,0,.12);
+}
+#ImageWithText--{{ section.id }} .button.button--modern:active{
+  transform: translateY(0);
 }
 
-/* Theme-Border-Pseudoelement deaktivieren */
-#ImageWithText--{{ section.id }} .button.button--modern::before{
-  content: none !important;
-}
-
-/* Pfeil: ersetzt den Textpfeil durch ein crispes SVG (bleibt rechts) */
+/* Eleganter Chevron statt „→“ – typografisch sauber, kein Icon-Matsch */
 #ImageWithText--{{ section.id }} .button.button--modern::after{
-  /* überschreibt frühere content:"→" Regel */
-  content: "";
-  width: 1.05em;
-  height: 1.05em;
-  margin-left: .5rem;
-  background-color: currentColor;            /* übernimmt Textfarbe (weiß) */
-  -webkit-mask: url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000'>\
-<path d='M8.22 4.22a.75.75 0 011.06 0l7.5 7.5a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 11-1.06-1.06L14.94 12 8.22 5.28a.75.75 0 010-1.06z'/>\
-</svg>") no-repeat center / contain;
-  mask: url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000'>\
-<path d='M8.22 4.22a.75.75 0 011.06 0l7.5 7.5a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 11-1.06-1.06L14.94 12 8.22 5.28a.75.75 0 010-1.06z'/>\
-</svg>") no-repeat center / contain;
+  content: "›";                 /* feiner Chevron */
+  font-size: 1.15em;
+  line-height: 1;
+  font-weight: 700;
   transform: translateX(0);
   transition: transform .18s ease;
 }
-
-/* dezentes „Wischen“ nach rechts – ohne Layoutsprung */
 #ImageWithText--{{ section.id }} .button.button--modern:hover::after{
-  transform: translateX(3px);
+  transform: translateX(3px);   /* dezenter Schub ohne Reflow */
 }
 
-/* Falls irgendein Fokusrand doch erscheint, nimm unseren Ring */
-#ImageWithText--{{ section.id }} .button.button--modern:focus{
-  outline: none !important;
+/* Falls im Editor „Sekundär/Outline“ gewählt ist: dezenter Outline-Look ohne Farbverlauf */
+#ImageWithText--{{ section.id }} .button--secondary.button--modern{
+  background: none !important;
+  border: 1.5px solid currentColor !important;
+  box-shadow: none;
+}
+
+/* Bewegungsarme Nutzer */
+@media (prefers-reduced-motion: reduce){
+  #ImageWithText--{{ section.id }} .button.button--modern,
+  #ImageWithText--{{ section.id }} .button.button--modern::after{
+    transition: none !important;
+  }
 }
 
 {%- endstyle -%}
