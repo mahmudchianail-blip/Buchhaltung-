@@ -54,6 +54,7 @@ Optispar – Loader + Hero (Shopify-safe, ohne React), kompakt
   .opti-cursor { animation: blink 1s step-start infinite; }
 
   /* Layout (kompakt) */
+  #optispar-hero-root { overflow: hidden; }
   .opti-hero { min-height: 72vh; display:flex; align-items:center; justify-content:center; text-align:center; padding: 0 1.25rem; }
   .opti-heading-1 { font-size: clamp(28px, 3.2vw, 40px); font-weight: 700; color: #1f2937; margin: 0; }
   .opti-heading-2 { font-size: clamp(40px, 5vw, 64px); font-weight: 800; margin: .4rem 0 0.75rem; }
@@ -84,6 +85,33 @@ Optispar – Loader + Hero (Shopify-safe, ohne React), kompakt
   .opti-ready [data-reveal].delay-1 { animation-delay: .15s; }
   .opti-ready [data-reveal].delay-2 { animation-delay: .35s; }
   .opti-ready [data-reveal].delay-3 { animation-delay: .55s; }
+
+  @media (max-width: 720px) {
+    .opti-hero {
+      min-height: auto;
+      padding: clamp(3.5rem, 14vw, 4.75rem) 1.1rem clamp(2.75rem, 12vw, 4rem);
+    }
+    .opti-heading-1 { font-size: clamp(1.35rem, 5.6vw, 1.65rem); }
+    .opti-heading-2 { font-size: clamp(2.35rem, 12vw, 2.85rem); }
+    .opti-subtyping {
+      height: auto;
+      min-height: 1.8rem;
+      font-size: clamp(1.05rem, 5vw, 1.3rem);
+    }
+    .opti-text {
+      font-size: clamp(0.96rem, 4.4vw, 1.08rem);
+      padding-inline: .25rem;
+    }
+    .opti-btnwrap { margin-top: 1.5rem; }
+    .opti-btn {
+      width: 100%;
+      max-width: 18rem;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .opti-hero { padding-inline: 0.85rem; }
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .opti-brand, .opti-ready [data-reveal]{ animation: none !important; }
