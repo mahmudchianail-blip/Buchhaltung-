@@ -129,83 +129,15 @@
 }
 .section-{{ section.id }}-wrap .button:hover{ transform:translateY(-1px); box-shadow:0 10px 24px rgba(0,0,0,.10); }
 
-/* ============================
-   Rise-In Cards (modern, robust)
-   - behält dein --animation-order Staggering
-   - respektiert prefers-reduced-motion
-   - optional scroll-gebunden (animation-timeline)
-   - nutzt progressive Enhancement für translate/scale Subproperties
-   ============================ */
-
-:root{
-  --rise-duration: .55s;
-  --rise-ease: cubic-bezier(.2,.65,.2,1);
-  --rise-distance: 18px;
-  --rise-scale: .98;
-  --rise-stagger: 80ms;
+/* Reveal-Animation pro Karte (nutzt vorhandenes --animation-order) */
+@keyframes riseIn{
+  from{opacity:0; transform:translateY(18px) scale(.98)}
+  to{opacity:1; transform:translateY(0) scale(1)}
 }
-
-@layer animations {
-  /* Fallback-Keyframes (breite Browser-Unterstützung) */
-  @keyframes rise-in{
-    from{opacity:0; transform:translateY(var(--rise-distance)) scale(var(--rise-scale))}
-    to  {opacity:1; transform:translateY(0) scale(1)}
-  }
-}
-
-/* Basis: sofort nutzbar */
 .section-{{ section.id }}-wrap .grid__item{
-  opacity: 0; /* vermeidet kurzes Aufblitzen */
-  will-change: transform, opacity;
-  transform-origin: 50% 80%;
-  animation: rise-in var(--rise-duration) var(--rise-ease) both;
-  animation-delay: calc(var(--animation-order, 1) * var(--rise-stagger));
+  animation:riseIn .55s cubic-bezier(.2,.65,.2,1) both;
+  animation-delay:calc(var(--animation-order,1) * 80ms);
 }
-
-/* Nutzer mit reduzierten Bewegungen: Animation aus, Inhalt sichtbar */
-@media (prefers-reduced-motion: reduce){
-  .section-{{ section.id }}-wrap .grid__item{
-    animation: none !important;
-    opacity: 1;
-  }
-}
-
-/* Progressive Enhancement: Scroll-getriebene Animation (Chrome/Edge/Safari 17+) */
-@supports (animation-timeline: view()){
-  .section-{{ section.id }}-wrap{
-    view-timeline-name: --cards;
-    view-timeline-axis: block; /* entlang der Scrollachse */
-  }
-  .section-{{ section.id }}-wrap .grid__item{
-    /* animiert beim Einrollen statt nur beim Laden */
-    animation-timeline: --cards;
-    animation-range: entry 20% cover 25%;
-    /* Stagger bleibt über --animation-order erhalten */
-  }
-}
-
-/* Extra-Glätte: moderne Transform-Subproperties, wo verfügbar */
-@supports (translate: 0){
-  @layer animations {
-    /* überschreibt die Keyframes nur in modernen Browsern */
-    @keyframes rise-in{
-      from{opacity:0; translate:0 var(--rise-distance); scale: var(--rise-scale)}
-      to  {opacity:1; translate:0 0;                 scale: 1}
-    }
-  }
-}
-
-/* Kleine, elegante Hover-Micro-Interaktion (optional) */
-.section-{{ section.id }}-wrap .grid__item:hover{
-  transform: translateY(-2px);
-}
-@supports (translate: 0){
-  .section-{{ section.id }}-wrap .grid__item:hover{
-    transform: none;
-    translate: 0 -2px;
-  }
-}
-
 
 /* Versand-Info über dem Preis (grün) – bleibt drin */
 .section-{{ section.id }}-wrap .price::before,
