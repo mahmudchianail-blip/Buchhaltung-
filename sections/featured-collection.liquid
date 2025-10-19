@@ -49,30 +49,91 @@
   }
 }
 
-/* ---------- Titel mittig + Gradient ---------- */
+/* ---------- Titel mittig + Gradient (modern) ---------- */
+:root{
+  --brand-grad: linear-gradient(90deg,#34d399 0%,#60a5fa 45%,#a78bfa 100%);
+  --title-fs: clamp(1.75rem, 3.6vw, 3rem);
+  --title-lh: 1.1;
+  --title-ls: -0.02em;
+  --title-shadow: 0 1px 0 rgba(0,0,0,.05);
+  --desc-max: 72ch;
+  --desc-fs: clamp(.95rem, 1.1vw, 1.05rem);
+  --desc-color: #6b7280; /* Tailwind gray-500 */
+}
+
 .section-{{ section.id }}-wrap .collection__title{
-  text-align:center;
-  display:grid;
-  gap:10px;
-  margin-bottom:clamp(12px,2vw,18px);
+  display: grid;
+  place-items: center;            /* horizontal + vertikal zentriert */
+  gap: .5rem;
+  text-align: center;
+  margin-bottom: clamp(12px, 2vw, 22px);
+  padding-inline: clamp(8px, 2vw, 16px);
 }
+
 .section-{{ section.id }}-wrap .collection__title .title{
-  display:inline-block;
-  letter-spacing:-.02em;
-  line-height:1.1;
-  font-weight:800;
-  /* geiler Verlauf wie bei Optispar */
-  background:linear-gradient(90deg,#34d399 0%,#60a5fa 45%,#a78bfa 100%);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
-  filter: drop-shadow(0 1px 0 rgba(0,0,0,.03));
+  display: inline-block;
+  font-weight: 800;
+  font-size: var(--title-fs);
+  line-height: var(--title-lh);
+  letter-spacing: var(--title-ls);
+
+  /* Verlaufstext */
+  background-image: var(--brand-grad);
+  background-size: 200% 100%;
+  background-position: 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent; /* Safari */
+  color: transparent;
+
+  filter: drop-shadow(var(--title-shadow));
+  text-wrap: balance; /* schönere Umbrüche bei 2 Zeilen */
 }
+
+/* dezente, zentrierte Verlaufs-Unterstreichung */
+.section-{{ section.id }}-wrap .collection__title .title::after{
+  content: "";
+  display: block;
+  height: 3px;
+  width: clamp(40px, 10vw, 96px);
+  margin: .4rem auto 0;
+  border-radius: 999px;
+  background-image: var(--brand-grad);
+  opacity: .9;
+}
+
+/* sanfter Gradient-Pan NUR bei Hover, respektiert reduced motion */
+@media (prefers-reduced-motion: no-preference){
+  .section-{{ section.id }}-wrap .collection__title .title:hover{
+    animation: gradient-pan 6s linear infinite;
+  }
+  @keyframes gradient-pan{
+    to { background-position: 200% 0; }
+  }
+}
+
 .section-{{ section.id }}-wrap .collection__description{
-  max-width:72ch;
-  margin-inline:auto;
-  color:#6b7280;
+  max-width: var(--desc-max);
+  margin-inline: auto;
+  color: var(--desc-color);
+  font-size: var(--desc-fs);
+  line-height: 1.65;
+  text-wrap: pretty; /* angenehmer Lesefluss */
 }
+
+/* Hoher Kontrast/Fallbacks für erzwungene Farben */
+@media (forced-colors: active){
+  .section-{{ section.id }}-wrap .collection__title .title{
+    background: none;
+    -webkit-text-fill-color: CanvasText;
+    color: CanvasText;
+    filter: none;
+  }
+  .section-{{ section.id }}-wrap .collection__title .title::after{
+    background: CanvasText;
+  }
+}
+
 
 /* ---------- Grid-Abstand ---------- */
 .section-{{ section.id }}-wrap .product-grid{ gap:var(--gap); }
