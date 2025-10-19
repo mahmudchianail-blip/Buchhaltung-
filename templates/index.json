@@ -26,7 +26,7 @@
       "type": "featured-collection",
       "custom_css": [
         "/* hide arrows + counter */.slider-buttons,.slider-button,.slider-counter {display: none !important; margin: 0 !important; height: 0 !important;}",
-        "/* optional: make it a static grid (no snap/scroll padding) */.slider {overflow: visible !important; scroll-snap-type: none !important;}",
+        " /* optional: make it a static grid (no snap/scroll padding) */.slider {overflow: visible !important; scroll-snap-type: none !important;}",
         ".slider--desktop,.slider--tablet {padding-inline: 0 !important;}"
       ],
       "settings": {
@@ -88,15 +88,15 @@
       ],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/s-l1600_167a5ea8-d5bb-4aed-85b1-067ac3a7890d.webp",
-        "height": "adapt",
-        "desktop_image_width": "small",
+        "image": "shopify://shop_images/IMG_6193.png",
+        "height": "medium",
+        "desktop_image_width": "medium",
         "layout": "image_first",
         "image_behavior": "none",
         "content_layout": "overlap",
         "desktop_content_position": "middle",
-        "desktop_content_alignment": "left",
-        "mobile_content_alignment": "left",
+        "desktop_content_alignment": "center",
+        "mobile_content_alignment": "center",
         "section_color_scheme": "",
         "color_scheme": "",
         "padding_top": 20,
