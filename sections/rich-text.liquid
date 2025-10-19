@@ -97,28 +97,61 @@ Optispar – Loader + Hero (Shopify-safe, ohne React), kompakt
     <div class="opti-loader-word" id="optiLoaderWord"></div>
   </div>
 
-  <!-- Hero -->
-  <section class="opti-hero">
-    <div>
-      <h1 class="opti-heading-1" data-reveal>Willkommen bei</h1>
-      <h2 class="opti-heading-2" data-reveal class="delay-1">
-        <span class="opti-brand">Optispar</span>
-      </h2>
+<!-- Hero -->
+<section class="opti-hero" id="optispar-hero-root">
+  <div class="opti-hero__inner">
+    <h1 class="opti-heading-1 d0" data-reveal>Willkommen bei</h1>
+    <h2 class="opti-heading-2 d1" data-reveal><span class="opti-brand">Optispar</span></h2>
 
-      <div class="opti-subtyping" data-reveal class="delay-2">
-        <span id="optiTyping"></span><span class="opti-cursor">|</span>
-      </div>
-
-      <p class="opti-text" data-reveal class="delay-2">
-        Ihr zuverlässiger Partner für sorgfältig ausgewählte Produkte, die Ihren Alltag erleichtern und bereichern.
-      </p>
-
-      <div class="opti-btnwrap" data-reveal class="delay-3">
-        <a href="/collections/all" class="opti-btn">Jetzt Einkaufen</a>
-      </div>
+    <div class="opti-subtyping d2" data-reveal>
+      <span id="optiTyping"></span><span class="opti-cursor">|</span>
     </div>
-  </section>
-</div>
+
+    <p class="opti-text d2" data-reveal>
+      Ihr zuverlässiger Partner für sorgfältig ausgewählte Produkte, die Ihren Alltag erleichtern und bereichern.
+    </p>
+
+    <div class="opti-btnwrap d3" data-reveal>
+      <a href="/collections/all" class="opti-btn">Jetzt Einkaufen</a>
+    </div>
+  </div>
+</section>
+
+<style>
+/* compact, mobile-first */
+.opti-hero{padding:24px 16px;text-align:center}
+.opti-hero__inner{max-width:980px;margin:0 auto}
+.opti-heading-1{margin:0;font-size:clamp(1.2rem,3.6vw,1.6rem)}
+.opti-heading-2{margin:.2rem 0 0;line-height:1.1;font-size:clamp(2rem,7vw,3.2rem)}
+.opti-brand{background:linear-gradient(135deg,#6d28d9,#ec4899);-webkit-background-clip:text;background-clip:text;color:transparent}
+.opti-subtyping{min-height:1.4em;margin:.25rem 0 .5rem}
+.opti-cursor{margin-left:.1em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.opti-text{max-width:60ch;margin:8px auto 0;line-height:1.6;font-size:clamp(.95rem,3.4vw,1.05rem)}
+.opti-btn{display:inline-block;margin-top:12px;padding:.9rem 1.4rem;border-radius:9999px;background:linear-gradient(135deg,#7c3aed,#22d3ee);color:#fff;font-weight:800;text-decoration:none;box-shadow:0 10px 22px rgba(0,0,0,.1);transition:transform .18s,box-shadow .18s,background-position .6s;background-size:200% 100%}
+.opti-btn:hover{transform:translateY(-1px);background-position:100% 0;box-shadow:0 14px 28px rgba(0,0,0,.14)}
+/* reveal-on-scroll with tiny delays */
+[data-reveal]{opacity:0;transform:translateY(14px)}
+.rev{animation:rev .55s cubic-bezier(.2,.65,.2,1) forwards}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}
+@keyframes rev{to{opacity:1;transform:none}}
+/* desktop offsets (falls gewünscht) */
+@media(min-width:990px){#optispar-hero-root{margin-top:-110px;margin-bottom:-120px}}
+</style>
+
+<script>
+/* reveal-on-scroll (ultrakompakt) */
+(()=>{const i=[...document.querySelectorAll('#optispar-hero-root [data-reveal]')];
+if(!i.length) return;const o=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('rev');o.unobserve(x.target)}}),{threshold:.2});i.forEach(n=>o.observe(n));})();
+
+/* typing effect – klein & smooth */
+(()=>{const el=document.getElementById('optiTyping');if(!el) return;
+const words=['Smarte Deals','Schneller Versand','Top Support'];let i=0,j=0,del=false;
+function tick(){const w=words[i];el.textContent=del?w.slice(0,--j):w.slice(0,++j);
+if(!del&&j===w.length){del=true;setTimeout(tick,1000);return}
+if(del&&j===0){del=false;i=(i+1)%words.length}
+setTimeout(tick,del?45:75)}tick()})();
+</script>
 
 <script>
   (function(){
