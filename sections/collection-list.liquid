@@ -109,139 +109,89 @@
   </div>
 </div>
 
-<!-- ========= LOOK MATCH zum Screenshot: große Headline + Subline, 3 Spalten, Karten mit 16:9-Bild & weißem Caption-Block ========= -->
+<!-- ========= CLEAN WHITE FIX ========= -->
 <style>
-/* 0) Sanfter Sektion-Hintergrund wie im Screen */
-.section-{{ section.id }}-padding{
-  --bg-start: 255,255,255;
-  --bg-end: 245,248,255;
-  background:
-    radial-gradient(1200px 400px at 10% 0%, rgba(var(--bg-end), .55), transparent 70%),
-    radial-gradient(1200px 400px at 90% 0%, rgba(var(--bg-end), .55), transparent 70%);
-}
+/* Weißer Section-Hintergrund, keine Gradients */
+.color-{{ section.settings.color_scheme }}.gradient,
+.section-{{ section.id }}-padding{ background:#fff !important; }
 
-/* 1) Headline groß + Subline darunter (ohne HTML ändern) */
+/* Überschrift & Subline sauber (keine Pseudo-Texte mehr) */
 .section-collection-list .collection-list-title{
-  font-weight: 600;
-  letter-spacing: .01em;
-  line-height: 1.05;
-  font-size: clamp(2rem, 5vw, 4.2rem) !important; /* groß wie im Bild */
-  margin-bottom: .25rem;
-  color: #12131a;
+  color:#111; font-weight:700; letter-spacing:.01em;
+  line-height:1.1; margin-bottom:.4rem;
+  font-size: clamp(1.8rem, 3.6vw, 3rem) !important;
 }
-#SectionHeading-{{ section.id }}::after{
-  /* Subline via CSS-Content – Text hier anpassen */
-  content: "Handverlesene Produkte, die deinen Alltag bereichern.";
-  display: block;
-  margin-top: .6rem;
-  font-size: clamp(.95rem, 1.4vw, 1.15rem);
-  font-weight: 400;
-  letter-spacing: .01em;
-  color: #5d6473;
-}
+/* Falls du unter dem Titel einen Untertitel willst, setze ihn im Theme-Editor in einen Text-Block – nicht via CSS ::after */
 
-/* 2) Grid exakt 3/2/1 Spalten, mit ordentlich Abstand */
+/* Grid: 3/2/1 Spalten mit moderatem Abstand */
 .section-collection-list .collection-list{
-  display: grid !important;
+  display:grid !important;
   grid-template-columns: repeat(3, minmax(0,1fr)) !important;
-  gap: clamp(20px, 2.5vw, 28px) !important;
+  gap: clamp(18px, 2.2vw, 26px) !important;
 }
-@media (max-width: 1100px){
-  .section-collection-list .collection-list{ grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
-}
-@media (max-width: 749px){
-  .section-collection-list .collection-list{ grid-template-columns: 1fr !important; }
-}
+@media (max-width: 1100px){ .section-collection-list .collection-list{ grid-template-columns: repeat(2, minmax(0,1fr)) !important; } }
+@media (max-width: 749px){  .section-collection-list .collection-list{ grid-template-columns: 1fr !important; } }
 
-/* 3) Karte im „Screenshot-Stil“ */
+/* Karten: volle Zellbreite, gleich hoch, runde Ecken + Shadow */
 .section-collection-list .collection-list .card{
-  display: grid;
-  grid-template-rows: auto auto;        /* Bild + Caption */
-  border-radius: 18px;
-  overflow: hidden;
-  background: #fff;
-  border: 1px solid rgba(16,24,40,.08);
-  box-shadow: 0 18px 40px rgba(16,24,40,.12);
-  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  width:100%; display:grid; grid-template-rows: auto auto;
+  border-radius:16px; overflow:hidden; background:#fff;
+  border:1px solid rgba(0,0,0,.08);
+  box-shadow: 0 14px 36px rgba(0,0,0,.10);
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
 }
 
-/* Bild 16:9, füllt voll aus */
+/* Bildbereich: 16:9, füllt immer; verhindert „graue Balken“ */
 .section-collection-list .collection-list .card__media{
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
+  aspect-ratio: 16 / 9; overflow:hidden;
 }
+@media (max-width: 749px){ .section-collection-list .collection-list .card__media{ aspect-ratio: 4 / 3; } }
 .section-collection-list .collection-list .card__media img{
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  object-position: center !important;
+  width:100% !important; height:100% !important;
+  object-fit: cover !important; object-position:center !important;
   transform: scale(1.02);
-  transition: transform .6s cubic-bezier(.22,.61,.36,1);
+  transition: transform .5s cubic-bezier(.22,.61,.36,1);
 }
 
-/* Weißer Caption-Block unten */
+/* Caption: weiß, klare Typo, kein Zeilenbruch im Linkpfeil */
 .section-collection-list .collection-list .card__information{
-  background: #fff;
-  padding: 18px 22px 20px 22px;
-  border-top: 1px solid rgba(16,24,40,.06);
+  background:#fff; padding:16px 18px 18px 18px; border-top:1px solid rgba(0,0,0,.06);
 }
 .section-collection-list .collection-list .card__heading{
-  margin: 0;
-  font-weight: 700;
-  color: #1b1f2a;
-  font-size: clamp(1.05rem, 1.3vw, 1.35rem);
-  letter-spacing: .01em;
+  margin:0; color:#151515; font-weight:700;
+  font-size: clamp(1rem, 1.2vw, 1.25rem); line-height:1.2;
 }
 .section-collection-list .collection-list .card__heading .full-unstyled-link{
-  display: inline-flex;
-  align-items: center;
-  gap: .55rem;
-  text-decoration: none;
-  outline: none;
+  display:inline-flex; align-items:center; gap:.5rem;
+  text-decoration:none; white-space:nowrap; /* Titel + Pfeil bleiben in einer Zeile */
 }
 .section-collection-list .collection-list .card__heading .full-unstyled-link::after{
-  content: "→";
-  font-weight: 700;
-  transform: translateX(0);
-  transition: transform .2s ease, opacity .2s ease;
-  opacity: .8;
+  content:"→"; font-weight:700; transform:translateX(0); opacity:.85;
+  transition: transform .18s ease, opacity .18s ease;
 }
 
-/* Hover = leicht anheben + Bild Zoom + Pfeil „rutscht“ */
+/* Hover: leicht anheben, Bild zoomt */
 .section-collection-list .collection-list .card:hover,
 .section-collection-list .collection-list .card:focus-within{
-  transform: translateY(-6px);
-  box-shadow: 0 24px 60px rgba(16,24,40,.16);
-  border-color: rgba(16,24,40,.14);
+  transform: translateY(-5px);
+  border-color: rgba(0,0,0,.14);
+  box-shadow: 0 20px 52px rgba(0,0,0,.14);
 }
 .section-collection-list .collection-list .card:hover .card__media img,
-.section-collection-list .collection-list .card:focus-within .card__media img{
-  transform: scale(1.06);
-}
+.section-collection-list .collection-list .card:focus-within .card__media img{ transform: scale(1.06); }
 .section-collection-list .collection-list .card:hover .full-unstyled-link::after,
-.section-collection-list .collection-list .card:focus-within .full-unstyled-link::after{
-  transform: translateX(4px);
-}
+.section-collection-list .collection-list .card:focus-within .full-unstyled-link::after{ transform: translateX(4px); }
 
-/* Tastatur-Fokus sichtbar */
-.section-collection-list .collection-list .card:focus-within{
-  outline: 3px solid rgba(0,115,230,.22);
-  outline-offset: 2px;
-}
+/* Zugänglicher Tastatur-Fokus */
+.section-collection-list .collection-list .card:focus-within{ outline:3px solid rgba(0,115,230,.22); outline-offset:2px; }
 
-/* Slider-Buttons (falls aktiv) passend rund */
+/* Slider-Buttons (nur bei Swipe-Mobile) */
 .section-collection-list .slider-button{
-  width:44px; height:44px; border-radius:999px;
-  border:1px solid rgba(16,24,40,.12);
-  background:#fff; box-shadow:0 8px 18px rgba(16,24,40,.10);
+  width:44px;height:44px;border-radius:999px;border:1px solid rgba(0,0,0,.12);
+  background:#fff; box-shadow:0 8px 18px rgba(0,0,0,.10);
   transition: transform .15s ease, background .2s ease, border-color .2s ease;
 }
 .section-collection-list .slider-button:hover{ transform: translateY(-2px); }
-
-/* 4) Mobile: Bild 4:3 wirkt kompakter */
-@media (max-width: 749px){
-  .section-collection-list .collection-list .card__media{ aspect-ratio: 4 / 3; }
-}
 </style>
 
 {% schema %}
@@ -252,7 +202,7 @@
   "max_blocks": 15,
   "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
-    { "type": "inline_richtext", "id": "title", "default": "Entdecke unsere Kollektionen", "label": "Titel" },
+    { "type": "inline_richtext", "id": "title", "default": "Kollektionen", "label": "Titel" },
     {
       "type": "select", "id": "heading_size",
       "options": [
