@@ -7,7 +7,6 @@
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
     padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
   }
-
   @media screen and (min-width: 750px) {
     .section-{{ section.id }}-padding {
       padding-top: {{ section.settings.padding_top }}px;
@@ -81,17 +80,11 @@
           </li>
         {%- endfor -%}
       </ul>
+
       {%- if show_mobile_slider -%}
         <div class="slider-buttons">
-          <button
-            type="button"
-            class="slider-button slider-button--prev"
-            name="previous"
-            aria-label="{{ 'general.slider.previous_slide' | t }}"
-          >
-            <span class="svg-wrapper">
-              {{- 'icon-caret.svg' | inline_asset_content -}}
-            </span>
+          <button type="button" class="slider-button slider-button--prev" name="previous" aria-label="{{ 'general.slider.previous_slide' | t }}">
+            <span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span>
           </button>
           <div class="slider-counter caption">
             <span class="slider-counter--current">1</span>
@@ -99,33 +92,16 @@
             <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
             <span class="slider-counter--total">{{ section.blocks.size }}</span>
           </div>
-          <button
-            type="button"
-            class="slider-button slider-button--next"
-            name="next"
-            aria-label="{{ 'general.slider.next_slide' | t }}"
-          >
-            <span class="svg-wrapper">
-              {{- 'icon-caret.svg' | inline_asset_content -}}
-            </span>
+          <button type="button" class="slider-button slider-button--next" name="next" aria-label="{{ 'general.slider.next_slide' | t }}">
+            <span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span>
           </button>
         </div>
       {%- endif -%}
     </slider-component>
 
     {%- if section.settings.show_view_all and section.blocks.size < collections.size -%}
-      <div
-        class="center collection-list-view-all{% if show_mobile_slider %} small-hide medium-hide{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-        {% if settings.animations_reveal_on_scroll %}
-          data-cascade
-        {% endif %}
-      >
-        <a
-          href="{{ routes.collections_url }}"
-          class="button"
-          id="ViewAllButton-{{ section.id }}"
-          aria-labelledby="ViewAllButton-{{ section.id }} SectionHeading-{{ section.id }}"
-        >
+      <div class="center collection-list-view-all{% if show_mobile_slider %} small-hide medium-hide{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}" {% if settings.animations_reveal_on_scroll %}data-cascade{% endif %}>
+        <a href="{{ routes.collections_url }}" class="button" id="ViewAllButton-{{ section.id }}" aria-labelledby="ViewAllButton-{{ section.id }} SectionHeading-{{ section.id }}">
           {{- 'sections.collection_list.view_all' | t -}}
         </a>
       </div>
@@ -133,176 +109,187 @@
   </div>
 </div>
 
+<!-- ===== PRO-LOOK v2 (nur CSS) – volle Bilder, echtes Grid, moderne Cards ===== -->
+<style>
+/* Variablen nur für diese Section */
+.section-{{ section.id }}-padding{
+  --card-radius: 20px;
+  --card-shadow: 0 14px 36px rgba(0,0,0,.10);
+  --card-shadow-hover: 0 22px 60px rgba(0,0,0,.14);
+  --card-border: rgba(0,0,0,.10);
+  --grid-gap: clamp(16px, 2.4vw, 28px);
+  --media-aspect-desktop: 16 / 10; /* Bildhöhe/-form Desktop */
+  --media-aspect-tablet: 4 / 3;
+  --media-aspect-mobile: 1 / 1;
+}
+
+/* Headline mit dezenter Linie */
+.section-collection-list .collection-list-title{
+  position:relative; letter-spacing:.01em;
+}
+.section-collection-list .collection-list-title::after{
+  content:""; display:block; width:56px; height:3px; margin-top:.6rem;
+  border-radius:3px; background:currentColor; opacity:.18;
+}
+
+/* WIRKLICHES Grid: 3/2/1 Spalten – unabhängig von Theme-Utility-Klassen */
+.section-collection-list .collection-list{
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0,1fr)) !important;
+  gap: var(--grid-gap) !important;
+}
+@media (max-width: 1200px){
+  .section-collection-list .collection-list{ grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+}
+@media (max-width: 749px){
+  .section-collection-list .collection-list{ grid-template-columns: 1fr !important; }
+}
+
+/* Karten sollen gleich hoch sein */
+.section-collection-list .collection-list .card{
+  display:flex; flex-direction:column;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  background:#fff;
+  border:1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+/* MEDIA: Container bekommt feste Aspect-Ratio, Bild füllt komplett */
+.section-collection-list .collection-list .card__media{
+  aspect-ratio: var(--media-aspect-desktop);
+  position:relative; overflow:hidden;
+}
+@media (max-width: 1200px){
+  .section-collection-list .collection-list .card__media{ aspect-ratio: var(--media-aspect-tablet); }
+}
+@media (max-width: 749px){
+  .section-collection-list .collection-list .card__media{ aspect-ratio: var(--media-aspect-mobile); }
+}
+
+/* Bild immer cover – keine grauen Flächen mehr */
+.section-collection-list .collection-list .card__media img{
+  width:100% !important; height:100% !important;
+  object-fit: cover !important; object-position: center !important;
+  transform: scale(1.02);
+  transition: transform .60s cubic-bezier(.22,.61,.36,1);
+  will-change: transform;
+}
+
+/* Info-Bereich bleibt am Fuß der Karte */
+.section-collection-list .collection-list .card__information{
+  margin-top:auto;
+  padding: 14px 16px 16px 16px;
+  background:#fff;
+}
+
+/* Überschrift + Pfeil */
+.section-collection-list .collection-list .card__heading{
+  margin:0; font-weight:700; letter-spacing:.01em; line-height:1.2;
+}
+.section-collection-list .collection-list .card__heading .full-unstyled-link{
+  display:inline-flex; align-items:center; gap:.5rem; text-decoration:none; outline:none;
+}
+.section-collection-list .collection-list .card__heading .full-unstyled-link::after{
+  content:"→"; font-weight:600; transform:translateX(0); opacity:.7;
+  transition: transform .2s ease, opacity .2s ease;
+}
+
+/* Hover/Fokus */
+.section-collection-list .collection-list .card:hover,
+.section-collection-list .collection-list .card:focus-within{
+  transform: translateY(-6px);
+  box-shadow: var(--card-shadow-hover);
+  border-color: rgba(0,0,0,.15);
+}
+.section-collection-list .collection-list .card:hover .card__media img,
+.section-collection-list .collection-list .card:focus-within .card__media img{
+  transform: scale(1.07);
+}
+.section-collection-list .collection-list .card:hover .full-unstyled-link::after,
+.section-collection-list .collection-list .card:focus-within .full-unstyled-link::after{
+  transform: translateX(4px); opacity:1;
+}
+
+/* Tastatur-Fokus sichtbar */
+.section-collection-list .collection-list .card:focus-within{
+  outline: 3px solid rgba(0,115,230,.25); outline-offset: 2px;
+}
+
+/* Slider-Buttons (nur wenn Slider aktiv) im gleichen Stil */
+.section-collection-list .slider-buttons{ gap:.25rem; }
+.section-collection-list .slider-button{
+  width:44px;height:44px;border-radius:999px;border:1px solid rgba(0,0,0,.12);
+  background:#fff; box-shadow:0 8px 18px rgba(0,0,0,.08);
+  transition: transform .15s ease, background .2s ease, border-color .2s ease;
+}
+.section-collection-list .slider-button:hover{
+  transform: translateY(-2px); border-color: rgba(0,0,0,.18);
+}
+</style>
+
 {% schema %}
 {
   "name": "t:sections.collection-list.name",
   "tag": "section",
   "class": "section section-collection-list",
   "max_blocks": 15,
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
+  "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
+    { "type": "inline_richtext", "id": "title", "default": "t:sections.collection-list.settings.title.default", "label": "t:sections.collection-list.settings.title.label" },
     {
-      "type": "inline_richtext",
-      "id": "title",
-      "default": "t:sections.collection-list.settings.title.default",
-      "label": "t:sections.collection-list.settings.title.label"
-    },
-    {
-      "type": "select",
-      "id": "heading_size",
+      "type": "select", "id": "heading_size",
       "options": [
-        {
-          "value": "h2",
-          "label": "t:sections.all.heading_size.options__1.label"
-        },
-        {
-          "value": "h1",
-          "label": "t:sections.all.heading_size.options__2.label"
-        },
-        {
-          "value": "h0",
-          "label": "t:sections.all.heading_size.options__3.label"
-        },
-        {
-          "value": "hxl",
-          "label": "t:sections.all.heading_size.options__4.label"
-        },
-        {
-          "value": "hxxl",
-          "label": "t:sections.all.heading_size.options__5.label"
-        }
+        { "value": "h2", "label": "t:sections.all.heading_size.options__1.label" },
+        { "value": "h1", "label": "t:sections.all.heading_size.options__2.label" },
+        { "value": "h0", "label": "t:sections.all.heading_size.options__3.label" },
+        { "value": "hxl", "label": "t:sections.all.heading_size.options__4.label" },
+        { "value": "hxxl", "label": "t:sections.all.heading_size.options__5.label" }
       ],
       "default": "h1",
       "label": "t:sections.all.heading_size.label"
     },
+    { "type": "header", "content": "t:sections.collection-list.settings.header_layout.content" },
     {
-      "type": "header",
-      "content": "t:sections.collection-list.settings.header_layout.content"
-    },    
-    {
-      "type": "select",
-      "id": "image_ratio",
+      "type": "select", "id": "image_ratio",
       "options": [
-        {
-          "value": "adapt",
-          "label": "t:sections.collection-list.settings.image_ratio.options__1.label"
-        },
-        {
-          "value": "portrait",
-          "label": "t:sections.collection-list.settings.image_ratio.options__2.label"
-        },
-        {
-          "value": "square",
-          "label": "t:sections.collection-list.settings.image_ratio.options__3.label"
-        }
+        { "value": "adapt", "label": "t:sections.collection-list.settings.image_ratio.options__1.label" },
+        { "value": "portrait", "label": "t:sections.collection-list.settings.image_ratio.options__2.label" },
+        { "value": "square", "label": "t:sections.collection-list.settings.image_ratio.options__3.label" }
       ],
       "default": "square",
       "label": "t:sections.collection-list.settings.image_ratio.label"
     },
+    { "type": "range", "id": "columns_desktop", "min": 1, "max": 6, "step": 1, "default": 3, "label": "t:sections.collection-list.settings.columns_desktop.label" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "t:sections.all.colors.label", "info": "t:sections.all.colors.has_cards_info", "default": "scheme-1" },
+    { "type": "checkbox", "id": "show_view_all", "default": false, "label": "t:sections.collection-list.settings.show_view_all.label", "info": "t:sections.collection-list.settings.show_view_all.info" },
+    { "type": "header", "content": "t:sections.collection-list.settings.header_mobile.content" },
     {
-      "type": "range",
-      "id": "columns_desktop",
-      "min": 1,
-      "max": 6,
-      "step": 1,
-      "default": 3,
-      "label": "t:sections.collection-list.settings.columns_desktop.label"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "info": "t:sections.all.colors.has_cards_info",
-      "default": "scheme-1"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_view_all",
-      "default": false,
-      "label": "t:sections.collection-list.settings.show_view_all.label",
-      "info": "t:sections.collection-list.settings.show_view_all.info"   
-    },
-    {
-      "type": "header",
-      "content": "t:sections.collection-list.settings.header_mobile.content"
-    },
-    {
-      "type": "select",
-      "id": "columns_mobile",
+      "type": "select", "id": "columns_mobile",
       "options": [
-        {
-          "value": "1",
-          "label": "t:sections.collection-list.settings.columns_mobile.options__1.label"
-        },
-        {
-          "value": "2",
-          "label": "t:sections.collection-list.settings.columns_mobile.options__2.label"
-        }
+        { "value": "1", "label": "t:sections.collection-list.settings.columns_mobile.options__1.label" },
+        { "value": "2", "label": "t:sections.collection-list.settings.columns_mobile.options__2.label" }
       ],
       "default": "1",
       "label": "t:sections.collection-list.settings.columns_mobile.label"
     },
-    {
-      "type": "checkbox",
-      "id": "swipe_on_mobile",
-      "default": false,
-      "label": "t:sections.collection-list.settings.swipe_on_mobile.label"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
-      "default": 36
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
-      "default": 36
-    }
+    { "type": "checkbox", "id": "swipe_on_mobile", "default": false, "label": "t:sections.collection-list.settings.swipe_on_mobile.label" },
+    { "type": "header", "content": "t:sections.all.padding.section_padding_heading" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "t:sections.all.padding.padding_top", "default": 36 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "t:sections.all.padding.padding_bottom", "default": 36 }
   ],
   "blocks": [
     {
       "type": "featured_collection",
       "name": "t:sections.collection-list.blocks.featured_collection.name",
       "settings": [
-        {
-          "type": "collection",
-          "id": "collection",
-          "label": "t:sections.collection-list.blocks.featured_collection.settings.collection.label"
-        }
+        { "type": "collection", "id": "collection", "label": "t:sections.collection-list.blocks.featured_collection.settings.collection.label" }
       ]
     }
   ],
   "presets": [
-    {
-      "name": "t:sections.collection-list.presets.name",
-      "blocks": [
-        {
-          "type": "featured_collection"
-        },
-        {
-          "type": "featured_collection"
-        },
-        {
-          "type": "featured_collection"
-        }
-      ]
-    }
+    { "name": "t:sections.collection-list.presets.name", "blocks": [ { "type": "featured_collection" }, { "type": "featured_collection" }, { "type": "featured_collection" } ] }
   ]
 }
 {% endschema %}
