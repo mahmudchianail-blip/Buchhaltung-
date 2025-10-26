@@ -105,43 +105,17 @@
     },
     "collection_list_tUWywc": {
       "type": "collection-list",
-      "blocks": {
-        "featured_collection_MG8AVb": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "auto-zubehor"
-          }
-        },
-        "featured_collection_9a9aAh": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "handy-zubehor"
-          }
-        },
-        "featured_collection_EC8Brq": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "kuchenhelfer"
-          }
-        }
-      },
-      "block_order": [
-        "featured_collection_MG8AVb",
-        "featured_collection_9a9aAh",
-        "featured_collection_EC8Brq"
-      ],
       "name": "t:sections.collection-list.presets.name",
+      "settings": {}
+    },
+    "custom_liquid_UzczML": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
       "settings": {
-        "title": "Kollektionen",
-        "heading_size": "h1",
-        "image_ratio": "square",
-        "columns_desktop": 3,
+        "custom_liquid": "",
         "color_scheme": "",
-        "show_view_all": false,
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "padding_top": 36,
-        "padding_bottom": 36
+        "padding_top": 40,
+        "padding_bottom": 52
       }
     },
     "collage_ntMzU3": {
@@ -316,6 +290,7 @@
     "featured_collection",
     "image_with_text_9gyjt6",
     "collection_list_tUWywc",
+    "custom_liquid_UzczML",
     "collage_ntMzU3",
     "slideshow_VQMBmN",
     "featured_product_BdxmXE"
