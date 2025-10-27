@@ -1,460 +1,308 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shopify Collection Showcase</title>
-    <!-- React and Babel for running JSX in the browser -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+{{ 'section-collection-list.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
 
-    <style>
-        /* General Body Styles */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            background-color: #ffffff;
-            margin: 0;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
 
-        /* Helper to hide scrollbars */
-        .scrollbar-hide {
-            -ms-overflow-style: none; /* IE and Edge */
-            scrollbar-width: none; /* Firefox */
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none; /* Chrome, Safari and Opera */
-        }
-        
-        /* Section Styles */
-        .collection-section {
-            background-color: #fff;
-            padding: 3rem 0; /* 48px */
-        }
-        @media (min-width: 640px) {
-            .collection-section {
-                padding: 4rem 0; /* 64px */
-            }
-        }
-        @media (min-width: 1024px) {
-            .collection-section {
-                padding: 5rem 0; /* 80px */
-            }
-        }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
 
-        /* Container for content */
-        .container {
-            max-width: 80rem; /* 1280px */
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 1rem; /* 16px */
-            padding-right: 1rem; /* 16px */
-        }
-        @media (min-width: 640px) {
-            .container {
-                padding-left: 1.5rem; /* 24px */
-                padding-right: 1.5rem; /* 24px */
-            }
-        }
-        @media (min-width: 1024px) {
-            .container {
-                padding-left: 2rem; /* 32px */
-                padding-right: 2rem; /* 32px */
-            }
-        }
+{%- liquid
+  assign columns_mobile_int = section.settings.columns_mobile | plus: 0
+  assign show_mobile_slider = false
+  if section.settings.swipe_on_mobile and section.blocks.size > columns_mobile_int
+    assign show_mobile_slider = true
+  endif
+-%}
 
-        /* Title and Header */
-        .section-header {
-            margin-bottom: 2rem; /* 32px */
-        }
-        @media (min-width: 640px) {
-            .section-header {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-        }
+<div class="color-{{ section.settings.color_scheme }} gradient">
+  <div class="collection-list-wrapper page-width isolate{% if show_mobile_slider %} page-width-desktop{% endif %}{% if section.settings.title == blank %} no-heading{% endif %}{% if section.settings.show_view_all == false or section.blocks.size > collections.size %} no-mobile-link{% endif %} section-{{ section.id }}-padding">
+    {%- unless section.settings.title == blank -%}
+      <div class="title-wrapper-with-link{% if show_mobile_slider %} title-wrapper--self-padded-tablet-down{% else %} title-wrapper--self-padded-mobile{% endif %} title-wrapper--no-top-margin">
+        <h2
+          id="SectionHeading-{{ section.id }}"
+          class="collection-list-title inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+        >
+          {{ section.settings.title }}
+        </h2>
 
-        .section-title {
-            font-size: 1.875rem; /* 30px */
-            font-weight: 700;
-            color: #111827;
-            letter-spacing: -0.025em;
-            text-align: center;
-        }
-        @media (min-width: 640px) {
-            .section-title {
-                text-align: left;
-            }
-        }
-        @media (min-width: 1024px) {
-            .section-title {
-                font-size: 2.25rem; /* 36px */
-            }
-        }
-        
-        /* Collection List Grid / Slider */
-        .collection-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: grid;
-            gap: 1.5rem; /* 24px */
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            grid-auto-flow: column;
-            grid-auto-columns: calc(100% - 2rem); /* Mobile view: 1 card visible */
-        }
-        
-        .collection-list-item {
-             scroll-snap-align: start;
-        }
-
-        @media (min-width: 640px) {
-            .collection-list {
-                grid-auto-flow: column;
-                grid-auto-columns: calc(50% - 0.75rem); /* Tablet: 2 cards visible */
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .collection-list {
-                grid-template-columns: repeat(3, 1fr);
-                overflow-x: visible; /* Disable scrolling on desktop */
-                gap: 2rem; /* 32px */
-            }
-        }
-
-        /* Collection Card Styles (from your example) */
-        .collection-card {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            height: 100%;
-            border-radius: 16px;
-            overflow: hidden;
-            background: #fff;
-            border: 1px solid rgba(0,0,0,.08);
-            box-shadow: 0 14px 36px rgba(0,0,0,.10);
-            transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
-        }
-        .collection-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(0,0,0,.14);
-            box-shadow: 0 20px 52px rgba(0,0,0,.14);
-        }
-
-        .card-media {
-            aspect-ratio: 1 / 1;
-            width: 100%;
-            overflow: hidden;
-        }
-        @media (max-width: 749px){ 
-            .card-media { 
-                aspect-ratio: 4 / 3; 
-            } 
-        }
-
-        .card-media img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            transform: scale(1.02);
-            transition: transform .5s cubic-bezier(.22,.61,.36,1);
-        }
-        .collection-card:hover .card-media img {
-            transform: scale(1.06);
-        }
-        
-        .card-info {
-            background:#fff; 
-            padding:16px 18px 18px 18px; 
-            border-top:1px solid rgba(0,0,0,.06);
-        }
-        .card-heading {
-            margin:0; 
-            color:#151515; 
-            font-weight:700;
-            font-size: clamp(1rem, 1.2vw, 1.25rem); 
-            line-height:1.2;
-        }
-        .card-link {
-            position: relative;
-            display:inline-flex; 
-            align-items:center; 
-            gap:.5rem;
-            text-decoration:none; 
-            white-space:nowrap;
-            color: inherit;
-        }
-        .card-link::after {
-            content:"";
-            position: absolute;
-            top: 0;
-            right: -18px; /* Extend clickable area */
-            bottom: 0;
-            left: -18px;
-        }
-        .card-link-arrow {
-            font-weight:700; 
-            transform:translateX(0); 
-            opacity:.85;
-            transition: transform .18s ease, opacity .18s ease;
-        }
-        .collection-card:hover .card-link-arrow {
-             transform: translateX(4px);
-        }
-
-        /* Mobile Slider Controls */
-        .slider-controls {
-            margin-top: 2rem; /* 32px */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem; /* 16px */
-        }
-        @media (min-width: 1024px) {
-            .slider-controls {
-                display: none;
-            }
-        }
-        .slider-button {
-            width: 44px;
-            height: 44px;
-            border-radius: 9999px;
-            background: #fff;
-            box-shadow: 0 8px 18px rgba(0,0,0,.10);
-            border: 1px solid rgba(0,0,0,.12);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: transform .15s ease, background .2s ease, border-color .2s ease;
-        }
-        .slider-button:hover {
-            transform: translateY(-2px);
-            background-color: #f3f4f6;
-        }
-        .slider-button:active {
-             transform: scale(0.95);
-        }
-        .slider-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-            background-color: #fff;
-        }
-        .slider-button svg {
-            width: 20px;
-            height: 20px;
-            color: #374151;
-        }
-        .slider-button.next svg {
-            transform: rotate(180deg);
-        }
-        .slider-counter {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-            font-size: 0.875rem; /* 14px */
-            color: #111827;
-        }
-        .slider-counter .current {
-            font-weight: 700;
-        }
-        .slider-counter .divider {
-            color: #9ca3af;
-            margin: 0 0.25rem;
-        }
-
-    </style>
-</head>
-<body>
-
-    <div id="root"></div>
-
-    <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
-
-        // --- MOCK DATA ---
-        const mockCollections = [
-          {
-            id: '1',
-            title: 'Summer Apparel',
-            imageUrl: 'https://picsum.photos/seed/summer/800/800',
-            url: '#',
-          },
-          {
-            id: '2',
-            title: 'Winter Gear',
-            imageUrl: 'https://picsum.photos/seed/winter/800/800',
-            url: '#',
-          },
-          {
-            id: '3',
-            title: 'Autumn Collection',
-            imageUrl: 'https://picsum.photos/seed/autumn/800/800',
-            url: '#',
-          }
-        ];
-
-        // --- ICON COMPONENT ---
-        const CaretIcon = (props) => (
-          <svg
-            width="8"
-            height="12"
-            viewBox="0 0 8 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            {...props}
+        {%- if section.settings.show_view_all and show_mobile_slider -%}
+          <a
+            href="{{ routes.collections_url }}"
+            id="ViewAll-{{ section.id }}"
+            class="link underlined-link large-up-hide{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            aria-labelledby="ViewAll-{{ section.id }} SectionHeading-{{ section.id }}"
           >
-            <path
-              d="M6.5 1.5L1.5 6L6.5 10.5"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        );
+            {{- 'sections.collection_list.view_all' | t -}}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endunless -%}
 
-        // --- COLLECTION CARD COMPONENT ---
-        const CollectionCard = ({ collection }) => {
-          return (
-            <div className="collection-card">
-              <div className="card-media">
-                <img
-                  src={collection.imageUrl}
-                  alt={`Image for ${collection.title} collection`}
-                />
-              </div>
-              <div className="card-info">
-                <h3 className="card-heading">
-                  <a href={collection.url} className="card-link">
-                    <span>{collection.title}</span>
-                    <span className="card-link-arrow">&rarr;</span>
-                  </a>
-                </h3>
-              </div>
-            </div>
-          );
-        };
+    <slider-component class="slider-mobile-gutter{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
+      <ul
+        class="collection-list contains-card contains-card--collection{% if settings.card_style == 'standard' %} contains-card--standard{% endif %} grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down{% if section.settings.swipe_on_mobile %} slider slider--tablet grid--peek{% endif %} collection-list--{{ section.blocks.size }}-items"
+        id="Slider-{{ section.id }}"
+        role="list"
+      >
+        {%- liquid
+          assign columns = section.blocks.size
+          if columns > 3
+            assign columns = 3
+          endif
+        -%}
+        {%- for block in section.blocks -%}
+          <li
+            id="Slide-{{ section.id }}-{{ forloop.index }}"
+            class="collection-list__item grid__item{% if show_mobile_slider %} slider__slide{% endif %}{% if block.settings.collection.featured_image == nil %} collection-list__item--no-media{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+            {{ block.shopify_attributes }}
+            {% if settings.animations_reveal_on_scroll %}
+              data-cascade
+              style="--animation-order: {{ forloop.index }};"
+            {% endif %}
+          >
+            {%- assign placeholder_image_index = forloop.index0 | modulo: 4 | plus: 1 -%}
+            {%- assign placeholder_image = 'collection-apparel-' | append: placeholder_image_index -%}
+            {% render 'card-collection',
+              card_collection: block.settings.collection,
+              media_aspect_ratio: section.settings.image_ratio,
+              columns: columns,
+              placeholder_image: placeholder_image
+            %}
+          </li>
+        {%- endfor -%}
+      </ul>
+      {%- if show_mobile_slider -%}
+        <div class="slider-buttons">
+          <button
+            type="button"
+            class="slider-button slider-button--prev"
+            name="previous"
+            aria-label="{{ 'general.slider.previous_slide' | t }}"
+          >
+            <span class="svg-wrapper">
+              {{- 'icon-caret.svg' | inline_asset_content -}}
+            </span>
+          </button>
+          <div class="slider-counter caption">
+            <span class="slider-counter--current">1</span>
+            <span aria-hidden="true"> / </span>
+            <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
+            <span class="slider-counter--total">{{ section.blocks.size }}</span>
+          </div>
+          <button
+            type="button"
+            class="slider-button slider-button--next"
+            name="next"
+            aria-label="{{ 'general.slider.next_slide' | t }}"
+          >
+            <span class="svg-wrapper">
+              {{- 'icon-caret.svg' | inline_asset_content -}}
+            </span>
+          </button>
+        </div>
+      {%- endif -%}
+    </slider-component>
 
-        // --- COLLECTION LIST COMPONENT ---
-        const CollectionList = ({ title, collections }) => {
-          const scrollContainerRef = useRef(null);
-          const [isScrolled, setIsScrolled] = useState(false);
-          const [isEnd, setIsEnd] = useState(collections.length <= 1);
-          const [currentIndex, setCurrentIndex] = useState(1);
+    {%- if section.settings.show_view_all and section.blocks.size < collections.size -%}
+      <div
+        class="center collection-list-view-all{% if show_mobile_slider %} small-hide medium-hide{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+        {% if settings.animations_reveal_on_scroll %}
+          data-cascade
+        {% endif %}
+      >
+        <a
+          href="{{ routes.collections_url }}"
+          class="button"
+          id="ViewAllButton-{{ section.id }}"
+          aria-labelledby="ViewAllButton-{{ section.id }} SectionHeading-{{ section.id }}"
+        >
+          {{- 'sections.collection_list.view_all' | t -}}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
 
-          const checkScrollPosition = () => {
-            const el = scrollContainerRef.current;
-            if (el) {
-              const atStart = el.scrollLeft === 0;
-              const atEnd = Math.ceil(el.scrollWidth - el.scrollLeft) <= el.clientWidth + 1;
-              setIsScrolled(!atStart);
-              setIsEnd(atEnd);
-              
-              const itemWidth = el.scrollWidth / collections.length;
-              const currentVisibleIndex = Math.round(el.scrollLeft / itemWidth);
-              setCurrentIndex(currentVisibleIndex + 1);
-            }
-          };
-
-          useEffect(() => {
-            const el = scrollContainerRef.current;
-            if (el) {
-              el.addEventListener('scroll', checkScrollPosition, { passive: true });
-              checkScrollPosition();
-            }
-            
-            window.addEventListener('resize', checkScrollPosition);
-            return () => {
-              if (el) {
-                el.removeEventListener('scroll', checkScrollPosition);
-              }
-              window.removeEventListener('resize', checkScrollPosition);
-            };
-          }, [collections.length]);
-
-          const scroll = (direction) => {
-            const el = scrollContainerRef.current;
-            if (el) {
-              const scrollAmount = el.clientWidth;
-              el.scrollBy({
-                left: direction === 'next' ? scrollAmount : -scrollAmount,
-                behavior: 'smooth',
-              });
-            }
-          };
-
-          return (
-            <section className="collection-section">
-              <div className="container">
-                <div className="section-header">
-                  <h2 className="section-title">{title}</h2>
-                </div>
-
-                <div className="relative">
-                  <ul ref={scrollContainerRef} className="collection-list scrollbar-hide">
-                    {collections.map((collection) => (
-                      <li key={collection.id} className="collection-list-item">
-                        <CollectionCard collection={collection} />
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                
-                {collections.length > 1 && (
-                  <div className="slider-controls">
-                    <button
-                      onClick={() => scroll('prev')}
-                      aria-label="Previous collection"
-                      disabled={!isScrolled}
-                      className="slider-button prev"
-                    >
-                      <CaretIcon />
-                    </button>
-                    <div className="slider-counter">
-                      <span className="current">{currentIndex}</span>
-                      <span className="divider">/</span>
-                      <span>{collections.length}</span>
-                    </div>
-                    <button
-                      onClick={() => scroll('next')}
-                      aria-label="Next collection"
-                      disabled={isEnd}
-                      className="slider-button next"
-                    >
-                      <CaretIcon />
-                    </button>
-                  </div>
-                )}
-              </div>
-            </section>
-          );
-        };
-
-        // --- APP COMPONENT ---
-        const App = () => {
-          return (
-            <main>
-              <CollectionList 
-                title="Featured Collections"
-                collections={mockCollections} 
-              />
-            </main>
-          );
-        };
-
-        // --- RENDER THE APP ---
-        const rootElement = document.getElementById('root');
-        const root = ReactDOM.createRoot(rootElement);
-        root.render(<App />);
-
-    </script>
-</body>
-</html>
+{% schema %}
+{
+  "name": "t:sections.collection-list.name",
+  "tag": "section",
+  "class": "section section-collection-list",
+  "max_blocks": 15,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "t:sections.collection-list.settings.title.default",
+      "label": "t:sections.collection-list.settings.title.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        },
+        {
+          "value": "hxl",
+          "label": "t:sections.all.heading_size.options__4.label"
+        },
+        {
+          "value": "hxxl",
+          "label": "t:sections.all.heading_size.options__5.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.collection-list.settings.header_layout.content"
+    },    
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.collection-list.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.collection-list.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.collection-list.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "square",
+      "label": "t:sections.collection-list.settings.image_ratio.label"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3,
+      "label": "t:sections.collection-list.settings.columns_desktop.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "info": "t:sections.all.colors.has_cards_info",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "default": false,
+      "label": "t:sections.collection-list.settings.show_view_all.label",
+      "info": "t:sections.collection-list.settings.show_view_all.info"   
+    },
+    {
+      "type": "header",
+      "content": "t:sections.collection-list.settings.header_mobile.content"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:sections.collection-list.settings.columns_mobile.options__1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.collection-list.settings.columns_mobile.options__2.label"
+        }
+      ],
+      "default": "1",
+      "label": "t:sections.collection-list.settings.columns_mobile.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "swipe_on_mobile",
+      "default": false,
+      "label": "t:sections.collection-list.settings.swipe_on_mobile.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "featured_collection",
+      "name": "t:sections.collection-list.blocks.featured_collection.name",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "t:sections.collection-list.blocks.featured_collection.settings.collection.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.collection-list.presets.name",
+      "blocks": [
+        {
+          "type": "featured_collection"
+        },
+        {
+          "type": "featured_collection"
+        },
+        {
+          "type": "featured_collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
