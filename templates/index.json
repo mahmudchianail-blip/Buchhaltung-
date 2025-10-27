@@ -15,8 +15,7 @@
         "#optispar-hero-root {margin-top: -110px;}",
         ".opti-hero {padding-top: 10px;}",
         ".opti-heading-100 {margin-top: 0.4rem;}",
-        " /* Absatz in eine Zeile */.opti-text {white-space: nowrap; max-width: 100% !important; overflow: hidden; text-overflow: ellipsis;}",
-        "@media (min-width: 990px) {.opti-text {font-size: 16px; }}",
+        " /* Absatz in eine Zeile */@media (min-width: 990px) {.opti-text {font-size: 16px; }}",
         "#optispar-hero-root {margin-bottom: -120px;}"
       ],
       "name": "t:sections.rich-text.presets.name",
@@ -26,8 +25,7 @@
       "type": "featured-collection",
       "custom_css": [
         "/* hide arrows + counter */.slider-buttons,.slider-button,.slider-counter {display: none !important; margin: 0 !important; height: 0 !important;}",
-        " /* optional: make it a static grid (no snap/scroll padding) */.slider {overflow: visible !important; scroll-snap-type: none !important;}",
-        ".slider--desktop,.slider--tablet {padding-inline: 0 !important;}"
+        " /* optional: make it a static grid (no snap/scroll padding) */.slider--desktop,.slider--tablet {padding-inline: 0 !important;}"
       ],
       "settings": {
         "collection": "all",
@@ -105,15 +103,53 @@
     },
     "collection_list_tUWywc": {
       "type": "collection-list",
+      "blocks": {
+        "featured_collection_6qLxTV": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "auto-zubehor"
+          }
+        },
+        "featured_collection_6qkK47": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "handy-zubehor"
+          }
+        },
+        "featured_collection_An333d": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "kuchenhelfer"
+          }
+        },
+        "featured_collection_y4wYrt": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "spielzeuge"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_6qLxTV",
+        "featured_collection_6qkK47",
+        "featured_collection_An333d",
+        "featured_collection_y4wYrt"
+      ],
+      "custom_css": [
+        "/* Modern, transparent & rund */.collection-list-wrapper .button {background-color: rgba(255, 255, 255, 0.05); color: #111; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 0px; padding: 0px 0px; font-size: 14px; font-weight: 600; backdrop-filter: blur(2px); box-shadow: 0 2px 0px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;}",
+        ".card__information {text-align: center !important;}",
+        ".card__heading .icon-wrap {display: none !important; /* Versteckt den Pfeil → */}",
+        ".card__heading {justify-content: center !important; display: flex;}"
+      ],
       "name": "t:sections.collection-list.presets.name",
       "settings": {
         "title": "Kollektionen",
         "heading_size": "h1",
-        "image_ratio": "square",
-        "columns_desktop": 3,
+        "image_ratio": "adapt",
+        "columns_desktop": 4,
         "color_scheme": "",
-        "show_view_all": false,
-        "columns_mobile": "1",
+        "show_view_all": true,
+        "columns_mobile": "2",
         "swipe_on_mobile": false,
         "padding_top": 36,
         "padding_bottom": 36
