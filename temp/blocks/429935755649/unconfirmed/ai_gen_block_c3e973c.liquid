@@ -1,6 +1,556 @@
+{% doc %}
+  @prompt
+    ich will das ich da aus meine produkte so karten werden die eine nach der andere auftaucht bitte sollte man alle produkte auswählen , die prdukt auswählt ist kacke und die werden mir nicht angezeigt, die produkte sollten wie karten eine nach dem andere auftauchen , ich wil ldas die produkte also die karten einzelen für paar sekunden auftauschen dann die näschen so und immer wieder das wie eine video ist bitte, ich will das ich mehrere prdukte auswählen kann oder mehrere katalorike bitte und will es bitte bisschen kleine , die prduktewerden nicht gezeigt bitte reipere es, ich will das man nur eine katoliere auwählen kann und das die produkte angezeigt werden bitte, kannst du mir das bisschen kleine machen bitte 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-product-carousel-container-{{ ai_gen_id }} {
+    padding: 30px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .ai-product-carousel-heading-{{ ai_gen_id }} {
+    text-align: center;
+    font-size: {{ block.settings.heading_size }}px;
+    margin-bottom: 30px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-product-carousel-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-product-card-{{ ai_gen_id }} {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    width: 100%;
+    max-width: 240px;
+    background-color: {{ block.settings.card_background }};
+    border-radius: {{ block.settings.card_border_radius }}px;
+    overflow: hidden;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.12);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ai-product-card-{{ ai_gen_id }}.ai-active-{{ ai_gen_id }} {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .ai-product-card-image-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    overflow: hidden;
+    background-color: #f4f4f4;
+  }
+
+  .ai-product-card-image-{{ ai_gen_id }} img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-product-card-image-placeholder-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-product-card-image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-product-card-content-{{ ai_gen_id }} {
+    padding: 15px;
+  }
+
+  .ai-product-card-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 600;
+    margin: 0 0 8px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.3;
+  }
+
+  .ai-product-card-title-{{ ai_gen_id }} a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .ai-product-card-title-{{ ai_gen_id }} a:hover {
+    text-decoration: underline;
+  }
+
+  .ai-product-card-price-{{ ai_gen_id }} {
+    font-size: {{ block.settings.price_size }}px;
+    color: {{ block.settings.price_color }};
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .ai-product-card-button-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: {{ block.settings.button_color }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+  }
+
+  .ai-product-card-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_color }};
+  }
+
+  .ai-carousel-controls-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 25px;
+  }
+
+  .ai-carousel-dots-{{ ai_gen_id }} {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 400px;
+  }
+
+  .ai-carousel-dot-{{ ai_gen_id }} {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: {{ block.settings.text_color }};
+    opacity: 0.3;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+  }
+
+  .ai-carousel-dot-{{ ai_gen_id }}.ai-active-{{ ai_gen_id }} {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+
+  .ai-carousel-pause-{{ ai_gen_id }} {
+    background-color: {{ block.settings.button_color }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    padding: 6px 14px;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s ease;
+  }
+
+  .ai-carousel-pause-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_color }};
+  }
+
+  .ai-product-card-empty-{{ ai_gen_id }} {
+    text-align: center;
+    padding: 50px 20px;
+    color: #666;
+    font-size: 14px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-product-carousel-wrapper-{{ ai_gen_id }} {
+      min-height: 300px;
+    }
+
+    .ai-product-card-{{ ai_gen_id }} {
+      max-width: 220px;
+    }
+
+    .ai-product-card-content-{{ ai_gen_id }} {
+      padding: 12px;
+    }
+
+    .ai-product-carousel-heading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.8 }}px;
+      margin-bottom: 25px;
+    }
+  }
+{% endstyle %}
+
+<product-carousel-{{ ai_gen_id }}
+  class="ai-product-carousel-container-{{ ai_gen_id }}"
+  data-display-duration="{{ block.settings.display_duration }}"
+  data-autoplay="{{ block.settings.autoplay }}"
+  {{ block.shopify_attributes }}
+>
+  {% if block.settings.heading != blank %}
+    <h2 class="ai-product-carousel-heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+  {% endif %}
+
+  {% if block.settings.collection != blank %}
+    {% assign products_to_show = block.settings.collection.products | limit: block.settings.products_limit %}
+    
+    {% if products_to_show.size > 0 %}
+      <div class="ai-product-carousel-wrapper-{{ ai_gen_id }}">
+        {% for product in products_to_show %}
+          <div class="ai-product-card-{{ ai_gen_id }}" data-card-index="{{ forloop.index0 }}">
+            <div class="ai-product-card-image-{{ ai_gen_id }}">
+              {% if product.featured_image %}
+                <img
+                  src="{{ product.featured_image | image_url: width: 500 }}"
+                  alt="{{ product.featured_image.alt | escape }}"
+                  loading="lazy"
+                  width="500"
+                  height="500"
+                >
+              {% else %}
+                <div class="ai-product-card-image-placeholder-{{ ai_gen_id }}">
+                  {{ 'product-1' | placeholder_svg_tag }}
+                </div>
+              {% endif %}
+            </div>
+            <div class="ai-product-card-content-{{ ai_gen_id }}">
+              <h3 class="ai-product-card-title-{{ ai_gen_id }}">
+                <a href="{{ product.url }}">{{ product.title }}</a>
+              </h3>
+              <div class="ai-product-card-price-{{ ai_gen_id }}">
+                {{ product.price | money }}
+              </div>
+              <a href="{{ product.url }}" class="ai-product-card-button-{{ ai_gen_id }}">
+                {{ block.settings.button_text }}
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="ai-carousel-controls-{{ ai_gen_id }}">
+        <div class="ai-carousel-dots-{{ ai_gen_id }}">
+          {% for product in products_to_show %}
+            <button 
+              class="ai-carousel-dot-{{ ai_gen_id }}" 
+              data-dot-index="{{ forloop.index0 }}"
+              aria-label="Gehe zu Produkt {{ forloop.index }}"
+            ></button>
+          {% endfor %}
+        </div>
+        {% if block.settings.autoplay %}
+          <button class="ai-carousel-pause-{{ ai_gen_id }}" aria-label="Pause">
+            <span class="ai-pause-text-{{ ai_gen_id }}">Pause</span>
+          </button>
+        {% endif %}
+      </div>
+    {% else %}
+      <div class="ai-product-card-empty-{{ ai_gen_id }}">
+        Die ausgewählte Kollektion enthält keine Produkte
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="ai-product-card-empty-{{ ai_gen_id }}">
+      Wählen Sie eine Kollektion aus, um Produkte anzuzeigen
+    </div>
+  {% endif %}
+</product-carousel-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ProductCarousel{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.currentIndex = 0;
+        this.isPaused = false;
+        this.intervalId = null;
+      }
+
+      connectedCallback() {
+        this.cards = Array.from(this.querySelectorAll('.ai-product-card-{{ ai_gen_id }}'));
+        this.dots = Array.from(this.querySelectorAll('.ai-carousel-dot-{{ ai_gen_id }}'));
+        this.pauseButton = this.querySelector('.ai-carousel-pause-{{ ai_gen_id }}');
+        this.pauseText = this.querySelector('.ai-pause-text-{{ ai_gen_id }}');
+        
+        this.displayDuration = parseInt(this.dataset.displayDuration) || 3000;
+        this.autoplay = this.dataset.autoplay === 'true';
+
+        if (this.cards.length > 0) {
+          this.init();
+        }
+      }
+
+      init() {
+        this.showCard(0);
+        this.setupDots();
+        
+        if (this.autoplay && this.pauseButton) {
+          this.setupPauseButton();
+          this.startAutoplay();
+        }
+      }
+
+      showCard(index) {
+        this.cards.forEach((card, i) => {
+          if (i === index) {
+            card.classList.add('ai-active-{{ ai_gen_id }}');
+          } else {
+            card.classList.remove('ai-active-{{ ai_gen_id }}');
+          }
+        });
+
+        this.dots.forEach((dot, i) => {
+          if (i === index) {
+            dot.classList.add('ai-active-{{ ai_gen_id }}');
+          } else {
+            dot.classList.remove('ai-active-{{ ai_gen_id }}');
+          }
+        });
+
+        this.currentIndex = index;
+      }
+
+      nextCard() {
+        const nextIndex = (this.currentIndex + 1) % this.cards.length;
+        this.showCard(nextIndex);
+      }
+
+      setupDots() {
+        this.dots.forEach((dot, index) => {
+          dot.addEventListener('click', () => {
+            this.showCard(index);
+            if (this.autoplay && !this.isPaused) {
+              this.resetAutoplay();
+            }
+          });
+        });
+      }
+
+      setupPauseButton() {
+        this.pauseButton.addEventListener('click', () => {
+          if (this.isPaused) {
+            this.startAutoplay();
+            this.pauseText.textContent = 'Pause';
+          } else {
+            this.stopAutoplay();
+            this.pauseText.textContent = 'Abspielen';
+          }
+          this.isPaused = !this.isPaused;
+        });
+      }
+
+      startAutoplay() {
+        this.stopAutoplay();
+        this.intervalId = setInterval(() => {
+          this.nextCard();
+        }, this.displayDuration);
+      }
+
+      stopAutoplay() {
+        if (this.intervalId) {
+          clearInterval(this.intervalId);
+          this.intervalId = null;
+        }
+      }
+
+      resetAutoplay() {
+        this.stopAutoplay();
+        this.startAutoplay();
+      }
+
+      disconnectedCallback() {
+        this.stopAutoplay();
+      }
+    }
+
+    customElements.define('product-carousel-{{ ai_gen_id }}', ProductCarousel{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Produkt Karussell",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Inhalt"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Überschrift",
+      "default": "Unsere Produkte"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Kollektion auswählen"
+    },
+    {
+      "type": "range",
+      "id": "products_limit",
+      "min": 3,
+      "max": 20,
+      "step": 1,
+      "label": "Anzahl der Produkte",
+      "default": 8
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Jetzt ansehen"
+    },
+    {
+      "type": "header",
+      "content": "Karussell Einstellungen"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Automatisch abspielen",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "display_duration",
+      "min": 2000,
+      "max": 8000,
+      "step": 500,
+      "unit": "ms",
+      "label": "Anzeigedauer pro Produkt",
+      "default": 3000
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Kartenecken Radius",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Farben"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Karten Hintergrund",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Textfarbe",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "Preisfarbe",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button Farbe",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_color",
+      "label": "Button Hover Farbe",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Textfarbe",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Typografie"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 18,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "label": "Überschriftgröße",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Produkttitelgröße",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "price_size",
+      "min": 11,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Preisgröße",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Button Radius",
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Produkt Karussell"
+    }
+  ]
+}
 {% endschema %}
