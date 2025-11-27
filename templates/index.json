@@ -155,6 +155,42 @@
         "padding_bottom": 36
       }
     },
+    "176426156381d0967d": {
+      "type": "_blocks",
+      "settings": {}
+    },
+    "1764263365f6bbb56e": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_53c45b1_i9VXBH": {
+          "type": "ai_gen_block_53c45b1",
+          "settings": {
+            "heading": "Unsere Produkte",
+            "collection": "handy-zubehor",
+            "products_limit": 12,
+            "button_text": "Jetzt ansehen",
+            "autoplay": true,
+            "display_duration": 3000,
+            "card_border_radius": 12,
+            "card_background": "#ffffff",
+            "text_color": "#121212",
+            "price_color": "#121212",
+            "button_color": "#121212",
+            "button_hover_color": "#000000",
+            "button_text_color": "#ffffff",
+            "heading_size": 32,
+            "title_size": 22,
+            "price_size": 18,
+            "button_border_radius": 6
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_53c45b1_i9VXBH"
+      ],
+      "settings": {}
+    },
     "collage_ntMzU3": {
       "type": "collage",
       "blocks": {
@@ -327,6 +363,8 @@
     "featured_collection",
     "image_with_text_9gyjt6",
     "collection_list_tUWywc",
+    "176426156381d0967d",
+    "1764263365f6bbb56e",
     "collage_ntMzU3",
     "slideshow_VQMBmN",
     "featured_product_BdxmXE"
