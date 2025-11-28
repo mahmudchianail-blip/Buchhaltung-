@@ -1,6 +1,1028 @@
+{% doc %}
+  @prompt
+    ich will wie image with text aufbauen der modern ist bitte , ich will das bild wenn ich nach unterscolle und da ungefähre bin das sie so flüssig mit den rollen in ihr platz kommt so mit animation der modern ist bitte, ich will immer wenn nach oben gehe sollte die bild nach links zu gehen und wenn zurück komme sollte so zrück kommen und sollte alles moderen sein so sehr schlau moderen bitte, die animation ist so nicht erkanbar die ist so schwach bitte verbessere es wie die rein und reus geht sollte ganz raus und rein bitte und text immer so aus seite wie regen wenn nach unten gehe steht aber wenn nach oben gehe geht wieder nach rechts, kannst du den schreif und alles noch moderenere machen und die einstellungen verbesserenen und eweieteren das man alles einstellen kan bitte
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-parallax-image-text-{{ ai_gen_id }} {
+    display: flex;
+    align-items: {{ block.settings.vertical_alignment }};
+    gap: {{ block.settings.spacing }}px;
+    padding: {{ block.settings.padding_top }}px {{ block.settings.padding_horizontal }}px {{ block.settings.padding_bottom }}px;
+    background: {{ block.settings.background_color }};
+    max-width: {{ block.settings.container_width }}px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .ai-parallax-image-text-{{ ai_gen_id }}--reverse {
+    flex-direction: row-reverse;
+  }
+
+  .ai-parallax-image-text__image-wrapper-{{ ai_gen_id }} {
+    flex: 0 0 {{ block.settings.image_width }}%;
+    position: relative;
+    overflow: hidden;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    will-change: transform;
+    box-shadow: {{ block.settings.image_shadow_x }}px {{ block.settings.image_shadow_y }}px {{ block.settings.image_shadow_blur }}px rgba(0, 0, 0, {{ block.settings.image_shadow_opacity | divided_by: 100.0 }});
+  }
+
+  .ai-parallax-image-text__image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    filter: brightness({{ block.settings.image_brightness }}%) contrast({{ block.settings.image_contrast }}%) saturate({{ block.settings.image_saturation }}%);
+    transition: filter 0.3s ease;
+  }
+
+  .ai-parallax-image-text__image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: {{ block.settings.image_aspect_ratio }};
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .ai-parallax-image-text__image-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-parallax-image-text__empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .ai-parallax-image-text__content-{{ ai_gen_id }} {
+    flex: 1;
+    padding: {{ block.settings.content_padding }}px;
+    will-change: transform;
+    text-align: {{ block.settings.text_alignment }};
+  }
+
+  .ai-parallax-image-text__heading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.heading_color }};
+    margin: 0 0 {{ block.settings.heading_spacing }}px;
+    font-weight: {{ block.settings.heading_weight }};
+    line-height: {{ block.settings.heading_line_height }};
+    letter-spacing: {{ block.settings.heading_letter_spacing }}px;
+    text-transform: {{ block.settings.heading_transform }};
+  }
+
+  .ai-parallax-image-text__text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.text_color }};
+    line-height: {{ block.settings.text_line_height }};
+    margin: 0 0 {{ block.settings.text_spacing }}px;
+    font-weight: {{ block.settings.text_weight }};
+    letter-spacing: {{ block.settings.text_letter_spacing }}px;
+  }
+
+  .ai-parallax-image-text__button-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: {{ block.settings.button_padding_vertical }}px {{ block.settings.button_padding_horizontal }}px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_text_size }}px;
+    font-weight: {{ block.settings.button_font_weight }};
+    letter-spacing: {{ block.settings.button_letter_spacing }}px;
+    text-transform: {{ block.settings.button_text_transform }};
+    transition: all 0.3s ease;
+    border: {{ block.settings.button_border_width }}px solid {{ block.settings.button_border_color }};
+    cursor: pointer;
+    box-shadow: {{ block.settings.button_shadow_x }}px {{ block.settings.button_shadow_y }}px {{ block.settings.button_shadow_blur }}px rgba(0, 0, 0, {{ block.settings.button_shadow_opacity | divided_by: 100.0 }});
+  }
+
+  .ai-parallax-image-text__button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+    color: {{ block.settings.button_hover_text_color }};
+    border-color: {{ block.settings.button_hover_border_color }};
+    transform: translateY({{ block.settings.button_hover_lift }}px) scale({{ block.settings.button_hover_scale | divided_by: 100.0 }});
+    box-shadow: {{ block.settings.button_hover_shadow_x }}px {{ block.settings.button_hover_shadow_y }}px {{ block.settings.button_hover_shadow_blur }}px rgba(0, 0, 0, {{ block.settings.button_hover_shadow_opacity | divided_by: 100.0 }});
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-parallax-image-text-{{ ai_gen_id }} {
+      flex-direction: column;
+      gap: {{ block.settings.spacing | times: 0.7 }}px;
+      padding: {{ block.settings.padding_top | times: 0.7 }}px {{ block.settings.padding_horizontal | times: 0.7 }}px {{ block.settings.padding_bottom | times: 0.7 }}px;
+    }
+
+    .ai-parallax-image-text-{{ ai_gen_id }}--reverse {
+      flex-direction: column;
+    }
+
+    .ai-parallax-image-text__image-wrapper-{{ ai_gen_id }} {
+      flex: 0 0 100%;
+      width: 100%;
+    }
+
+    .ai-parallax-image-text__content-{{ ai_gen_id }} {
+      padding: {{ block.settings.content_padding | times: 0.7 }}px;
+      text-align: {{ block.settings.mobile_text_alignment }};
+    }
+
+    .ai-parallax-image-text__heading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size | times: 0.8 }}px;
+    }
+
+    .ai-parallax-image-text__text-{{ ai_gen_id }} {
+      font-size: {{ block.settings.text_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<parallax-scroll-{{ ai_gen_id }}
+  class="ai-parallax-image-text-{{ ai_gen_id }} {% if block.settings.image_position == 'right' %}ai-parallax-image-text-{{ ai_gen_id }}--reverse{% endif %}"
+  data-parallax-speed="{{ block.settings.parallax_speed }}"
+  data-text-speed="{{ block.settings.text_parallax_speed }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-parallax-image-text__image-wrapper-{{ ai_gen_id }}" data-parallax-image>
+    {% if block.settings.image %}
+      <img
+        src="{{ block.settings.image | image_url: width: 1200 }}"
+        alt="{{ block.settings.image.alt | escape }}"
+        loading="lazy"
+        width="{{ block.settings.image.width }}"
+        height="{{ block.settings.image.height }}"
+        class="ai-parallax-image-text__image-{{ ai_gen_id }}"
+      >
+    {% else %}
+      <div class="ai-parallax-image-text__image-placeholder-{{ ai_gen_id }}">
+        {{ 'image' | placeholder_svg_tag }}
+        <div class="ai-parallax-image-text__empty-state-{{ ai_gen_id }}">
+          Bild hinzufügen
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="ai-parallax-image-text__content-{{ ai_gen_id }}" data-parallax-text>
+    {% if block.settings.heading != blank %}
+      <h2 class="ai-parallax-image-text__heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+    {% endif %}
+
+    {% if block.settings.text != blank %}
+      <div class="ai-parallax-image-text__text-{{ ai_gen_id }}">{{ block.settings.text }}</div>
+    {% endif %}
+
+    {% if block.settings.button_text != blank and block.settings.button_link != blank %}
+      <a
+        href="{{ block.settings.button_link }}"
+        class="ai-parallax-image-text__button-{{ ai_gen_id }}"
+      >
+        {{ block.settings.button_text }}
+      </a>
+    {% endif %}
+  </div>
+</parallax-scroll-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ParallaxScroll{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.imageWrapper = this.querySelector('[data-parallax-image]');
+        this.textWrapper = this.querySelector('[data-parallax-text]');
+        this.parallaxSpeed = parseFloat(this.dataset.parallaxSpeed) || 1.5;
+        this.textSpeed = parseFloat(this.dataset.textSpeed) || 1;
+        this.ticking = false;
+        this.lastScrollY = 0;
+      }
+
+      connectedCallback() {
+        this.setupParallax();
+      }
+
+      setupParallax() {
+        if (!this.imageWrapper && !this.textWrapper) return;
+
+        const handleScroll = () => {
+          this.lastScrollY = window.scrollY;
+          
+          if (!this.ticking) {
+            window.requestAnimationFrame(() => {
+              this.updateParallax();
+              this.ticking = false;
+            });
+            this.ticking = true;
+          }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        this.updateParallax();
+        
+        this.disconnectCallback = () => {
+          window.removeEventListener('scroll', handleScroll);
+        };
+      }
+
+      updateParallax() {
+        const rect = this.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        
+        if (rect.top < windowHeight && rect.bottom > 0) {
+          const scrollProgress = (windowHeight - rect.top) / (windowHeight + rect.height);
+          const centerOffset = scrollProgress - 0.5;
+          
+          if (this.imageWrapper) {
+            const imageTranslate = centerOffset * 200 * this.parallaxSpeed;
+            this.imageWrapper.style.transform = `translateX(${imageTranslate}px)`;
+          }
+          
+          if (this.textWrapper) {
+            const textTranslate = centerOffset * -150 * this.textSpeed;
+            this.textWrapper.style.transform = `translateX(${textTranslate}px)`;
+          }
+        }
+      }
+
+      disconnectedCallback() {
+        if (this.disconnectCallback) {
+          this.disconnectCallback();
+        }
+      }
+    }
+
+    customElements.define('parallax-scroll-{{ ai_gen_id }}', ParallaxScroll{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Parallax Bild mit Text",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 800,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Container-Breite",
+      "default": 1200
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Bildposition",
+      "options": [
+        {
+          "value": "left",
+          "label": "Links"
+        },
+        {
+          "value": "right",
+          "label": "Rechts"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "image_width",
+      "min": 30,
+      "max": 70,
+      "step": 5,
+      "unit": "%",
+      "label": "Bildbreite",
+      "default": 50
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment",
+      "label": "Vertikale Ausrichtung",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Oben"
+        },
+        {
+          "value": "center",
+          "label": "Mitte"
+        },
+        {
+          "value": "flex-end",
+          "label": "Unten"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Abstand zwischen Elementen",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "label": "Innenabstand oben",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "label": "Innenabstand unten",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Innenabstand horizontal",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Hintergrundfarbe",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Bild"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Bild"
+    },
+    {
+      "type": "select",
+      "id": "image_aspect_ratio",
+      "label": "Seitenverhältnis",
+      "options": [
+        {
+          "value": "1/1",
+          "label": "Quadratisch (1:1)"
+        },
+        {
+          "value": "4/3",
+          "label": "Landschaft (4:3)"
+        },
+        {
+          "value": "16/9",
+          "label": "Breit (16:9)"
+        },
+        {
+          "value": "3/4",
+          "label": "Hochformat (3:4)"
+        },
+        {
+          "value": "2/3",
+          "label": "Hochformat (2:3)"
+        }
+      ],
+      "default": "4/3"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Eckenradius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "image_brightness",
+      "min": 50,
+      "max": 150,
+      "step": 5,
+      "unit": "%",
+      "label": "Helligkeit",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "image_contrast",
+      "min": 50,
+      "max": 150,
+      "step": 5,
+      "unit": "%",
+      "label": "Kontrast",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "image_saturation",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "%",
+      "label": "Sättigung",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "image_shadow_x",
+      "min": -20,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Schatten horizontal",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "image_shadow_y",
+      "min": -20,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Schatten vertikal",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "image_shadow_blur",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "label": "Schatten Unschärfe",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "image_shadow_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Schatten Deckkraft",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Parallax-Effekt"
+    },
+    {
+      "type": "range",
+      "id": "parallax_speed",
+      "min": 0,
+      "max": 3,
+      "step": 0.5,
+      "label": "Bild Parallax-Stärke",
+      "default": 1.5
+    },
+    {
+      "type": "range",
+      "id": "text_parallax_speed",
+      "min": 0,
+      "max": 2,
+      "step": 0.5,
+      "label": "Text Parallax-Stärke",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Inhalt"
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "label": "Innenabstand",
+      "default": 20
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Textausrichtung Desktop",
+      "options": [
+        {
+          "value": "left",
+          "label": "Links"
+        },
+        {
+          "value": "center",
+          "label": "Zentriert"
+        },
+        {
+          "value": "right",
+          "label": "Rechts"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "mobile_text_alignment",
+      "label": "Textausrichtung Mobil",
+      "options": [
+        {
+          "value": "left",
+          "label": "Links"
+        },
+        {
+          "value": "center",
+          "label": "Zentriert"
+        },
+        {
+          "value": "right",
+          "label": "Rechts"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Überschrift"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Überschrift",
+      "default": "Intelligente Parallax"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Größe",
+      "default": 42
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Farbe",
+      "default": "#121212"
+    },
+    {
+      "type": "select",
+      "id": "heading_weight",
+      "label": "Schriftstärke",
+      "options": [
+        {
+          "value": "300",
+          "label": "Leicht"
+        },
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Halbfett"
+        },
+        {
+          "value": "700",
+          "label": "Fett"
+        },
+        {
+          "value": "800",
+          "label": "Extra Fett"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "heading_line_height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "label": "Zeilenhöhe",
+      "default": 1.2
+    },
+    {
+      "type": "range",
+      "id": "heading_letter_spacing",
+      "min": -2,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "label": "Buchstabenabstand",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "heading_transform",
+      "label": "Textumwandlung",
+      "options": [
+        {
+          "value": "none",
+          "label": "Keine"
+        },
+        {
+          "value": "uppercase",
+          "label": "Großbuchstaben"
+        },
+        {
+          "value": "lowercase",
+          "label": "Kleinbuchstaben"
+        },
+        {
+          "value": "capitalize",
+          "label": "Kapitälchen"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Abstand unten",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Bild bewegt sich nach links beim Scrollen, Text nach rechts. Beim Hochscrollen kehren beide zurück.</p>"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Größe",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Farbe",
+      "default": "#121212"
+    },
+    {
+      "type": "select",
+      "id": "text_weight",
+      "label": "Schriftstärke",
+      "options": [
+        {
+          "value": "300",
+          "label": "Leicht"
+        },
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Halbfett"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "range",
+      "id": "text_line_height",
+      "min": 1,
+      "max": 2,
+      "step": 0.1,
+      "label": "Zeilenhöhe",
+      "default": 1.6
+    },
+    {
+      "type": "range",
+      "id": "text_letter_spacing",
+      "min": -1,
+      "max": 3,
+      "step": 0.5,
+      "unit": "px",
+      "label": "Buchstabenabstand",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "text_spacing",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Abstand unten",
+      "default": 28
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Text",
+      "default": "Jetzt entdecken"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Link"
+    },
+    {
+      "type": "range",
+      "id": "button_text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Textgröße",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "button_font_weight",
+      "label": "Schriftstärke",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Halbfett"
+        },
+        {
+          "value": "700",
+          "label": "Fett"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "range",
+      "id": "button_letter_spacing",
+      "min": -1,
+      "max": 3,
+      "step": 0.5,
+      "unit": "px",
+      "label": "Buchstabenabstand",
+      "default": 0.5
+    },
+    {
+      "type": "select",
+      "id": "button_text_transform",
+      "label": "Textumwandlung",
+      "options": [
+        {
+          "value": "none",
+          "label": "Keine"
+        },
+        {
+          "value": "uppercase",
+          "label": "Großbuchstaben"
+        },
+        {
+          "value": "lowercase",
+          "label": "Kleinbuchstaben"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Innenabstand vertikal",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "min": 16,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Innenabstand horizontal",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "label": "Eckenradius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "button_border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "label": "Rahmenbreite",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Hintergrundfarbe",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Textfarbe",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Rahmenfarbe",
+      "default": "#121212"
+    },
+    {
+      "type": "range",
+      "id": "button_shadow_x",
+      "min": -10,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Schatten horizontal",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "button_shadow_y",
+      "min": -10,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Schatten vertikal",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "button_shadow_blur",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "label": "Schatten Unschärfe",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "button_shadow_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Schatten Deckkraft",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Button Hover-Effekt"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Hover Hintergrund",
+      "default": "#334FB4"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Hover Textfarbe",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_border_color",
+      "label": "Hover Rahmenfarbe",
+      "default": "#334FB4"
+    },
+    {
+      "type": "range",
+      "id": "button_hover_lift",
+      "min": -10,
+      "max": 0,
+      "step": 1,
+      "unit": "px",
+      "label": "Hover Anhebung",
+      "default": -3
+    },
+    {
+      "type": "range",
+      "id": "button_hover_scale",
+      "min": 95,
+      "max": 110,
+      "step": 1,
+      "unit": "%",
+      "label": "Hover Skalierung",
+      "default": 102
+    },
+    {
+      "type": "range",
+      "id": "button_hover_shadow_x",
+      "min": -10,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Hover Schatten horizontal",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "button_hover_shadow_y",
+      "min": -10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Hover Schatten vertikal",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "button_hover_shadow_blur",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Hover Schatten Unschärfe",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "button_hover_shadow_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Hover Schatten Deckkraft",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Parallax Bild mit Text"
+    }
+  ]
+}
 {% endschema %}
