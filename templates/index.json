@@ -157,184 +157,66 @@
     },
     "17643573508284e3de": {
       "type": "_blocks",
+      "settings": {}
+    },
+    "176443963158b55749": {
+      "type": "_blocks",
       "blocks": {
-        "ai_gen_block_7a72f7b_KDLrPD": {
-          "type": "ai_gen_block_7a72f7b",
+        "ai_gen_block_b3272c9_RptU4L": {
+          "type": "ai_gen_block_b3272c9",
           "settings": {
-            "container_width": 1200,
-            "image_position": "left",
-            "image_width": 50,
-            "vertical_alignment": "center",
-            "spacing": 40,
-            "padding_top": 60,
-            "padding_bottom": 60,
-            "padding_horizontal": 40,
-            "background_color": "#FFFFFF",
-            "image_aspect_ratio": "4/3",
-            "image_border_radius": 16,
-            "image_brightness": 100,
-            "image_contrast": 100,
-            "image_saturation": 100,
-            "image_shadow_x": 0,
-            "image_shadow_y": 8,
-            "image_shadow_blur": 20,
-            "image_shadow_opacity": 15,
-            "parallax_speed": 1.5,
-            "text_parallax_speed": 1,
-            "content_padding": 20,
-            "text_alignment": "left",
-            "mobile_text_alignment": "center",
-            "heading": "Intelligente Parallax",
-            "heading_size": 42,
-            "heading_color": "#121212",
-            "heading_weight": "700",
-            "heading_line_height": 1.2,
-            "heading_letter_spacing": 0,
-            "heading_transform": "none",
-            "heading_spacing": 24,
-            "text": "<p>Bild bewegt sich nach links beim Scrollen, Text nach rechts. Beim Hochscrollen kehren beide zurück.</p>",
-            "text_size": 16,
-            "text_color": "#121212",
-            "text_weight": "400",
-            "text_line_height": 1.6,
-            "text_letter_spacing": 0,
-            "text_spacing": 28,
-            "button_text": "Jetzt entdecken",
-            "button_link": "",
-            "button_text_size": 16,
-            "button_font_weight": "600",
-            "button_letter_spacing": 0.5,
-            "button_text_transform": "none",
-            "button_padding_vertical": 16,
-            "button_padding_horizontal": 36,
-            "button_border_radius": 8,
-            "button_border_width": 0,
-            "button_bg_color": "#121212",
-            "button_text_color": "#FFFFFF",
-            "button_border_color": "#121212",
-            "button_shadow_x": 0,
-            "button_shadow_y": 2,
-            "button_shadow_blur": 8,
-            "button_shadow_opacity": 10,
-            "button_hover_bg_color": "#334FB4",
-            "button_hover_text_color": "#FFFFFF",
-            "button_hover_border_color": "#334FB4",
-            "button_hover_lift": -3,
-            "button_hover_scale": 102,
-            "button_hover_shadow_x": 0,
-            "button_hover_shadow_y": 6,
-            "button_hover_shadow_blur": 16,
-            "button_hover_shadow_opacity": 20
+            "heading": "Unsere Kollektionen",
+            "collections": [
+              "beauty-gesundheit",
+              "fit-gesund-sport-wohlbefinden",
+              "haustierbedarf",
+              "spielzeuge",
+              "kuchenhelfer"
+            ],
+            "show_product_count": true,
+            "columns_desktop": 4,
+            "grid_gap_desktop": 24,
+            "container_padding_desktop": 20,
+            "section_padding_top_desktop": 48,
+            "section_padding_bottom_desktop": 48,
+            "columns_tablet": 3,
+            "mobile_card_width": 75,
+            "mobile_scroll_start_offset": 20,
+            "grid_gap_mobile": 16,
+            "container_padding_mobile": 20,
+            "section_padding_top_mobile": 36,
+            "section_padding_bottom_mobile": 36,
+            "image_ratio_desktop": 100,
+            "card_border_radius_desktop": 16,
+            "image_ratio_mobile": 120,
+            "card_border_radius_mobile": 16,
+            "heading_size_desktop": 36,
+            "heading_alignment": "center",
+            "heading_gradient": "linear-gradient(135deg, rgba(102, 126, 234, 1), rgba(118, 75, 162, 1) 100%)",
+            "enable_heading_animation": true,
+            "heading_spacing_desktop": 36,
+            "heading_size_mobile": 26,
+            "heading_spacing_mobile": 24,
+            "collection_title_size_desktop": 22,
+            "collection_title_gradient": "linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(168, 237, 234, 1) 100%)",
+            "enable_title_animation": true,
+            "collection_title_size_mobile": 18,
+            "collection_count_size_desktop": 14,
+            "collection_count_size_mobile": 12,
+            "collection_count_color": "#e0e0e0",
+            "overlay_gradient": "linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75) 100%)",
+            "overlay_padding_desktop": 24,
+            "overlay_padding_mobile": 20,
+            "background_color": "#ffffff",
+            "container_width": 1200
           },
           "blocks": {}
         }
       },
       "block_order": [
-        "ai_gen_block_7a72f7b_KDLrPD"
+        "ai_gen_block_b3272c9_RptU4L"
       ],
       "settings": {}
-    },
-    "image_with_text_9gyjt6": {
-      "type": "image-with-text",
-      "blocks": {
-        "heading_X7ynHg": {
-          "type": "heading",
-          "settings": {
-            "heading": "Smartes Set. Starker Schutz.",
-            "heading_size": "h2"
-          }
-        },
-        "text_KH9ymF": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Folie, Ausrichtungsrahmen & Reinigung, alles drin für die perfekte Installation ohne Blasen.<br/></p>",
-            "text_style": "body"
-          }
-        },
-        "button_b63HK8": {
-          "type": "button",
-          "settings": {
-            "button_label": "Jeztz Kaufen",
-            "button_link": "shopify://collections/all",
-            "button_style_secondary": true
-          }
-        }
-      },
-      "block_order": [
-        "heading_X7ynHg",
-        "text_KH9ymF",
-        "button_b63HK8"
-      ],
-      "name": "t:sections.image-with-text.presets.name",
-      "settings": {
-        "image": "shopify://shop_images/IMG_6193.png",
-        "height": "medium",
-        "desktop_image_width": "medium",
-        "layout": "image_first",
-        "image_behavior": "none",
-        "content_layout": "overlap",
-        "desktop_content_position": "middle",
-        "desktop_content_alignment": "center",
-        "mobile_content_alignment": "center",
-        "section_color_scheme": "",
-        "color_scheme": "",
-        "padding_top": 20,
-        "padding_bottom": 20
-      }
-    },
-    "collection_list_tUWywc": {
-      "type": "collection-list",
-      "blocks": {
-        "featured_collection_6qLxTV": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "auto-zubehor"
-          }
-        },
-        "featured_collection_6qkK47": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "handy-zubehor"
-          }
-        },
-        "featured_collection_An333d": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "kuchenhelfer"
-          }
-        },
-        "featured_collection_y4wYrt": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "spielzeuge"
-          }
-        }
-      },
-      "block_order": [
-        "featured_collection_6qLxTV",
-        "featured_collection_6qkK47",
-        "featured_collection_An333d",
-        "featured_collection_y4wYrt"
-      ],
-      "custom_css": [
-        "/* Modern, transparent & rund */.collection-list-wrapper .button {background-color: rgba(255, 255, 255, 0.05); color: #111; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 0px; padding: 0px 0px; font-size: 14px; font-weight: 600; backdrop-filter: blur(2px); box-shadow: 0 2px 0px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;}",
-        ".card__information {text-align: center !important;}",
-        ".card__heading .icon-wrap {display: none !important; /* Versteckt den Pfeil → */}",
-        ".card__heading {justify-content: center !important; display: flex;}"
-      ],
-      "name": "t:sections.collection-list.presets.name",
-      "settings": {
-        "title": "",
-        "heading_size": "h1",
-        "image_ratio": "adapt",
-        "columns_desktop": 4,
-        "color_scheme": "",
-        "show_view_all": false,
-        "columns_mobile": "2",
-        "swipe_on_mobile": false,
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
     },
     "176426156381d0967d": {
       "type": "_blocks",
@@ -372,90 +254,8 @@
       ],
       "settings": {}
     },
-    "collage_ntMzU3": {
-      "type": "collage",
-      "blocks": {
-        "image_W36hJm": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/s-l960_c9ba44ae-8561-4562-a205-09d32657ebc5.webp"
-          }
-        },
-        "product_34k3dt": {
-          "type": "product",
-          "settings": {
-            "product": "2x-silikon-saugnapf-handyhalterung-handy-halter-selbstklebend-5-5-x-8cm",
-            "second_image": false
-          }
-        },
-        "collection_QRUqEg": {
-          "type": "collection",
-          "settings": {
-            "collection": "handy-zubehor"
-          }
-        }
-      },
-      "block_order": [
-        "image_W36hJm",
-        "product_34k3dt",
-        "collection_QRUqEg"
-      ],
-      "name": "t:sections.collage.presets.name",
-      "settings": {
-        "heading": "",
-        "heading_size": "h1",
-        "desktop_layout": "left",
-        "mobile_layout": "column",
-        "card_styles": "product-card-wrapper",
-        "color_scheme": "",
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
     "slideshow_VQMBmN": {
       "type": "slideshow",
-      "blocks": {
-        "slide_PAyafL": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/s-l1600_167a5ea8-d5bb-4aed-85b1-067ac3a7890d.webp",
-            "image_overlay_opacity": 0,
-            "heading": "",
-            "heading_size": "h1",
-            "subheading": "",
-            "button_label": "",
-            "link": "",
-            "button_style_secondary": false,
-            "show_text_box": false,
-            "box_align": "middle-center",
-            "text_alignment": "center",
-            "text_alignment_mobile": "center",
-            "color_scheme": ""
-          }
-        },
-        "slide_mf3Ahc": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/s-l1600_7bb8eceb-8515-4042-9304-865d834884b7.webp",
-            "image_overlay_opacity": 0,
-            "heading": "",
-            "heading_size": "h1",
-            "subheading": "",
-            "button_label": "",
-            "link": "",
-            "button_style_secondary": false,
-            "show_text_box": false,
-            "box_align": "middle-center",
-            "text_alignment": "center",
-            "text_alignment_mobile": "center",
-            "color_scheme": ""
-          }
-        }
-      },
-      "block_order": [
-        "slide_PAyafL",
-        "slide_mf3Ahc"
-      ],
       "name": "t:sections.slideshow.presets.name",
       "settings": {
         "layout": "full_bleed",
@@ -467,76 +267,6 @@
         "show_text_below": true,
         "accessibility_info": "Slideshow zu deiner Marke"
       }
-    },
-    "featured_product_BdxmXE": {
-      "type": "featured-product",
-      "blocks": {
-        "text_CReXdT": {
-          "type": "text",
-          "settings": {
-            "text": "{{ section.settings.product.vendor }}",
-            "text_style": "uppercase"
-          }
-        },
-        "title_4Mnxng": {
-          "type": "title",
-          "settings": {
-            "heading_size": "h1"
-          }
-        },
-        "price_8EFf9T": {
-          "type": "price",
-          "settings": {}
-        },
-        "variant_picker_8JpR8f": {
-          "type": "variant_picker",
-          "settings": {
-            "picker_type": "button",
-            "swatch_shape": "circle"
-          }
-        },
-        "quantity_selector_WgewTL": {
-          "type": "quantity_selector",
-          "settings": {}
-        },
-        "buy_buttons_4TnV6Y": {
-          "type": "buy_buttons",
-          "settings": {
-            "show_dynamic_checkout": true,
-            "show_gift_card_recipient": true
-          }
-        },
-        "share_M3XXCq": {
-          "type": "share",
-          "settings": {
-            "share_label": "Teilen"
-          }
-        }
-      },
-      "block_order": [
-        "text_CReXdT",
-        "title_4Mnxng",
-        "price_8EFf9T",
-        "variant_picker_8JpR8f",
-        "quantity_selector_WgewTL",
-        "buy_buttons_4TnV6Y",
-        "share_M3XXCq"
-      ],
-      "name": "t:sections.featured-product.presets.name",
-      "settings": {
-        "product": "reinigungsset-iphone-usb-c-mit-staubschutz-filter-burste-pinzette-41tlg",
-        "color_scheme": "",
-        "secondary_background": false,
-        "media_size": "medium",
-        "constrain_to_viewport": true,
-        "media_fit": "contain",
-        "media_position": "left",
-        "image_zoom": "lightbox",
-        "hide_variants": false,
-        "enable_video_looping": false,
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
     }
   },
   "order": [
@@ -544,12 +274,9 @@
     "17643534260569bfb4",
     "17643537795037ac18",
     "17643573508284e3de",
-    "image_with_text_9gyjt6",
-    "collection_list_tUWywc",
+    "176443963158b55749",
     "176426156381d0967d",
     "1764263365f6bbb56e",
-    "collage_ntMzU3",
-    "slideshow_VQMBmN",
-    "featured_product_BdxmXE"
+    "slideshow_VQMBmN"
   ]
 }
