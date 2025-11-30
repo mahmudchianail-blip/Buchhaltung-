@@ -1,6 +1,750 @@
+{% doc %}
+  @prompt
+    will so etwas so zeige warum die uns auswählen mit moderene animatrionen bei auftriten so bitte, ich will es moderene und hüscher bitte 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-why-choose-us-{{ ai_gen_id }} {
+    padding: {{ block.settings.padding_top }}px 20px {{ block.settings.padding_bottom }}px;
+    background: {{ block.settings.background_gradient }};
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-why-choose-us-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.container_width }}px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .ai-why-choose-us-header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 70px;
+  }
+
+  .ai-why-choose-us-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    color: {{ block.settings.title_color }};
+    margin: 0 0 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+
+  .ai-why-choose-us-subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.subtitle_color }};
+    margin: 0;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  .ai-why-choose-us-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+  }
+
+  .ai-why-choose-us-item-{{ ai_gen_id }} {
+    background: {{ block.settings.card_background }};
+    padding: 40px 32px;
+    border-radius: {{ block.settings.card_radius }}px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-why-choose-us-item-{{ ai_gen_id }}::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, {{ block.settings.accent_color_1 }}, {{ block.settings.accent_color_2 }});
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ai-why-choose-us-item-{{ ai_gen_id }}.animate {
+    animation: ai-why-choose-us-fade-in-{{ ai_gen_id }} 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .ai-why-choose-us-item-{{ ai_gen_id }}:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .ai-why-choose-us-item-{{ ai_gen_id }}:hover::before {
+    transform: scaleX(1);
+  }
+
+  .ai-why-choose-us-icon-wrapper-{{ ai_gen_id }} {
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    margin: 0 auto 28px;
+    background: linear-gradient(135deg, {{ block.settings.accent_color_1 }}, {{ block.settings.accent_color_2 }});
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+  }
+
+  .ai-why-choose-us-icon-wrapper-{{ ai_gen_id }}::after {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, {{ block.settings.accent_color_1 }}, {{ block.settings.accent_color_2 }});
+    opacity: 0.2;
+    transform: scale(0.8);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .ai-why-choose-us-item-{{ ai_gen_id }}:hover .ai-why-choose-us-icon-wrapper-{{ ai_gen_id }} {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  .ai-why-choose-us-item-{{ ai_gen_id }}:hover .ai-why-choose-us-icon-wrapper-{{ ai_gen_id }}::after {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+
+  .ai-why-choose-us-icon-{{ ai_gen_id }} {
+    width: calc({{ block.settings.icon_size }}px * 0.5);
+    height: calc({{ block.settings.icon_size }}px * 0.5);
+    color: {{ block.settings.icon_color }};
+    position: relative;
+    z-index: 1;
+  }
+
+  .ai-why-choose-us-item-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.item_title_size }}px;
+    color: {{ block.settings.item_title_color }};
+    margin: 0 0 16px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+  }
+
+  .ai-why-choose-us-item-text-{{ ai_gen_id }} {
+    font-size: {{ block.settings.item_text_size }}px;
+    color: {{ block.settings.item_text_color }};
+    margin: 0;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+
+  @keyframes ai-why-choose-us-fade-in-{{ ai_gen_id }} {
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-why-choose-us-grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-why-choose-us-grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .ai-why-choose-us-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.title_size }}px * 0.75);
+    }
+
+    .ai-why-choose-us-subtitle-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.subtitle_size }}px * 0.9);
+    }
+
+    .ai-why-choose-us-item-{{ ai_gen_id }} {
+      padding: 32px 24px;
+    }
+
+    .ai-why-choose-us-header-{{ ai_gen_id }} {
+      margin-bottom: 50px;
+    }
+  }
+{% endstyle %}
+
+<why-choose-us-{{ ai_gen_id }} class="ai-why-choose-us-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-why-choose-us-container-{{ ai_gen_id }}">
+    {% if block.settings.title != blank or block.settings.subtitle != blank %}
+      <div class="ai-why-choose-us-header-{{ ai_gen_id }}">
+        {% if block.settings.title != blank %}
+          <h2 class="ai-why-choose-us-title-{{ ai_gen_id }}">{{ block.settings.title }}</h2>
+        {% endif %}
+        {% if block.settings.subtitle != blank %}
+          <div class="ai-why-choose-us-subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle }}</div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="ai-why-choose-us-grid-{{ ai_gen_id }}">
+      {% for i in (1..6) %}
+        {% liquid
+          assign item_enabled_key = 'item_' | append: i | append: '_enabled'
+          assign item_icon_key = 'item_' | append: i | append: '_icon'
+          assign item_title_key = 'item_' | append: i | append: '_title'
+          assign item_text_key = 'item_' | append: i | append: '_text'
+
+          assign item_enabled = block.settings[item_enabled_key]
+          assign item_icon = block.settings[item_icon_key]
+          assign item_title = block.settings[item_title_key]
+          assign item_text = block.settings[item_text_key]
+        %}
+
+        {% if item_enabled %}
+          <div class="ai-why-choose-us-item-{{ ai_gen_id }}" data-delay="{{ forloop.index0 | times: 100 }}">
+            <div class="ai-why-choose-us-icon-wrapper-{{ ai_gen_id }}">
+              {% case item_icon %}
+                {% when 'quality' %}
+                  <svg class="ai-why-choose-us-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                {% when 'shipping' %}
+                  <svg class="ai-why-choose-us-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" />
+                  </svg>
+                {% when 'support' %}
+                  <svg class="ai-why-choose-us-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                {% when 'price' %}
+                  <svg class="ai-why-choose-us-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                {% when 'secure' %}
+                  <svg class="ai-why-choose-us-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                {% when 'guarantee' %}
+                  <svg class="ai-why-choose-us-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                {% when 'star' %}
+                  <svg class="ai-why-choose-us-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                  </svg>
+                {% when 'heart' %}
+                  <svg class="ai-why-choose-us-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                {% when 'lightning' %}
+                  <svg class="ai-why-choose-us-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                {% when 'gift' %}
+                  <svg class="ai-why-choose-us-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+                  </svg>
+              {% endcase %}
+            </div>
+            {% if item_title != blank %}
+              <h3 class="ai-why-choose-us-item-title-{{ ai_gen_id }}">{{ item_title }}</h3>
+            {% endif %}
+            {% if item_text != blank %}
+              <div class="ai-why-choose-us-item-text-{{ ai_gen_id }}">{{ item_text }}</div>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</why-choose-us-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class WhyChooseUs{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.items = this.querySelectorAll('.ai-why-choose-us-item-{{ ai_gen_id }}');
+        this.observer = null;
+      }
+
+      connectedCallback() {
+        this.setupIntersectionObserver();
+      }
+
+      setupIntersectionObserver() {
+        const options = {
+          root: null,
+          rootMargin: '0px 0px -100px 0px',
+          threshold: 0.1
+        };
+
+        this.observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const delay = entry.target.getAttribute('data-delay');
+              setTimeout(() => {
+                entry.target.classList.add('animate');
+              }, parseInt(delay));
+              this.observer.unobserve(entry.target);
+            }
+          });
+        }, options);
+
+        this.items.forEach((item) => {
+          this.observer.observe(item);
+        });
+      }
+
+      disconnectedCallback() {
+        if (this.observer) {
+          this.observer.disconnect();
+        }
+      }
+    }
+
+    customElements.define('why-choose-us-{{ ai_gen_id }}', WhyChooseUs{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Warum uns wählen",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Überschrift"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Titel",
+      "default": "Warum uns wählen"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Untertitel",
+      "default": "Entdecken Sie die Vorteile, die uns von anderen unterscheiden"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "label": "Titelgröße",
+      "default": 42
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Untertitelgröße",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Titelfarbe",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Untertitelfarbe",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 800,
+      "max": 1400,
+      "step": 50,
+      "unit": "px",
+      "label": "Container-Breite",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 40,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Abstand oben",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 40,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Abstand unten",
+      "default": 80
+    },
+    {
+      "type": "text",
+      "id": "background_gradient",
+      "label": "Hintergrund",
+      "default": "linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%)"
+    },
+    {
+      "type": "header",
+      "content": "Karten-Stil"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Karten-Hintergrund",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Karten-Radius",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Icon-Stil"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 60,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Icon-Größe",
+      "default": 90
+    },
+    {
+      "type": "color",
+      "id": "accent_color_1",
+      "label": "Akzentfarbe 1",
+      "default": "#667eea"
+    },
+    {
+      "type": "color",
+      "id": "accent_color_2",
+      "label": "Akzentfarbe 2",
+      "default": "#764ba2"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon-Farbe",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Text-Stil"
+    },
+    {
+      "type": "range",
+      "id": "item_title_size",
+      "min": 16,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Element-Titelgröße",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "item_text_size",
+      "min": 13,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "label": "Element-Textgröße",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "item_title_color",
+      "label": "Element-Titelfarbe",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "item_text_color",
+      "label": "Element-Textfarbe",
+      "default": "#666666"
+    },
+    {
+      "type": "header",
+      "content": "Element 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "item_1_enabled",
+      "label": "Element 1 aktivieren",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "item_1_icon",
+      "label": "Icon",
+      "options": [
+        { "value": "quality", "label": "Qualität" },
+        { "value": "shipping", "label": "Versand" },
+        { "value": "support", "label": "Support" },
+        { "value": "price", "label": "Preis" },
+        { "value": "secure", "label": "Sicher" },
+        { "value": "guarantee", "label": "Garantie" },
+        { "value": "star", "label": "Stern" },
+        { "value": "heart", "label": "Herz" },
+        { "value": "lightning", "label": "Blitz" },
+        { "value": "gift", "label": "Geschenk" }
+      ],
+      "default": "quality"
+    },
+    {
+      "type": "text",
+      "id": "item_1_title",
+      "label": "Titel",
+      "default": "Premium Qualität"
+    },
+    {
+      "type": "textarea",
+      "id": "item_1_text",
+      "label": "Text",
+      "default": "Nur die besten Materialien und höchste Verarbeitungsstandards für langlebige Produkte"
+    },
+    {
+      "type": "header",
+      "content": "Element 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "item_2_enabled",
+      "label": "Element 2 aktivieren",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "item_2_icon",
+      "label": "Icon",
+      "options": [
+        { "value": "quality", "label": "Qualität" },
+        { "value": "shipping", "label": "Versand" },
+        { "value": "support", "label": "Support" },
+        { "value": "price", "label": "Preis" },
+        { "value": "secure", "label": "Sicher" },
+        { "value": "guarantee", "label": "Garantie" },
+        { "value": "star", "label": "Stern" },
+        { "value": "heart", "label": "Herz" },
+        { "value": "lightning", "label": "Blitz" },
+        { "value": "gift", "label": "Geschenk" }
+      ],
+      "default": "shipping"
+    },
+    {
+      "type": "text",
+      "id": "item_2_title",
+      "label": "Titel",
+      "default": "Schneller Versand"
+    },
+    {
+      "type": "textarea",
+      "id": "item_2_text",
+      "label": "Text",
+      "default": "Kostenloser Versand ab 50€ und schnelle Lieferung innerhalb von 2-3 Werktagen"
+    },
+    {
+      "type": "header",
+      "content": "Element 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "item_3_enabled",
+      "label": "Element 3 aktivieren",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "item_3_icon",
+      "label": "Icon",
+      "options": [
+        { "value": "quality", "label": "Qualität" },
+        { "value": "shipping", "label": "Versand" },
+        { "value": "support", "label": "Support" },
+        { "value": "price", "label": "Preis" },
+        { "value": "secure", "label": "Sicher" },
+        { "value": "guarantee", "label": "Garantie" },
+        { "value": "star", "label": "Stern" },
+        { "value": "heart", "label": "Herz" },
+        { "value": "lightning", "label": "Blitz" },
+        { "value": "gift", "label": "Geschenk" }
+      ],
+      "default": "support"
+    },
+    {
+      "type": "text",
+      "id": "item_3_title",
+      "label": "Titel",
+      "default": "24/7 Kundenservice"
+    },
+    {
+      "type": "textarea",
+      "id": "item_3_text",
+      "label": "Text",
+      "default": "Unser engagiertes Team steht Ihnen jederzeit zur Verfügung und hilft bei allen Fragen"
+    },
+    {
+      "type": "header",
+      "content": "Element 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "item_4_enabled",
+      "label": "Element 4 aktivieren",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "item_4_icon",
+      "label": "Icon",
+      "options": [
+        { "value": "quality", "label": "Qualität" },
+        { "value": "shipping", "label": "Versand" },
+        { "value": "support", "label": "Support" },
+        { "value": "price", "label": "Preis" },
+        { "value": "secure", "label": "Sicher" },
+        { "value": "guarantee", "label": "Garantie" },
+        { "value": "star", "label": "Stern" },
+        { "value": "heart", "label": "Herz" },
+        { "value": "lightning", "label": "Blitz" },
+        { "value": "gift", "label": "Geschenk" }
+      ],
+      "default": "price"
+    },
+    {
+      "type": "text",
+      "id": "item_4_title",
+      "label": "Titel",
+      "default": "Beste Preise"
+    },
+    {
+      "type": "textarea",
+      "id": "item_4_text",
+      "label": "Text",
+      "default": "Faire Preise und regelmäßige Angebote für unsere geschätzten Kunden"
+    },
+    {
+      "type": "header",
+      "content": "Element 5"
+    },
+    {
+      "type": "checkbox",
+      "id": "item_5_enabled",
+      "label": "Element 5 aktivieren",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "item_5_icon",
+      "label": "Icon",
+      "options": [
+        { "value": "quality", "label": "Qualität" },
+        { "value": "shipping", "label": "Versand" },
+        { "value": "support", "label": "Support" },
+        { "value": "price", "label": "Preis" },
+        { "value": "secure", "label": "Sicher" },
+        { "value": "guarantee", "label": "Garantie" },
+        { "value": "star", "label": "Stern" },
+        { "value": "heart", "label": "Herz" },
+        { "value": "lightning", "label": "Blitz" },
+        { "value": "gift", "label": "Geschenk" }
+      ],
+      "default": "secure"
+    },
+    {
+      "type": "text",
+      "id": "item_5_title",
+      "label": "Titel",
+      "default": "Sichere Zahlung"
+    },
+    {
+      "type": "textarea",
+      "id": "item_5_text",
+      "label": "Text",
+      "default": "SSL-verschlüsselte Zahlungen und alle gängigen Zahlungsmethoden verfügbar"
+    },
+    {
+      "type": "header",
+      "content": "Element 6"
+    },
+    {
+      "type": "checkbox",
+      "id": "item_6_enabled",
+      "label": "Element 6 aktivieren",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "item_6_icon",
+      "label": "Icon",
+      "options": [
+        { "value": "quality", "label": "Qualität" },
+        { "value": "shipping", "label": "Versand" },
+        { "value": "support", "label": "Support" },
+        { "value": "price", "label": "Preis" },
+        { "value": "secure", "label": "Sicher" },
+        { "value": "guarantee", "label": "Garantie" },
+        { "value": "star", "label": "Stern" },
+        { "value": "heart", "label": "Herz" },
+        { "value": "lightning", "label": "Blitz" },
+        { "value": "gift", "label": "Geschenk" }
+      ],
+      "default": "guarantee"
+    },
+    {
+      "type": "text",
+      "id": "item_6_title",
+      "label": "Titel",
+      "default": "Zufriedenheitsgarantie"
+    },
+    {
+      "type": "textarea",
+      "id": "item_6_text",
+      "label": "Text",
+      "default": "30 Tage Rückgaberecht und volle Geld-zurück-Garantie bei Unzufriedenheit"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Warum uns wählen"
+    }
+  ]
+}
 {% endschema %}
