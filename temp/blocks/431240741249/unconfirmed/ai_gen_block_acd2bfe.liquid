@@ -1,6 +1,756 @@
+{% doc %}
+  @prompt
+    ich will collectionclist page die sehr moderner ist bitte 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-collection-list-{{ ai_gen_id }} {
+    padding: {{ block.settings.section_padding }}px 0;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-collection-list__container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.container_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .ai-collection-list__header-{{ ai_gen_id }} {
+    text-align: {{ block.settings.heading_alignment }};
+    margin-bottom: {{ block.settings.heading_spacing }}px;
+  }
+
+  .ai-collection-list__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.heading_color }};
+    margin: 0 0 12px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .ai-collection-list__subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    color: {{ block.settings.subtitle_color }};
+    margin: 0;
+    opacity: 0.8;
+  }
+
+  .ai-collection-list__grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat({{ block.settings.columns_desktop }}, 1fr);
+    gap: {{ block.settings.grid_gap }}px;
+    margin-top: {{ block.settings.grid_spacing }}px;
+  }
+
+  .ai-collection-card-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+    border-radius: {{ block.settings.card_border_radius }}px;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+    background: {{ block.settings.card_background }};
+    box-shadow: 0 4px 20px rgba(0, 0, 0, {{ block.settings.card_shadow_opacity | divided_by: 100.0 }});
+  }
+
+  .ai-collection-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, {{ block.settings.card_hover_shadow_opacity | divided_by: 100.0 }});
+  }
+
+  .ai-collection-card__link-{{ ai_gen_id }} {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .ai-collection-card__image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    padding-bottom: {{ block.settings.image_aspect_ratio }}%;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .ai-collection-card__image-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .ai-collection-card-{{ ai_gen_id }}:hover .ai-collection-card__image-{{ ai_gen_id }} {
+    transform: scale(1.08);
+  }
+
+  .ai-collection-card__overlay-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, {{ block.settings.overlay_opacity | divided_by: 100.0 }}) 100%);
+    transition: opacity 0.4s ease;
+  }
+
+  .ai-collection-card-{{ ai_gen_id }}:hover .ai-collection-card__overlay-{{ ai_gen_id }} {
+    opacity: 0.8;
+  }
+
+  .ai-collection-card__content-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: {{ block.settings.card_padding }}px;
+    z-index: 2;
+    transition: transform 0.4s ease;
+  }
+
+  .ai-collection-card__title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.card_title_size }}px;
+    color: {{ block.settings.card_title_color }};
+    margin: 0 0 8px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .ai-collection-card__count-{{ ai_gen_id }} {
+    font-size: {{ block.settings.card_count_size }}px;
+    color: {{ block.settings.card_count_color }};
+    margin: 0 0 12px;
+    opacity: 0.9;
+  }
+
+  .ai-collection-card__button-{{ ai_gen_id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background-color: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    border: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  .ai-collection-card-{{ ai_gen_id }}:hover .ai-collection-card__button-{{ ai_gen_id }} {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .ai-collection-card__button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_background }};
+    transform: translateX(4px);
+  }
+
+  .ai-collection-card__button-icon-{{ ai_gen_id }} {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+  }
+
+  .ai-collection-card__button-{{ ai_gen_id }}:hover .ai-collection-card__button-icon-{{ ai_gen_id }} {
+    transform: translateX(4px);
+  }
+
+  .ai-collection-card__placeholder-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-collection-card__placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-collection-card__empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-collection-list__grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ai-collection-list__title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.heading_size }}px * 0.8);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-collection-list__grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat({{ block.settings.columns_mobile }}, 1fr);
+      gap: {{ block.settings.grid_gap | times: 0.75 }}px;
+    }
+
+    .ai-collection-list__title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.heading_size }}px * 0.65);
+    }
+
+    .ai-collection-card__content-{{ ai_gen_id }} {
+      padding: {{ block.settings.card_padding | times: 0.75 }}px;
+    }
+
+    .ai-collection-card__button-{{ ai_gen_id }} {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+{% endstyle %}
+
+<modern-collection-list-{{ ai_gen_id }} class="ai-collection-list-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-collection-list__container-{{ ai_gen_id }}">
+    {% if block.settings.heading != blank or block.settings.subtitle != blank %}
+      <div class="ai-collection-list__header-{{ ai_gen_id }}">
+        {% if block.settings.heading != blank %}
+          <h2 class="ai-collection-list__title-{{ ai_gen_id }}">{{ block.settings.heading }}</h2>
+        {% endif %}
+        {% if block.settings.subtitle != blank %}
+          <p class="ai-collection-list__subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="ai-collection-list__grid-{{ ai_gen_id }}">
+      {% for i in (1..block.settings.collection_count) %}
+        {% liquid
+          assign collection_key = 'collection_' | append: i
+          assign collection = block.settings[collection_key]
+        %}
+
+        <div class="ai-collection-card-{{ ai_gen_id }}">
+          {% if collection != blank %}
+            <a href="{{ collection.url }}" class="ai-collection-card__link-{{ ai_gen_id }}">
+              <div class="ai-collection-card__image-wrapper-{{ ai_gen_id }}">
+                {% if collection.featured_image %}
+                  <img
+                    src="{{ collection.featured_image | image_url: width: 800 }}"
+                    alt="{{ collection.featured_image.alt | escape }}"
+                    class="ai-collection-card__image-{{ ai_gen_id }}"
+                    loading="lazy"
+                    width="800"
+                    height="{{ 800 | times: block.settings.image_aspect_ratio | divided_by: 100 }}"
+                  >
+                {% else %}
+                  <div class="ai-collection-card__placeholder-{{ ai_gen_id }}">
+                    {{ 'collection-1' | placeholder_svg_tag }}
+                  </div>
+                {% endif %}
+                <div class="ai-collection-card__overlay-{{ ai_gen_id }}"></div>
+              </div>
+
+              <div class="ai-collection-card__content-{{ ai_gen_id }}">
+                <h3 class="ai-collection-card__title-{{ ai_gen_id }}">{{ collection.title }}</h3>
+                {% if block.settings.show_product_count %}
+                  <p class="ai-collection-card__count-{{ ai_gen_id }}">
+                    {{ collection.products_count }}
+                    {% if collection.products_count == 1 %}
+                      Produkt
+                    {% else %}
+                      Produkte
+                    {% endif %}
+                  </p>
+                {% endif %}
+                {% if block.settings.show_button %}
+                  <span class="ai-collection-card__button-{{ ai_gen_id }}">
+                    {{ block.settings.button_text }}
+                    <svg class="ai-collection-card__button-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </span>
+                {% endif %}
+              </div>
+            </a>
+          {% else %}
+            <div class="ai-collection-card__link-{{ ai_gen_id }}">
+              <div class="ai-collection-card__image-wrapper-{{ ai_gen_id }}">
+                <div class="ai-collection-card__placeholder-{{ ai_gen_id }}">
+                  {{ 'collection-1' | placeholder_svg_tag }}
+                </div>
+                <div class="ai-collection-card__overlay-{{ ai_gen_id }}"></div>
+                <div class="ai-collection-card__empty-state-{{ ai_gen_id }}">
+                  Kollektion {{ i }} auswählen
+                </div>
+              </div>
+
+              <div class="ai-collection-card__content-{{ ai_gen_id }}">
+                <h3 class="ai-collection-card__title-{{ ai_gen_id }}">Kollektion {{ i }}</h3>
+                {% if block.settings.show_product_count %}
+                  <p class="ai-collection-card__count-{{ ai_gen_id }}">0 Produkte</p>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</modern-collection-list-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class ModernCollectionList{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.setupIntersectionObserver();
+      }
+
+      setupIntersectionObserver() {
+        if (!window.IntersectionObserver) return;
+
+        const cards = this.querySelectorAll('.ai-collection-card-{{ ai_gen_id }}');
+        
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+              setTimeout(() => {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+              }, index * 100);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        });
+
+        cards.forEach((card) => {
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(30px)';
+          card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+          observer.observe(card);
+        });
+      }
+    }
+
+    customElements.define('modern-collection-list-{{ ai_gen_id }}', ModernCollectionList{{ ai_gen_id }});
+  })();
+</script>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Moderne Kollektionsliste",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Überschrift"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Überschrift",
+      "default": "Unsere Kollektionen"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle",
+      "label": "Untertitel",
+      "default": "Entdecken Sie unsere kuratierten Kollektionen"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Ausrichtung",
+      "options": [
+        {
+          "value": "left",
+          "label": "Links"
+        },
+        {
+          "value": "center",
+          "label": "Zentriert"
+        },
+        {
+          "value": "right",
+          "label": "Rechts"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "label": "Überschriftgröße",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Untertitelgröße",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Abstand unter Überschrift",
+      "default": 48
+    },
+    {
+      "type": "header",
+      "content": "Kollektionen"
+    },
+    {
+      "type": "range",
+      "id": "collection_count",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "label": "Anzahl der Kollektionen",
+      "default": 6
+    },
+    {
+      "type": "collection",
+      "id": "collection_1",
+      "label": "Kollektion 1"
+    },
+    {
+      "type": "collection",
+      "id": "collection_2",
+      "label": "Kollektion 2"
+    },
+    {
+      "type": "collection",
+      "id": "collection_3",
+      "label": "Kollektion 3"
+    },
+    {
+      "type": "collection",
+      "id": "collection_4",
+      "label": "Kollektion 4"
+    },
+    {
+      "type": "collection",
+      "id": "collection_5",
+      "label": "Kollektion 5"
+    },
+    {
+      "type": "collection",
+      "id": "collection_6",
+      "label": "Kollektion 6"
+    },
+    {
+      "type": "collection",
+      "id": "collection_7",
+      "label": "Kollektion 7"
+    },
+    {
+      "type": "collection",
+      "id": "collection_8",
+      "label": "Kollektion 8"
+    },
+    {
+      "type": "collection",
+      "id": "collection_9",
+      "label": "Kollektion 9"
+    },
+    {
+      "type": "collection",
+      "id": "collection_10",
+      "label": "Kollektion 10"
+    },
+    {
+      "type": "collection",
+      "id": "collection_11",
+      "label": "Kollektion 11"
+    },
+    {
+      "type": "collection",
+      "id": "collection_12",
+      "label": "Kollektion 12"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_count",
+      "label": "Produktanzahl anzeigen",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Spalten Desktop",
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Spalten Mobil",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Abstand zwischen Karten",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "grid_spacing",
+      "min": 20,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Abstand zum Grid",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "min": 1000,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Container-Breite",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "min": 20,
+      "max": 120,
+      "step": 10,
+      "unit": "px",
+      "label": "Abschnitt-Padding",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Kartenstil"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Kartenradius",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "card_padding",
+      "min": 16,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "label": "Karten-Padding",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "image_aspect_ratio",
+      "min": 60,
+      "max": 150,
+      "step": 5,
+      "unit": "%",
+      "label": "Bild-Seitenverhältnis",
+      "default": 125
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay-Deckkraft",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "card_shadow_opacity",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "%",
+      "label": "Schatten-Deckkraft",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "card_hover_shadow_opacity",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "%",
+      "label": "Hover-Schatten-Deckkraft",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_title_size",
+      "min": 16,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Titelgröße",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "card_count_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Produktanzahl-Größe",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_button",
+      "label": "Button anzeigen",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button-Text",
+      "default": "Jetzt shoppen"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Button-Radius",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Farben"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Hintergrundfarbe",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Überschriftfarbe",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Untertitelfarbe",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Kartenhintergrund",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_title_color",
+      "label": "Kartentitelfarbe",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_count_color",
+      "label": "Produktanzahl-Farbe",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button-Hintergrund",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button-Textfarbe",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Button-Hover-Hintergrund",
+      "default": "#F3F3F3"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Moderne Kollektionsliste"
+    }
+  ]
+}
 {% endschema %}
