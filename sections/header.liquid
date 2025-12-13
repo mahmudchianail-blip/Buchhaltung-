@@ -413,120 +413,158 @@
 {%- endif -%}
 
 <style>
-/* ================= PILL-FÖRMIGER FLOATING HEADER ===================
-   – breite „Capsule“ mit runden Enden, Glass/Shadow
-   – löst page-width-Begrenzung nur für den Header
-   – Sticky ruhig, Mobile modern
-*/
+  :root {
+    --header-surface: #0f0f0f;
+    --header-rail: #111111;
+    --header-border: rgba(255, 255, 255, 0.12);
+    --header-height-fixed: 8.4rem;
+  }
 
-:root{
-  --pill-x: clamp(10px, 3vw, 28px);     /* Außenabstand links/rechts */
-  --pill-y: clamp(6px, 1.5vw, 14px);    /* Außenabstand oben */
-  --pill-radius: 9999px;                /* runde Enden (Capsule) */
-  --pill-shadow: 0 18px 40px rgba(0,0,0,.10);
-  --pill-shadow-sticky: 0 12px 28px rgba(0,0,0,.08);
-  --pill-border: rgba(0,0,0,.08);
-}
+  .header-wrapper.gradient {
+    background: transparent !important;
+  }
 
-/* Wrapper neutral (kein fester Balken) */
-.header-wrapper.gradient{ background: transparent !important; }
-.header-wrapper--border-bottom{ border-bottom: 0 !important; }
-.section-header{ background: transparent; }
+  .header-wrapper--border-bottom {
+    border-bottom: 0 !important;
+  }
 
-/* Die „Pille“: fast vollbreit + runde Enden + Glass/Shadow */
-.section-header .header.page-width{
-  max-width: none !important;      /* löst Theme-Begrenzung */
-  width: auto !important;
-  margin: var(--pill-y) var(--pill-x) 0 var(--pill-x) !important;
-  padding-left: clamp(12px, 2.4vw, 40px);
-  padding-right: clamp(12px, 2.4vw, 40px);
-  border-radius: var(--pill-radius) !important;
-  background-color: rgba(var(--color-background), 0.92) !important;
-  background: color-mix(in srgb, var(--color-background,#fff) 92%, rgba(17, 17, 17, 0.18)) !important;
-  box-shadow: var(--pill-shadow) !important;
-  border: 1px solid var(--pill-border) !important;
-  backdrop-filter: saturate(140%) blur(6px);
-  -webkit-backdrop-filter: saturate(140%) blur(6px);
-  overflow: visible; /* Dropdowns nicht abschneiden */
-}
+  .section-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--header-surface);
+  }
 
-/* Sticky feiner */
-.shopify-section-header-sticky .header{
-  background-color: rgba(var(--color-background), 0.96) !important;
-  background: color-mix(in srgb, var(--color-background,#fff) 88%, rgba(17, 17, 17, 0.22)) !important;
-  box-shadow: var(--pill-shadow-sticky) !important;
-  border-color: color-mix(in srgb, var(--pill-border) 85%, rgba(17, 17, 17, 0.45)) !important;
-}
-
-/* Desktop-Grid (Logo – Menü – Icons) */
-@media (min-width: 990px){
-  .section-header .header.page-width{
+  .section-header .header.page-width {
+    max-width: min(1200px, 100vw - 3rem) !important;
+    margin: 0 auto;
+    padding: 1.4rem 2.8rem;
+    min-height: var(--header-height-fixed);
+    border-radius: var(--radius-lg);
+    background: var(--header-rail);
+    border: 1px solid var(--header-border);
+    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.35);
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     grid-template-areas: "logo nav actions";
-    align-items: center; gap: 1.25rem;
+    align-items: center;
+    gap: 1.5rem;
   }
+
+  .shopify-section-header-sticky .header {
+    top: 0.6rem;
+    background: var(--header-rail);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.36);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
   .header .header__heading,
   .header .header__heading-link,
-  .header .header__heading-logo-wrapper{ grid-area: logo; }
-  .header .header__inline-menu{ grid-area: nav; justify-self: center; }
-  .header .header__icons{ grid-area: actions; justify-self: end; }
-}
-
-/* Menü: moderne Pill-Hover */
-@media (min-width: 990px){
-  .header .header__inline-menu .list-menu__item--link{
-    position:relative; padding:.55rem .7rem; border-radius:999px;
-    font-weight:600; letter-spacing:.02em;
-    transition: background .18s ease, color .18s ease;
-    text-decoration:none;
+  .header .header__heading-logo-wrapper {
+    grid-area: logo;
   }
+
+  .header .header__inline-menu {
+    grid-area: nav;
+    justify-self: center;
+  }
+
+  .header .header__icons {
+    grid-area: actions;
+    justify-self: end;
+    gap: 1rem;
+  }
+
+  .header .header__inline-menu .list-menu__item--link {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+    color: #ffffff;
+  }
+
   .header .header__inline-menu .list-menu__item--link:hover,
-  .header .header__inline-menu .list-menu__item--link:focus-visible{
-    background: rgba(0,0,0,.05);
+  .header .header__inline-menu .list-menu__item--link:focus-visible {
+    color: rgb(var(--accent-color-rgb));
+    background: rgba(var(--accent-color-rgb), 0.08);
   }
-  .header .header__inline-menu .list-menu__item--link[aria-current="page"]{
-    background: rgba(0,0,0,.07);
+
+  .header .header__inline-menu .list-menu__item--link[aria-current="page"] {
+    color: rgb(var(--accent-color-rgb));
+    border-bottom: 2px solid rgb(var(--accent-color-rgb));
+    border-radius: 0;
   }
-}
 
-/* Icon-Buttons im gleichen Stil */
-.header .header__icons .link.focus-inset,
-.header .header__icons a.header__icon{
-  width:40px;height:40px;border-radius:999px;
-  display:inline-flex;align-items:center;justify-content:center;
-  border:1px solid rgba(0,0,0,.12);
-  background: rgba(255,255,255,.6);
-  transition: background .2s ease, transform .12s ease, border-color .2s ease;
-  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-}
-.header .header__icons .link.focus-inset:hover,
-.header .header__icons a.header__icon:hover{
-  background: rgba(255,255,255,.9);
-  border-color: rgba(0,0,0,.18);
-}
-.header .header__icons .link.focus-inset:active,
-.header .header__icons a.header__icon:active{ transform: scale(.98); }
+  .header .header__icons .link.focus-inset,
+  .header .header__icons a.header__icon {
+    width: 4.4rem;
+    height: 4.4rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.06);
+    transition: background 0.2s ease, transform 0.12s ease, border-color 0.2s ease;
+  }
 
-/* Cart-Badge */
-#cart-icon-bubble .cart-count-bubble{
-  position:absolute; top:-6px; right:-6px;
-  min-width:18px;height:18px;border-radius:999px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:.75rem;line-height:1;padding:0 .25rem;background:#111;color:#fff;
-}
+  .header .header__icons .link.focus-inset:hover,
+  .header .header__icons a.header__icon:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(var(--accent-color-rgb), 0.6);
+  }
 
-/* Mobile: Hamburger sicher & Touch-Ziele */
-@media (max-width: 989px){
-  header-drawer{ display:flex !important; }
-  .list-menu__item--link{ padding:.9rem .35rem; border-radius:10px; }
-}
+  .header .header__icons .link.focus-inset:active,
+  .header .header__icons a.header__icon:active {
+    transform: scale(0.98);
+  }
 
-/* Visually-hidden sicher */
-.visually-hidden{
-  position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;
-  overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important;border:0!important;
-}
+  #cart-icon-bubble .cart-count-bubble {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    line-height: 1;
+    padding: 0 0.25rem;
+    background: rgb(var(--accent-color-rgb));
+    color: #0f0f0f;
+  }
+
+  @media (max-width: 989px) {
+    header-drawer {
+      display: flex !important;
+    }
+
+    .section-header .header.page-width {
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas: "menu logo actions";
+      padding: 1.2rem 1.6rem;
+    }
+
+    .header .header__inline-menu {
+      display: none;
+    }
+  }
+
+  .visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
 </style>
 
 {% schema %}

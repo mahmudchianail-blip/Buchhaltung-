@@ -6,6 +6,22 @@
   --focused-base-outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
   --focused-base-outline-offset: 0.3rem;
   --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
+  --color-background: 15, 15, 15;
+  --color-foreground: 255, 255, 255;
+  --color-button: 0, 255, 144;
+  --color-button-text: 15, 15, 15;
+  --accent-color: #00ff90;
+  --accent-color-rgb: 0, 255, 144;
+  --accent-color-hover-rgb: 0, 204, 112;
+  --surface-strong: #111111;
+  --border-subtle: rgba(255, 255, 255, 0.12);
+  --radius-lg: 24px;
+  --radius-md: 14px;
+  --header-height: 8.4rem;
+  --page-width: min(1200px, 100vw - 3rem);
+  --spacing-sections-mobile: 7.2rem;
+  --spacing-sections-desktop: 9.6rem;
+  --line-height-body: 1.58;
 }
 
 .product-card-wrapper .card,
@@ -3594,4 +3610,207 @@ details-disclosure > details {
   100% {
     transform: translateX(100%) scaleX(0);
   }
+}
+
+/* ------------------------------------------------------------------------------
+   Buchhaltung Design System: Farbe, Typografie, Layout
+   ------------------------------------------------------------------------------ */
+
+body {
+  background-color: #0f0f0f;
+  color: #ffffff;
+  font-size: 1.6rem;
+  line-height: var(--line-height-body);
+  font-weight: 400;
+  scroll-padding-top: var(--header-height);
+}
+
+@media screen and (max-width: 749px) {
+  body {
+    font-size: 1.8rem;
+  }
+}
+
+h1,
+.h1 {
+  font-size: 3.6rem;
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+h2,
+.h2 {
+  font-size: 2.8rem;
+  line-height: 1.18;
+  font-weight: 700;
+}
+
+h3,
+.h3 {
+  font-size: 2.2rem;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+h4,
+.h4 {
+  font-size: 1.8rem;
+  line-height: 1.25;
+  font-weight: 600;
+}
+
+p,
+.rte > * {
+  max-width: 72ch;
+  line-height: var(--line-height-body);
+}
+
+.caption,
+small {
+  font-size: 1.4rem;
+  line-height: 1.4;
+}
+
+.page-width {
+  max-width: var(--page-width);
+  padding-left: 2.4rem;
+  padding-right: 2.4rem;
+}
+
+@media screen and (min-width: 990px) {
+  .page-width {
+    padding-left: 3.2rem;
+    padding-right: 3.2rem;
+  }
+}
+
+.section + .section {
+  margin-top: var(--spacing-sections-mobile);
+}
+
+@media screen and (min-width: 750px) {
+  .section + .section {
+    margin-top: var(--spacing-sections-desktop);
+  }
+}
+
+.content-container,
+.contains-content-container {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-strong);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.28);
+}
+
+.card--card,
+.card--standard .card__inner,
+.article-card-wrapper .card,
+.collection-card-wrapper .card,
+.product-card-wrapper .card {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-strong);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.28);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.card--card:hover,
+.card--standard .card__inner:hover,
+.article-card-wrapper .card:hover,
+.collection-card-wrapper .card:hover,
+.product-card-wrapper .card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(var(--accent-color-rgb), 0.35);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.38);
+}
+
+.button,
+.shopify-challenge__button,
+.customer button,
+button.shopify-payment-button__button--unbranded {
+  background-color: rgb(var(--accent-color-rgb));
+  color: rgb(var(--color-button-text));
+  border-radius: var(--radius-md);
+  min-height: 5.2rem;
+  padding: 0 2.8rem;
+  letter-spacing: 0.02em;
+  font-weight: 700;
+  transition: transform 0.18s ease, box-shadow 0.22s ease, background-color 0.22s ease;
+}
+
+.button:after,
+.shopify-challenge__button:after,
+.customer button:after,
+.shopify-payment-button__button--unbranded:after {
+  box-shadow: 0 0 0 calc(var(--buttons-border-width) + var(--border-offset)) rgba(var(--color-button-text), var(--border-opacity)),
+    0 0 0 var(--buttons-border-width) rgba(var(--accent-color-rgb), var(--alpha-button-background));
+}
+
+.button:not([disabled]):hover::after,
+.shopify-challenge__button:hover::after,
+.customer button:hover::after,
+.shopify-payment-button__button--unbranded:hover::after {
+  box-shadow: 0 0 0 calc(var(--buttons-border-width) + 1.5px) rgba(var(--color-button-text), var(--border-opacity)),
+    0 0 0 calc(var(--buttons-border-width) + 1px) rgba(var(--accent-color-rgb), var(--alpha-button-background));
+}
+
+.button:not([disabled]):hover,
+.shopify-challenge__button:hover,
+.customer button:hover,
+.shopify-payment-button__button--unbranded:hover {
+  background-color: rgb(var(--accent-color-hover-rgb));
+  transform: scale(1.02);
+}
+
+.button:focus-visible,
+.shopify-challenge__button:focus-visible,
+.customer button:focus-visible,
+.shopify-payment-button__button--unbranded:focus-visible {
+  box-shadow: 0 0 0 0.3rem #0f0f0f, 0 0 0 0.55rem rgba(var(--accent-color-rgb), 0.55);
+}
+
+.badge,
+.link,
+.breadcrumbs__link,
+.header__inline-menu .list-menu__item--link[aria-current='page'] {
+  color: rgb(var(--accent-color-rgb));
+}
+
+.header__inline-menu .list-menu__item--link:hover {
+  color: rgb(var(--accent-color-hover-rgb));
+}
+
+.grid--3-col .grid__item,
+.grid--3-col-tablet .grid__item,
+.grid--4-col-tablet .grid__item {
+  width: 100%;
+  max-width: 100%;
+}
+
+@media screen and (min-width: 750px) {
+  .grid--3-col .grid__item {
+    width: calc(33.33% - var(--grid-desktop-horizontal-spacing) * 2 / 3);
+    max-width: calc(33.33% - var(--grid-desktop-horizontal-spacing) * 2 / 3);
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .button,
+  .shopify-challenge__button,
+  .customer button,
+  button.shopify-payment-button__button--unbranded {
+    width: 100%;
+  }
+}
+
+.grid, .media, .content-container, .card {
+  border-radius: inherit;
+}
+
+.announcement-bar,
+.footer,
+.section,
+.header-wrapper {
+  color: #ffffff;
 }
