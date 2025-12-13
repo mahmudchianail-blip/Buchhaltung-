@@ -8,11 +8,11 @@
   --focused-base-box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
   --color-background: 15, 15, 15;
   --color-foreground: 255, 255, 255;
-  --color-button: 0, 255, 144;
+  --color-button: 80, 170, 255;
   --color-button-text: 15, 15, 15;
-  --accent-color: #00ff90;
-  --accent-color-rgb: 0, 255, 144;
-  --accent-color-hover-rgb: 0, 204, 112;
+  --accent-color: #4dc4ff;
+  --accent-color-rgb: 77, 196, 255;
+  --accent-color-hover-rgb: 110, 210, 255;
   --surface-strong: #111111;
   --border-subtle: rgba(255, 255, 255, 0.12);
   --radius-lg: 24px;
