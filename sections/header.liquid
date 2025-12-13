@@ -497,6 +497,25 @@
     border-radius: 0;
   }
 
+  /* Ensure header call-to-action buttons stay readable on hover */
+  .section-header {
+    --color-button: var(--accent-color-rgb);
+    --color-button-text: 255, 255, 255;
+    --alpha-button-background: 1;
+  }
+
+  .section-header .button,
+  .section-header .button:visited {
+    background-color: rgb(var(--accent-color-rgb));
+    color: rgb(var(--color-button-text));
+  }
+
+  .section-header .button:hover,
+  .section-header .button:focus-visible {
+    background-color: rgb(var(--accent-color-hover-rgb));
+    color: rgb(var(--color-button-text));
+  }
+
   .header .header__icons .link.focus-inset,
   .header .header__icons a.header__icon {
     width: 4.4rem;
