@@ -25,10 +25,76 @@
       "type": "page",
       "name": "t:sections.page.presets.name",
       "settings": {}
+    },
+    "1765621592d779a331": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_80ef476_bEbiAF": {
+          "type": "ai_gen_block_80ef476",
+          "settings": {
+            "title_part_1": "Wähle dein",
+            "title_part_2": "Modell",
+            "subtitle": "Finde das perfekte Produkt für deine Bedürfnisse",
+            "accent_color": "#2F6ED8",
+            "star_color": "#FFD700",
+            "stock_bg_color": "#3D4F2F",
+            "stock_text_color": "#A8D08D",
+            "card_border_radius": 28,
+            "button_text": "In den Warenkorb",
+            "stock_label": "AUF LAGER",
+            "product_1": "",
+            "badge_1": "BELIEBT",
+            "rating_1": "4.8 (120)",
+            "feature_1_1": "Premium Qualität",
+            "feature_1_2": "Schnelle Lieferung",
+            "feature_1_3": "2 Jahre Garantie",
+            "old_price_1": "€1.299",
+            "product_2": "",
+            "badge_2": "NEU",
+            "rating_2": "4.9 (85)",
+            "feature_2_1": "Neueste Technologie",
+            "feature_2_2": "Energieeffizient",
+            "feature_2_3": "Kostenloser Support",
+            "old_price_2": "€1.499",
+            "product_3": "",
+            "badge_3": "ANGEBOT",
+            "rating_3": "4.7 (95)",
+            "feature_3_1": "Bestes Preis-Leistungs-Verhältnis",
+            "feature_3_2": "Sofort verfügbar",
+            "feature_3_3": "30 Tage Rückgaberecht",
+            "old_price_3": "€899"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_80ef476_bEbiAF"
+      ],
+      "settings": {}
+    },
+    "collapsible_content_mB7Lp8": {
+      "type": "collapsible-content",
+      "name": "t:sections.collapsible_content.presets.name",
+      "settings": {
+        "caption": "",
+        "heading": "Einklappbarer Inhalt",
+        "heading_size": "h1",
+        "heading_alignment": "center",
+        "layout": "none",
+        "container_color_scheme": "",
+        "color_scheme": "",
+        "open_first_collapsible_row": false,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
     }
   },
   "order": [
     "rich_text_xUmrHF",
-    "page_ECncGx"
+    "page_ECncGx",
+    "1765621592d779a331",
+    "collapsible_content_mB7Lp8"
   ]
 }
