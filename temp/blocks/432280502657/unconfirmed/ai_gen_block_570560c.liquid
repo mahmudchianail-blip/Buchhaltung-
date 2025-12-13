@@ -1,6 +1,441 @@
+{% doc %}
+  @prompt
+    A magazine-style editorial layout
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-magazine-layout-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    padding: {{ block.settings.spacing }}px;
+    background-color: {{ block.settings.background_color }};
+  }
+
+  .ai-magazine-grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: {{ block.settings.grid_gap }}px;
+  }
+
+  .ai-magazine-item-{{ ai_gen_id }} {
+    position: relative;
+    overflow: hidden;
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  .ai-magazine-item-{{ ai_gen_id }}--featured {
+    grid-column: span 8;
+    grid-row: span 2;
+  }
+
+  .ai-magazine-item-{{ ai_gen_id }}--secondary {
+    grid-column: span 4;
+  }
+
+  .ai-magazine-item-{{ ai_gen_id }}--tertiary {
+    grid-column: span 4;
+  }
+
+  .ai-magazine-image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    overflow: hidden;
+  }
+
+  .ai-magazine-item-{{ ai_gen_id }}--featured .ai-magazine-image-wrapper-{{ ai_gen_id }} {
+    min-height: 500px;
+  }
+
+  .ai-magazine-image-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .ai-magazine-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ai-magazine-placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 200px;
+    max-height: 200px;
+  }
+
+  .ai-magazine-content-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: {{ block.settings.content_padding }}px;
+    background: linear-gradient(to top, rgba(0, 0, 0, {{ block.settings.overlay_opacity }}), transparent);
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-magazine-category-{{ ai_gen_id }} {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    color: {{ block.settings.category_color }};
+  }
+
+  .ai-magazine-title-{{ ai_gen_id }} {
+    font-size: {{ block.settings.title_size }}px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 8px;
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-magazine-item-{{ ai_gen_id }}--featured .ai-magazine-title-{{ ai_gen_id }} {
+    font-size: calc({{ block.settings.title_size }}px * 1.5);
+  }
+
+  .ai-magazine-excerpt-{{ ai_gen_id }} {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0 0 12px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.9;
+  }
+
+  .ai-magazine-meta-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    color: {{ block.settings.text_color }};
+    opacity: 0.8;
+  }
+
+  .ai-magazine-link-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-magazine-item-{{ ai_gen_id }}--featured {
+      grid-column: span 12;
+    }
+
+    .ai-magazine-item-{{ ai_gen_id }}--secondary {
+      grid-column: span 6;
+    }
+
+    .ai-magazine-item-{{ ai_gen_id }}--tertiary {
+      grid-column: span 6;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-magazine-item-{{ ai_gen_id }}--featured,
+    .ai-magazine-item-{{ ai_gen_id }}--secondary,
+    .ai-magazine-item-{{ ai_gen_id }}--tertiary {
+      grid-column: span 12;
+    }
+
+    .ai-magazine-item-{{ ai_gen_id }}--featured .ai-magazine-image-wrapper-{{ ai_gen_id }} {
+      min-height: 400px;
+    }
+
+    .ai-magazine-image-wrapper-{{ ai_gen_id }} {
+      min-height: 250px;
+    }
+
+    .ai-magazine-item-{{ ai_gen_id }}--featured .ai-magazine-title-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.title_size }}px * 1.2);
+    }
+  }
+{% endstyle %}
+
+<div class="ai-magazine-layout-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-magazine-grid-{{ ai_gen_id }}">
+    {% if block.settings.featured_article != blank %}
+      <article class="ai-magazine-item-{{ ai_gen_id }} ai-magazine-item-{{ ai_gen_id }}--featured">
+        <div class="ai-magazine-image-wrapper-{{ ai_gen_id }}">
+          {% if block.settings.featured_article.image %}
+            <img
+              src="{{ block.settings.featured_article.image | image_url: width: 1200 }}"
+              alt="{{ block.settings.featured_article.image.alt | escape }}"
+              class="ai-magazine-image-{{ ai_gen_id }}"
+              loading="lazy"
+              width="{{ block.settings.featured_article.image.width }}"
+              height="{{ block.settings.featured_article.image.height }}"
+            >
+          {% else %}
+            <div class="ai-magazine-placeholder-{{ ai_gen_id }}">
+              {{ 'image' | placeholder_svg_tag }}
+            </div>
+          {% endif %}
+        </div>
+        <div class="ai-magazine-content-{{ ai_gen_id }}">
+          {% if block.settings.show_category and block.settings.featured_article.tags.size > 0 %}
+            <span class="ai-magazine-category-{{ ai_gen_id }}">{{ block.settings.featured_article.tags.first }}</span>
+          {% endif %}
+          <h2 class="ai-magazine-title-{{ ai_gen_id }}">{{ block.settings.featured_article.title }}</h2>
+          {% if block.settings.show_excerpt %}
+            <p class="ai-magazine-excerpt-{{ ai_gen_id }}">{{ block.settings.featured_article.excerpt_or_content | strip_html | truncate: 120 }}</p>
+          {% endif %}
+          {% if block.settings.show_meta %}
+            <div class="ai-magazine-meta-{{ ai_gen_id }}">
+              {% if block.settings.featured_article.author %}
+                <span>{{ block.settings.featured_article.author }}</span>
+              {% endif %}
+              <span>{{ block.settings.featured_article.published_at | date: '%B %d, %Y' }}</span>
+            </div>
+          {% endif %}
+        </div>
+        <a href="{{ block.settings.featured_article.url }}" class="ai-magazine-link-{{ ai_gen_id }}" aria-label="{{ block.settings.featured_article.title }}"></a>
+      </article>
+    {% else %}
+      <article class="ai-magazine-item-{{ ai_gen_id }} ai-magazine-item-{{ ai_gen_id }}--featured">
+        <div class="ai-magazine-image-wrapper-{{ ai_gen_id }}">
+          <div class="ai-magazine-placeholder-{{ ai_gen_id }}">
+            {{ 'image' | placeholder_svg_tag }}
+          </div>
+        </div>
+        <div class="ai-magazine-content-{{ ai_gen_id }}">
+          <span class="ai-magazine-category-{{ ai_gen_id }}">Featured</span>
+          <h2 class="ai-magazine-title-{{ ai_gen_id }}">Select a featured article</h2>
+        </div>
+      </article>
+    {% endif %}
+
+    {% for i in (1..4) %}
+      {% liquid
+        assign article_key = 'article_' | append: i
+        assign article = block.settings[article_key]
+        if i <= 2
+          assign item_class = 'ai-magazine-item-' | append: ai_gen_id | append: '--secondary'
+        else
+          assign item_class = 'ai-magazine-item-' | append: ai_gen_id | append: '--tertiary'
+        endif
+      %}
+
+      {% if article != blank %}
+        <article class="ai-magazine-item-{{ ai_gen_id }} {{ item_class }}">
+          <div class="ai-magazine-image-wrapper-{{ ai_gen_id }}">
+            {% if article.image %}
+              <img
+                src="{{ article.image | image_url: width: 600 }}"
+                alt="{{ article.image.alt | escape }}"
+                class="ai-magazine-image-{{ ai_gen_id }}"
+                loading="lazy"
+                width="{{ article.image.width }}"
+                height="{{ article.image.height }}"
+              >
+            {% else %}
+              <div class="ai-magazine-placeholder-{{ ai_gen_id }}">
+                {{ 'image' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+          </div>
+          <div class="ai-magazine-content-{{ ai_gen_id }}">
+            {% if block.settings.show_category and article.tags.size > 0 %}
+              <span class="ai-magazine-category-{{ ai_gen_id }}">{{ article.tags.first }}</span>
+            {% endif %}
+            <h3 class="ai-magazine-title-{{ ai_gen_id }}">{{ article.title }}</h3>
+            {% if block.settings.show_meta %}
+              <div class="ai-magazine-meta-{{ ai_gen_id }}">
+                <span>{{ article.published_at | date: '%b %d' }}</span>
+              </div>
+            {% endif %}
+          </div>
+          <a href="{{ article.url }}" class="ai-magazine-link-{{ ai_gen_id }}" aria-label="{{ article.title }}"></a>
+        </article>
+      {% else %}
+        <article class="ai-magazine-item-{{ ai_gen_id }} {{ item_class }}">
+          <div class="ai-magazine-image-wrapper-{{ ai_gen_id }}">
+            <div class="ai-magazine-placeholder-{{ ai_gen_id }}">
+              {{ 'image' | placeholder_svg_tag }}
+            </div>
+          </div>
+          <div class="ai-magazine-content-{{ ai_gen_id }}">
+            <h3 class="ai-magazine-title-{{ ai_gen_id }}">Select article {{ i }}</h3>
+          </div>
+        </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Magazine layout",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Articles"
+    },
+    {
+      "type": "article",
+      "id": "featured_article",
+      "label": "Featured article"
+    },
+    {
+      "type": "article",
+      "id": "article_1",
+      "label": "Article 1"
+    },
+    {
+      "type": "article",
+      "id": "article_2",
+      "label": "Article 2"
+    },
+    {
+      "type": "article",
+      "id": "article_3",
+      "label": "Article 3"
+    },
+    {
+      "type": "article",
+      "id": "article_4",
+      "label": "Article 4"
+    },
+    {
+      "type": "header",
+      "content": "Display options"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_category",
+      "label": "Show category",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "label": "Show excerpt",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_meta",
+      "label": "Show metadata",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "min": 8,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "label": "Grid gap",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "label": "Spacing",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Border radius",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "category_color",
+      "label": "Category",
+      "default": "#FFD740"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "label": "Overlay opacity",
+      "default": 0.7
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "min": 14,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Title size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "content_padding",
+      "min": 16,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Content padding",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "Magazine layout"
+    }
+  ]
+}
 {% endschema %}
