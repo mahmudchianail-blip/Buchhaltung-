@@ -2347,6 +2347,12 @@ input[type='checkbox'] {
   transition: top 0.15s ease-out;
 }
 
+.section-header {
+  position: sticky;
+  top: 0;
+  z-index: 25;
+}
+
 .shopify-section-group-header-group {
   z-index: 4;
 }
@@ -2360,6 +2366,7 @@ input[type='checkbox'] {
   display: block;
   position: relative;
   background-color: rgb(var(--color-background));
+  z-index: 30;
 }
 
 .header-wrapper--border-bottom {
