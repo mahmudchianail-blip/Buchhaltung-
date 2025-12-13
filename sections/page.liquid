@@ -1,117 +1,265 @@
-{{ 'section-main-page.css' | asset_url | stylesheet_tag }}
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comparison</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
 
-{%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
-
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
-  }
-{%- endstyle -%}
-
-<div class="color-{{ section.settings.color_scheme }} gradient">
-  <div class="page-width page-width--narrow section-{{ section.id }}-padding">
-    <h2 class="page-title {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-      {%- if section.settings.page.title != blank -%}
-        {{ section.settings.page.title | escape }}
-      {%- else -%}
-        {{ 'sections.page.title' | t }}
-      {%- endif -%}
-    </h2>
-    <div class="rte{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-      {%- if section.settings.page.content != blank -%}
-        {{ section.settings.page.content }}
-      {%- else -%}
-        <div class="page-placeholder-wrapper placeholder">
-          {{ 'page' | placeholder_svg_tag: 'page-placeholder' }}
+  <body class="bg-[#050505]">
+    <section class="py-24 bg-[#050505] relative">
+      <div class="container mx-auto px-6 max-w-4xl">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl md:text-5xl font-bold mb-4 text-white">
+            Warum <span class="text-blue-500">UltraGlass Pro?</span>
+          </h2>
+          <p class="text-gray-400">Der Unterschied liegt im Detail.</p>
         </div>
-      {%- endif -%}
-    </div>
-  </div>
-</div>
 
-{% schema %}
-{
-  "name": "t:sections.page.name",
-  "tag": "section",
-  "class": "section",
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
-  "settings": [
-    {
-      "type": "page",
-      "id": "page",
-      "label": "t:sections.page.settings.page.label"
-    },
-    {
-      "type": "select",
-      "id": "heading_size",
-      "options": [
-        {
-          "value": "h2",
-          "label": "t:sections.all.heading_size.options__1.label"
-        },
-        {
-          "value": "h1",
-          "label": "t:sections.all.heading_size.options__2.label"
-        },
-        {
-          "value": "h0",
-          "label": "t:sections.all.heading_size.options__3.label"
-        },
-        {
-          "value": "hxl",
-          "label": "t:sections.all.heading_size.options__4.label"
-        },
-        {
-          "value": "hxxl",
-          "label": "t:sections.all.heading_size.options__5.label"
-        }
-      ],
-      "default": "h1",
-      "label": "t:sections.all.heading_size.label"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_top",
-      "default": 36
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
-      "label": "t:sections.all.padding.padding_bottom",
-      "default": 36
-    }
-  ],
-  "presets": [
-    {
-      "name": "t:sections.page.presets.name"
-    }
-  ]
-}
-{% endschema %}
+        <div class="bg-[#111] rounded-3xl border border-white/10 overflow-hidden relative">
+          <!-- Header Row -->
+          <div class="grid grid-cols-3 p-6 border-b border-white/10 bg-white/5">
+            <div class="col-span-1 flex items-center text-gray-400 font-semibold text-sm uppercase tracking-wider">
+              Feature
+            </div>
+
+            <div class="col-span-1 flex flex-col items-center justify-center text-gray-500 opacity-50 scale-90">
+              <span class="font-bold text-lg">Andere</span>
+              <span class="text-xs">Standard Glas</span>
+            </div>
+
+            <div class="col-span-1 flex flex-col items-center justify-center relative">
+              <div class="absolute inset-0 bg-blue-500/20 blur-xl"></div>
+              <span class="font-bold text-xl text-white relative z-10">Optispar</span>
+              <span class="text-xs text-blue-400 font-bold tracking-widest uppercase relative z-10">Pro Series</span>
+            </div>
+          </div>
+
+          <!-- Rows -->
+          <div class="grid grid-cols-3 p-6 items-center hover:bg-white/5 transition-colors border-b border-white/5">
+            <div class="col-span-1 text-gray-300 font-medium text-sm md:text-base pr-4">Härtegrad</div>
+
+            <div class="col-span-1 flex flex-col items-center justify-center text-center opacity-40 grayscale transition-all hover:grayscale-0">
+              <div class="mb-1 text-red-500">
+                <!-- X size={20} -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M18 6 6 18"></path>
+                  <path d="m6 6 12 12"></path>
+                </svg>
+              </div>
+              <span class="text-xs text-gray-500 hidden md:block">Standard 5H Glas</span>
+            </div>
+
+            <div class="col-span-1 flex flex-col items-center justify-center text-center relative group">
+              <div class="absolute inset-0 bg-blue-500/10 blur-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div class="mb-1 text-[#bef264] drop-shadow-[0_0_8px_rgba(190,242,100,0.5)]">
+                <!-- Check size={24} strokeWidth={3} -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M20 6 9 17l-5-5"></path>
+                </svg>
+              </div>
+              <span class="text-xs md:text-sm font-bold text-white relative z-10">9H Diamant-Härte</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 p-6 items-center hover:bg-white/5 transition-colors border-b border-white/5">
+            <div class="col-span-1 text-gray-300 font-medium text-sm md:text-base pr-4">Installation</div>
+
+            <div class="col-span-1 flex flex-col items-center justify-center text-center opacity-40 grayscale transition-all hover:grayscale-0">
+              <div class="mb-1 text-red-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M18 6 6 18"></path>
+                  <path d="m6 6 12 12"></path>
+                </svg>
+              </div>
+              <span class="text-xs text-gray-500 hidden md:block">Manuelles Kleben</span>
+            </div>
+
+            <div class="col-span-1 flex flex-col items-center justify-center text-center relative group">
+              <div class="absolute inset-0 bg-blue-500/10 blur-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div class="mb-1 text-[#bef264] drop-shadow-[0_0_8px_rgba(190,242,100,0.5)]">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M20 6 9 17l-5-5"></path>
+                </svg>
+              </div>
+              <span class="text-xs md:text-sm font-bold text-white relative z-10">Auto-Alignment Box</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 p-6 items-center hover:bg-white/5 transition-colors border-b border-white/5">
+            <div class="col-span-1 text-gray-300 font-medium text-sm md:text-base pr-4">Staub-Entfernung</div>
+
+            <div class="col-span-1 flex flex-col items-center justify-center text-center opacity-40 grayscale transition-all hover:grayscale-0">
+              <div class="mb-1 text-red-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M18 6 6 18"></path>
+                  <path d="m6 6 12 12"></path>
+                </svg>
+              </div>
+              <span class="text-xs text-gray-500 hidden md:block">Mühsam mit Stickern</span>
+            </div>
+
+            <div class="col-span-1 flex flex-col items-center justify-center text-center relative group">
+              <div class="absolute inset-0 bg-blue-500/10 blur-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div class="mb-1 text-[#bef264] drop-shadow-[0_0_8px_rgba(190,242,100,0.5)]">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M20 6 9 17l-5-5"></path>
+                </svg>
+              </div>
+              <span class="text-xs md:text-sm font-bold text-white relative z-10">Automatisch (Statisch)</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 p-6 items-center hover:bg-white/5 transition-colors border-b border-white/5">
+            <div class="col-span-1 text-gray-300 font-medium text-sm md:text-base pr-4">Rand-Abdeckung</div>
+
+            <div class="col-span-1 flex flex-col items-center justify-center text-center opacity-40 grayscale transition-all hover:grayscale-0">
+              <div class="mb-1 text-red-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M18 6 6 18"></path>
+                  <path d="m6 6 12 12"></path>
+                </svg>
+              </div>
+              <span class="text-xs text-gray-500 hidden md:block">Offene Ränder</span>
+            </div>
+
+            <div class="col-span-1 flex flex-col items-center justify-center text-center relative group">
+              <div class="absolute inset-0 bg-blue-500/10 blur-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div class="mb-1 text-[#bef264] drop-shadow-[0_0_8px_rgba(190,242,100,0.5)]">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M20 6 9 17l-5-5"></path>
+                </svg>
+              </div>
+              <span class="text-xs md:text-sm font-bold text-white relative z-10">3D Full Cover</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 p-6 items-center hover:bg-white/5 transition-colors">
+            <div class="col-span-1 text-gray-300 font-medium text-sm md:text-base pr-4">Rückgabe</div>
+
+            <div class="col-span-1 flex flex-col items-center justify-center text-center opacity-40 grayscale transition-all hover:grayscale-0">
+              <div class="mb-1 text-red-500">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M18 6 6 18"></path>
+                  <path d="m6 6 12 12"></path>
+                </svg>
+              </div>
+              <span class="text-xs text-gray-500 hidden md:block">Standard 14 Tage</span>
+            </div>
+
+            <div class="col-span-1 flex flex-col items-center justify-center text-center relative group">
+              <div class="absolute inset-0 bg-blue-500/10 blur-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div class="mb-1 text-[#bef264] drop-shadow-[0_0_8px_rgba(190,242,100,0.5)]">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M20 6 9 17l-5-5"></path>
+                </svg>
+              </div>
+              <span class="text-xs md:text-sm font-bold text-white relative z-10">30 Tage</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
