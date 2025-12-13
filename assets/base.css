@@ -3595,3 +3595,198 @@ details-disclosure > details {
     transform: translateX(100%) scaleX(0);
   }
 }
+
+/* Buchhaltung design system */
+:root {
+  --brand-color-background: #0f0f0f;
+  --brand-color-surface: #111111;
+  --brand-color-text: #ffffff;
+  --brand-color-subdued: rgba(255, 255, 255, 0.82);
+  --brand-color-muted: rgba(255, 255, 255, 0.72);
+  --brand-color-accent: #00ff90;
+  --brand-color-accent-strong: #00cc70;
+  --brand-color-contrast: #0f0f0f;
+  --brand-border-strong: rgba(255, 255, 255, 0.12);
+  --brand-radius-lg: 2.4rem;
+  --brand-radius-md: 1.4rem;
+  --brand-section-padding: clamp(6rem, 6vw, 10rem);
+  --brand-container-padding: clamp(2.4rem, 4vw, 3.6rem);
+  --brand-header-height: 8.4rem;
+  --brand-shadow-soft: 0 2rem 6rem rgba(0, 255, 144, 0.12);
+}
+
+body {
+  background-color: var(--brand-color-background);
+  color: var(--brand-color-subdued);
+  font-size: 1.6rem;
+  line-height: 1.6;
+  padding-top: var(--header-height, var(--brand-header-height));
+}
+
+@media screen and (max-width: 749px) {
+  body {
+    font-size: 1.8rem;
+    padding-top: calc(var(--header-height, var(--brand-header-height)) + 0.8rem);
+  }
+}
+
+a {
+  color: var(--brand-color-accent);
+}
+
+a:hover {
+  color: var(--brand-color-accent-strong);
+}
+
+.page-width {
+  max-width: 120rem;
+  padding-left: var(--brand-container-padding);
+  padding-right: var(--brand-container-padding);
+}
+
+.section {
+  padding-top: var(--brand-section-padding);
+  padding-bottom: var(--brand-section-padding);
+}
+
+.section + .section {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--brand-color-text);
+  font-family: var(--font-heading-family);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.15;
+  margin-top: 0;
+}
+
+h1 {
+  font-size: clamp(3.4rem, 4vw, 4.8rem);
+}
+
+h2 {
+  font-size: clamp(2.8rem, 3vw, 3.6rem);
+}
+
+h3 {
+  font-size: clamp(2.2rem, 2vw, 2.8rem);
+}
+
+p,
+li {
+  color: var(--brand-color-muted);
+  font-size: clamp(1.6rem, 0.7vw + 1.4rem, 1.9rem);
+  line-height: 1.6;
+  max-width: 72ch;
+}
+
+small {
+  color: var(--brand-color-muted);
+  font-size: 1.4rem;
+}
+
+.header-wrapper {
+  background: rgba(15, 15, 15, 0.92);
+  border-bottom: 0.1rem solid var(--brand-border-strong);
+  backdrop-filter: blur(12px);
+}
+
+.header {
+  min-height: var(--brand-header-height);
+  gap: 1.6rem;
+}
+
+.header__heading-link {
+  padding: 1rem;
+}
+
+.header__heading-logo,
+.header__heading-logo-wrapper img {
+  max-height: 4.4rem;
+}
+
+.header__inline-menu .list-menu__item--link {
+  color: var(--brand-color-subdued);
+  font-weight: 600;
+  border-bottom: 0.2rem solid transparent;
+  margin-bottom: -0.2rem;
+  transition: color var(--duration-short), border-color var(--duration-short);
+}
+
+.header__inline-menu .list-menu__item--link:hover,
+.header__inline-menu .list-menu__item--link:focus-visible,
+.header__inline-menu .list-menu__item--link[aria-current],
+.header__inline-menu .list-menu__item--link.list-menu__item--active {
+  color: var(--brand-color-accent);
+  border-color: var(--brand-color-accent);
+}
+
+.button,
+button,
+input[type='submit'],
+.shopify-challenge__button,
+.customer button {
+  background-color: var(--brand-color-accent);
+  color: var(--brand-color-contrast);
+  border-color: var(--brand-color-accent);
+  border-radius: var(--brand-radius-md);
+  min-height: 4.4rem;
+  padding: 1.2rem 2.4rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  box-shadow: var(--brand-shadow-soft);
+  transition: transform var(--duration-medium) ease, box-shadow var(--duration-medium) ease,
+    background-color var(--duration-short) ease;
+}
+
+.button:hover,
+button:hover,
+input[type='submit']:hover,
+.shopify-challenge__button:hover,
+.customer button:hover {
+  background-color: var(--brand-color-accent-strong);
+  border-color: var(--brand-color-accent-strong);
+  transform: translateY(-0.1rem) scale(1.02);
+  box-shadow: 0 2.4rem 6rem rgba(0, 255, 144, 0.18);
+}
+
+.button:focus-visible,
+button:focus-visible,
+input[type='submit']:focus-visible,
+.shopify-challenge__button:focus-visible,
+.customer button:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 0.3rem rgba(0, 255, 144, 0.35);
+}
+
+.card,
+.contains-card,
+.contains-card--product,
+.contains-card--collection,
+.contains-card--article,
+.contains-content-container,
+.content-container {
+  background: var(--brand-color-surface);
+  border: 0.1rem solid var(--brand-border-strong);
+  border-radius: var(--brand-radius-lg);
+  box-shadow: var(--brand-shadow-soft);
+  transition: border-color var(--duration-short) ease, box-shadow var(--duration-short) ease,
+    transform var(--duration-short) ease;
+}
+
+.card:hover,
+.contains-card:hover,
+.contains-card--product:hover,
+.contains-card--collection:hover,
+.contains-card--article:hover,
+.contains-content-container:hover,
+.content-container:hover {
+  border-color: rgba(0, 255, 144, 0.4);
+  box-shadow: 0 2.4rem 6rem rgba(0, 255, 144, 0.18);
+  transform: translateY(-0.4rem);
+}
