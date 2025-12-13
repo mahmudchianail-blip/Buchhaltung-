@@ -2367,8 +2367,13 @@ input[type='checkbox'] {
 .header-wrapper {
   display: block;
   position: relative;
-  background-color: rgb(var(--color-background));
+  background-color: #0b1f3a;
   z-index: 30;
+}
+
+.header-wrapper.gradient {
+  background: linear-gradient(120deg, #0b1f3a 0%, #0d2c59 45%, #0a1b32 100%);
+  background-attachment: scroll;
 }
 
 .header-wrapper--border-bottom {
@@ -2478,6 +2483,8 @@ input[type='checkbox'] {
 .header__heading-logo {
   height: auto;
   max-width: 100%;
+  filter: none;
+  mix-blend-mode: normal;
 }
 
 .header__heading-logo-wrapper {
@@ -2559,6 +2566,9 @@ input[type='checkbox'] {
 .header__icon .svg-wrapper {
   width: 44px;
   height: 44px;
+  background: rgba(13, 44, 89, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
 }
 
 .header__icon::after {
