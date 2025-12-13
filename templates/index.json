@@ -35,10 +35,10 @@
             "title_part_1": "Wähle dein",
             "title_part_2": "Modell",
             "subtitle": "Finde das perfekte Produkt für deine Bedürfnisse",
-            "accent_color": "#2F6ED8",
-            "star_color": "#FFD700",
-            "stock_bg_color": "#3D4F2F",
-            "stock_text_color": "#A8D08D",
+            "accent_color": "#2f6ed8",
+            "star_color": "#ffd700",
+            "stock_bg_color": "#3d4f2f",
+            "stock_text_color": "#a8d08d",
             "card_border_radius": 28,
             "button_text": "In den Warenkorb",
             "stock_label": "AUF LAGER",
@@ -75,19 +75,22 @@
     "collapsible_content_mB7Lp8": {
       "type": "collapsible-content",
       "name": "t:sections.collapsible_content.presets.name",
+      "settings": {}
+    },
+    "image_banner_gzqkia": {
+      "type": "image-banner",
+      "name": "t:sections.image-banner.presets.name",
       "settings": {
-        "caption": "",
-        "heading": "Einklappbarer Inhalt",
-        "heading_size": "h1",
-        "heading_alignment": "center",
-        "layout": "none",
-        "container_color_scheme": "",
+        "image_overlay_opacity": 0,
+        "image_height": "medium",
+        "image_behavior": "none",
+        "desktop_content_position": "middle-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": true,
         "color_scheme": "",
-        "open_first_collapsible_row": false,
-        "image_ratio": "adapt",
-        "desktop_layout": "image_second",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "stack_images_on_mobile": true,
+        "mobile_content_alignment": "center",
+        "show_text_below": true
       }
     }
   },
@@ -95,6 +98,7 @@
     "rich_text_xUmrHF",
     "page_ECncGx",
     "1765621592d779a331",
-    "collapsible_content_mB7Lp8"
+    "collapsible_content_mB7Lp8",
+    "image_banner_gzqkia"
   ]
 }
