@@ -76,6 +76,39 @@
 
 /* base */
 
+body {
+  background-color: #050505;
+  color: #e8e9ec;
+}
+
+.section-header.shopify-section-group-header-group,
+.section-header {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  background: linear-gradient(180deg, rgba(5, 5, 5, 0.96) 0%, rgba(5, 5, 5, 0.9) 70%, rgba(5, 5, 5, 0));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(190, 242, 100, 0.18);
+}
+
+.header-wrapper {
+  background: transparent;
+}
+
+.header__heading-link,
+.header__menu-item,
+.header__menu-item span,
+.header__icon .icon,
+.header__icon span {
+  color: #f8fbf2;
+}
+
+.header__menu-item:hover span,
+.header__icon:hover .icon {
+  color: #bef264;
+}
+
 .page-width {
   max-width: var(--page-width);
   margin: 0 auto;

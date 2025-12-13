@@ -18,8 +18,14 @@
 
 {% style %}
   .ai-product-selector-{{ ai_gen_id }} {
-    background: radial-gradient(ellipse at center, rgba(47, 110, 216, 0.08) 0%, #050505 70%);
-    padding: 60px 20px;
+    --ai-accent: {{ block.settings.accent_color | default: '#bef264' }};
+    --ai-surface: #0a0a0a;
+    --ai-surface-soft: #0f1310;
+    --ai-border: rgba(255, 255, 255, 0.1);
+    --ai-text-strong: #f8fafc;
+    --ai-text-muted: #a5acb8;
+    background: radial-gradient(ellipse at center, color-mix(in srgb, var(--ai-accent) 20%, transparent) 0%, #050505 65%);
+    padding: 56px 20px;
     position: relative;
   }
 
@@ -43,7 +49,7 @@
 
   .ai-product-selector__header-{{ ai_gen_id }} {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 36px;
   }
 
   .ai-product-selector__title-{{ ai_gen_id }} {
@@ -54,15 +60,15 @@
   }
 
   .ai-product-selector__title-{{ ai_gen_id }} .ai-product-selector__title-white-{{ ai_gen_id }} {
-    color: #ffffff;
+    color: var(--ai-text-strong);
   }
 
   .ai-product-selector__title-{{ ai_gen_id }} .ai-product-selector__title-blue-{{ ai_gen_id }} {
-    color: {{ block.settings.accent_color }};
+    color: var(--ai-accent);
   }
 
   .ai-product-selector__subtitle-{{ ai_gen_id }} {
-    color: #a0a0a0;
+    color: var(--ai-text-muted);
     font-size: 16px;
     margin: 0;
     line-height: 1.5;
@@ -71,27 +77,27 @@
   .ai-product-selector__grid-{{ ai_gen_id }} {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
-    margin-top: 32px;
+    gap: 28px;
+    margin-top: 28px;
   }
 
   .ai-product-card-{{ ai_gen_id }} {
-    background: #111111;
+    background: linear-gradient(180deg, var(--ai-surface) 0%, var(--ai-surface-soft) 100%);
     border-radius: {{ block.settings.card_border_radius }}px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--ai-border);
     overflow: hidden;
     transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   }
 
   .ai-product-card-{{ ai_gen_id }}:hover {
     transform: translateY(-4px);
-    border-color: rgba(47, 110, 216, 0.4);
-    box-shadow: 0 8px 30px rgba(47, 110, 216, 0.15);
+    border-color: color-mix(in srgb, var(--ai-accent) 40%, transparent);
+    box-shadow: 0 8px 30px color-mix(in srgb, var(--ai-accent) 12%, transparent);
   }
 
   .ai-product-card__image-wrapper-{{ ai_gen_id }} {
     position: relative;
-    background: #0a0a0a;
+    background: #080b0a;
     aspect-ratio: 1;
     overflow: hidden;
   }
@@ -121,8 +127,8 @@
     position: absolute;
     top: 14px;
     left: 14px;
-    background: {{ block.settings.accent_color }};
-    color: #ffffff;
+    background: color-mix(in srgb, var(--ai-accent) 70%, #050505);
+    color: #050505;
     padding: 6px 12px;
     border-radius: 6px;
     font-size: 10px;
@@ -136,7 +142,7 @@
   }
 
   .ai-product-card__title-{{ ai_gen_id }} {
-    color: #ffffff;
+    color: var(--ai-text-strong);
     font-size: 18px;
     font-weight: 700;
     margin: 0 0 12px;
@@ -161,7 +167,7 @@
   }
 
   .ai-product-card__rating-text-{{ ai_gen_id }} {
-    color: #909090;
+    color: var(--ai-text-muted);
     font-size: 12px;
     font-weight: 500;
   }
@@ -176,7 +182,7 @@
     display: flex;
     align-items: flex-start;
     gap: 8px;
-    color: #b0b0b0;
+    color: var(--ai-text-muted);
     font-size: 13px;
     line-height: 1.6;
     margin-bottom: 8px;
@@ -187,7 +193,7 @@
   }
 
   .ai-product-card__check-{{ ai_gen_id }} {
-    color: {{ block.settings.accent_color }};
+    color: var(--ai-accent);
     font-size: 14px;
     flex-shrink: 0;
     margin-top: 1px;
@@ -196,7 +202,7 @@
 
   .ai-product-card__divider-{{ ai_gen_id }} {
     height: 1px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.08);
     margin: 16px 0;
   }
 
@@ -214,14 +220,14 @@
   }
 
   .ai-product-card__old-price-{{ ai_gen_id }} {
-    color: #707070;
+    color: color-mix(in srgb, var(--ai-text-muted) 75%, transparent);
     font-size: 13px;
     text-decoration: line-through;
     font-weight: 500;
   }
 
   .ai-product-card__new-price-{{ ai_gen_id }} {
-    color: #ffffff;
+    color: var(--ai-text-strong);
     font-size: 24px;
     font-weight: 700;
     line-height: 1;
@@ -240,11 +246,11 @@
 
   .ai-product-card__button-{{ ai_gen_id }} {
     width: 100%;
-    background: #ffffff;
-    color: #000000;
-    border: none;
+    background: var(--ai-accent);
+    color: #050505;
+    border: 1px solid color-mix(in srgb, var(--ai-accent) 60%, transparent);
     padding: 14px 20px;
-    border-radius: 50px;
+    border-radius: 999px;
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
@@ -252,12 +258,14 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--ai-accent) 15%, transparent);
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   }
 
   .ai-product-card__button-{{ ai_gen_id }}:hover {
-    background: #f0f0f0;
-    transform: scale(1.02);
+    background: color-mix(in srgb, var(--ai-accent) 85%, #ffffff);
+    transform: translateY(-1px);
+    box-shadow: 0 16px 40px color-mix(in srgb, var(--ai-accent) 25%, transparent);
   }
 
   .ai-product-card__button-icon-{{ ai_gen_id }} {
@@ -469,7 +477,7 @@
       "type": "color",
       "id": "accent_color",
       "label": "Akzentfarbe (Blau)",
-      "default": "#2F6ED8"
+      "default": "#bef264"
     },
     {
       "type": "color",
