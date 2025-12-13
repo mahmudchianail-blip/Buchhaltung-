@@ -1,6 +1,640 @@
+{% doc %}
+  @prompt
+    Hintergrund nahezu schwarz #050505 mit leichtem Soft-Glow/Vignette.
+    
+    Oben zentriert große Headline: „Wähle dein“ weiß, „Modell“ blau (ca. #2F6ED8). Darunter kurzer Untertitel in hellgrau.
+    
+    Darunter 3-spaltiges Grid mit 3 Karten (gleich breit), zentriert, große Abstände.
+    
+    Karten: Hintergrund #111, große Rundungen (24–30px), dünner Border weiß 10%. Oben großer dunkler Bildbereich. Links oben ein kleines blaues Badge mit weißem Text.
+    
+    Content: Titel weiß fett, darunter gelbe Sterne, Text daneben grau. 3 Bulletpoints mit kleinem blauem Check + grauer Text, feine Trennlinie.
+    
+    Preisbereich: alter Preis grau durchgestrichen, neuer Preis groß weiß. Rechts ein „AUF LAGER“ Pill: dunkelgrün/oliv, Text hellgrün.
+    
+    Unten großer weißer Vollbreite-Button stark abgerundet mit Warenkorb-Icon links und Text „In den Warenkorb“.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-product-selector-{{ ai_gen_id }} {
+    background: radial-gradient(ellipse at center, rgba(47, 110, 216, 0.08) 0%, #050505 70%);
+    padding: 60px 20px;
+    position: relative;
+  }
+
+  .ai-product-selector-{{ ai_gen_id }}::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(ellipse at center, transparent 0%, rgba(5, 5, 5, 0.6) 100%);
+    pointer-events: none;
+  }
+
+  .ai-product-selector__container-{{ ai_gen_id }} {
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .ai-product-selector__header-{{ ai_gen_id }} {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .ai-product-selector__title-{{ ai_gen_id }} {
+    font-size: 48px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    line-height: 1.2;
+  }
+
+  .ai-product-selector__title-{{ ai_gen_id }} .ai-product-selector__title-white-{{ ai_gen_id }} {
+    color: #ffffff;
+  }
+
+  .ai-product-selector__title-{{ ai_gen_id }} .ai-product-selector__title-blue-{{ ai_gen_id }} {
+    color: {{ block.settings.accent_color }};
+  }
+
+  .ai-product-selector__subtitle-{{ ai_gen_id }} {
+    color: #a0a0a0;
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .ai-product-selector__grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-top: 40px;
+  }
+
+  .ai-product-card-{{ ai_gen_id }} {
+    background: #111111;
+    border-radius: {{ block.settings.card_border_radius }}px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .ai-product-card-{{ ai_gen_id }}:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .ai-product-card__image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    background: #0a0a0a;
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+
+  .ai-product-card__image-wrapper-{{ ai_gen_id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-product-card__image-placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0a0a0a;
+  }
+
+  .ai-product-card__image-placeholder-{{ ai_gen_id }} svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .ai-product-card__badge-{{ ai_gen_id }} {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: {{ block.settings.accent_color }};
+    color: #ffffff;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .ai-product-card__content-{{ ai_gen_id }} {
+    padding: 24px;
+  }
+
+  .ai-product-card__title-{{ ai_gen_id }} {
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 12px;
+  }
+
+  .ai-product-card__rating-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .ai-product-card__stars-{{ ai_gen_id }} {
+    display: flex;
+    gap: 2px;
+  }
+
+  .ai-product-card__star-{{ ai_gen_id }} {
+    color: {{ block.settings.star_color }};
+    font-size: 16px;
+  }
+
+  .ai-product-card__rating-text-{{ ai_gen_id }} {
+    color: #808080;
+    font-size: 14px;
+  }
+
+  .ai-product-card__features-{{ ai_gen_id }} {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+  }
+
+  .ai-product-card__feature-{{ ai_gen_id }} {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: #a0a0a0;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  .ai-product-card__feature-{{ ai_gen_id }}:last-child {
+    margin-bottom: 0;
+  }
+
+  .ai-product-card__check-{{ ai_gen_id }} {
+    color: {{ block.settings.accent_color }};
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .ai-product-card__divider-{{ ai_gen_id }} {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
+    margin: 20px 0;
+  }
+
+  .ai-product-card__price-section-{{ ai_gen_id }} {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .ai-product-card__prices-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .ai-product-card__old-price-{{ ai_gen_id }} {
+    color: #666666;
+    font-size: 14px;
+    text-decoration: line-through;
+  }
+
+  .ai-product-card__new-price-{{ ai_gen_id }} {
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  .ai-product-card__stock-badge-{{ ai_gen_id }} {
+    background: {{ block.settings.stock_bg_color }};
+    color: {{ block.settings.stock_text_color }};
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .ai-product-card__button-{{ ai_gen_id }} {
+    width: 100%;
+    background: #ffffff;
+    color: #000000;
+    border: none;
+    padding: 16px 24px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+
+  .ai-product-card__button-{{ ai_gen_id }}:hover {
+    background: #f0f0f0;
+    transform: scale(1.02);
+  }
+
+  .ai-product-card__button-icon-{{ ai_gen_id }} {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ai-product-selector__grid-{{ ai_gen_id }} {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+    }
+
+    .ai-product-selector__title-{{ ai_gen_id }} {
+      font-size: 36px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-product-selector__grid-{{ ai_gen_id }} {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .ai-product-selector__title-{{ ai_gen_id }} {
+      font-size: 28px;
+    }
+
+    .ai-product-selector-{{ ai_gen_id }} {
+      padding: 40px 16px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-product-selector-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-product-selector__container-{{ ai_gen_id }}">
+    <div class="ai-product-selector__header-{{ ai_gen_id }}">
+      <h2 class="ai-product-selector__title-{{ ai_gen_id }}">
+        <span class="ai-product-selector__title-white-{{ ai_gen_id }}">{{ block.settings.title_part_1 }}</span>
+        <span class="ai-product-selector__title-blue-{{ ai_gen_id }}">{{ block.settings.title_part_2 }}</span>
+      </h2>
+      {% if block.settings.subtitle != blank %}
+        <p class="ai-product-selector__subtitle-{{ ai_gen_id }}">{{ block.settings.subtitle }}</p>
+      {% endif %}
+    </div>
+
+    <div class="ai-product-selector__grid-{{ ai_gen_id }}">
+      {% for i in (1..3) %}
+        {% liquid
+          assign product_key = 'product_' | append: i
+          assign badge_key = 'badge_' | append: i
+          assign feature_1_key = 'feature_' | append: i | append: '_1'
+          assign feature_2_key = 'feature_' | append: i | append: '_2'
+          assign feature_3_key = 'feature_' | append: i | append: '_3'
+          assign old_price_key = 'old_price_' | append: i
+          assign rating_key = 'rating_' | append: i
+
+          assign product = block.settings[product_key]
+          assign badge = block.settings[badge_key]
+          assign feature_1 = block.settings[feature_1_key]
+          assign feature_2 = block.settings[feature_2_key]
+          assign feature_3 = block.settings[feature_3_key]
+          assign old_price = block.settings[old_price_key]
+          assign rating = block.settings[rating_key]
+        %}
+
+        <div class="ai-product-card-{{ ai_gen_id }}">
+          <div class="ai-product-card__image-wrapper-{{ ai_gen_id }}">
+            {% if product.featured_image %}
+              <img
+                src="{{ product.featured_image | image_url: width: 600 }}"
+                alt="{{ product.featured_image.alt | escape }}"
+                loading="lazy"
+                width="600"
+                height="600"
+              >
+            {% else %}
+              <div class="ai-product-card__image-placeholder-{{ ai_gen_id }}">
+                {{ 'product-1' | placeholder_svg_tag }}
+              </div>
+            {% endif %}
+
+            {% if badge != blank %}
+              <div class="ai-product-card__badge-{{ ai_gen_id }}">{{ badge }}</div>
+            {% endif %}
+          </div>
+
+          <div class="ai-product-card__content-{{ ai_gen_id }}">
+            <h3 class="ai-product-card__title-{{ ai_gen_id }}">
+              {% if product != blank %}
+                {{ product.title }}
+              {% else %}
+                Produktname {{ i }}
+              {% endif %}
+            </h3>
+
+            <div class="ai-product-card__rating-{{ ai_gen_id }}">
+              <div class="ai-product-card__stars-{{ ai_gen_id }}">
+                {% for star in (1..5) %}
+                  <span class="ai-product-card__star-{{ ai_gen_id }}">★</span>
+                {% endfor %}
+              </div>
+              <span class="ai-product-card__rating-text-{{ ai_gen_id }}">{{ rating }}</span>
+            </div>
+
+            <ul class="ai-product-card__features-{{ ai_gen_id }}">
+              {% if feature_1 != blank %}
+                <li class="ai-product-card__feature-{{ ai_gen_id }}">
+                  <span class="ai-product-card__check-{{ ai_gen_id }}">✓</span>
+                  <span>{{ feature_1 }}</span>
+                </li>
+              {% endif %}
+              {% if feature_2 != blank %}
+                <li class="ai-product-card__feature-{{ ai_gen_id }}">
+                  <span class="ai-product-card__check-{{ ai_gen_id }}">✓</span>
+                  <span>{{ feature_2 }}</span>
+                </li>
+              {% endif %}
+              {% if feature_3 != blank %}
+                <li class="ai-product-card__feature-{{ ai_gen_id }}">
+                  <span class="ai-product-card__check-{{ ai_gen_id }}">✓</span>
+                  <span>{{ feature_3 }}</span>
+                </li>
+              {% endif %}
+            </ul>
+
+            <div class="ai-product-card__divider-{{ ai_gen_id }}"></div>
+
+            <div class="ai-product-card__price-section-{{ ai_gen_id }}">
+              <div class="ai-product-card__prices-{{ ai_gen_id }}">
+                {% if old_price != blank %}
+                  <span class="ai-product-card__old-price-{{ ai_gen_id }}">{{ old_price }}</span>
+                {% endif %}
+                <span class="ai-product-card__new-price-{{ ai_gen_id }}">
+                  {% if product != blank %}
+                    {{ product.price | money }}
+                  {% else %}
+                    €999
+                  {% endif %}
+                </span>
+              </div>
+              <div class="ai-product-card__stock-badge-{{ ai_gen_id }}">
+                {{ block.settings.stock_label }}
+              </div>
+            </div>
+
+            <button class="ai-product-card__button-{{ ai_gen_id }}" type="button">
+              <svg class="ai-product-card__button-icon-{{ ai_gen_id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              {{ block.settings.button_text }}
+            </button>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
 {% schema %}
- {
-   "name": "AI_Block",
-   "tag": "shopify-ai-generated-block"
- }
+{
+  "name": "Produktauswahl",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Überschrift"
+    },
+    {
+      "type": "text",
+      "id": "title_part_1",
+      "label": "Titel Teil 1 (weiß)",
+      "default": "Wähle dein"
+    },
+    {
+      "type": "text",
+      "id": "title_part_2",
+      "label": "Titel Teil 2 (blau)",
+      "default": "Modell"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Untertitel",
+      "default": "Finde das perfekte Produkt für deine Bedürfnisse"
+    },
+    {
+      "type": "header",
+      "content": "Farben"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Akzentfarbe (Blau)",
+      "default": "#2F6ED8"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Sternfarbe",
+      "default": "#FFD700"
+    },
+    {
+      "type": "color",
+      "id": "stock_bg_color",
+      "label": "Lagerbestand Hintergrund",
+      "default": "#3D4F2F"
+    },
+    {
+      "type": "color",
+      "id": "stock_text_color",
+      "label": "Lagerbestand Text",
+      "default": "#A8D08D"
+    },
+    {
+      "type": "header",
+      "content": "Stil"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Kartenrundung",
+      "default": 28
+    },
+    {
+      "type": "header",
+      "content": "Allgemein"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button-Text",
+      "default": "In den Warenkorb"
+    },
+    {
+      "type": "text",
+      "id": "stock_label",
+      "label": "Lagerbestand-Label",
+      "default": "AUF LAGER"
+    },
+    {
+      "type": "header",
+      "content": "Produkt 1"
+    },
+    {
+      "type": "product",
+      "id": "product_1",
+      "label": "Produkt"
+    },
+    {
+      "type": "text",
+      "id": "badge_1",
+      "label": "Badge-Text",
+      "default": "BELIEBT"
+    },
+    {
+      "type": "text",
+      "id": "rating_1",
+      "label": "Bewertung",
+      "default": "4.8 (120)"
+    },
+    {
+      "type": "text",
+      "id": "feature_1_1",
+      "label": "Feature 1",
+      "default": "Premium Qualität"
+    },
+    {
+      "type": "text",
+      "id": "feature_1_2",
+      "label": "Feature 2",
+      "default": "Schnelle Lieferung"
+    },
+    {
+      "type": "text",
+      "id": "feature_1_3",
+      "label": "Feature 3",
+      "default": "2 Jahre Garantie"
+    },
+    {
+      "type": "text",
+      "id": "old_price_1",
+      "label": "Alter Preis",
+      "default": "€1.299"
+    },
+    {
+      "type": "header",
+      "content": "Produkt 2"
+    },
+    {
+      "type": "product",
+      "id": "product_2",
+      "label": "Produkt"
+    },
+    {
+      "type": "text",
+      "id": "badge_2",
+      "label": "Badge-Text",
+      "default": "NEU"
+    },
+    {
+      "type": "text",
+      "id": "rating_2",
+      "label": "Bewertung",
+      "default": "4.9 (85)"
+    },
+    {
+      "type": "text",
+      "id": "feature_2_1",
+      "label": "Feature 1",
+      "default": "Neueste Technologie"
+    },
+    {
+      "type": "text",
+      "id": "feature_2_2",
+      "label": "Feature 2",
+      "default": "Energieeffizient"
+    },
+    {
+      "type": "text",
+      "id": "feature_2_3",
+      "label": "Feature 3",
+      "default": "Kostenloser Support"
+    },
+    {
+      "type": "text",
+      "id": "old_price_2",
+      "label": "Alter Preis",
+      "default": "€1.499"
+    },
+    {
+      "type": "header",
+      "content": "Produkt 3"
+    },
+    {
+      "type": "product",
+      "id": "product_3",
+      "label": "Produkt"
+    },
+    {
+      "type": "text",
+      "id": "badge_3",
+      "label": "Badge-Text",
+      "default": "ANGEBOT"
+    },
+    {
+      "type": "text",
+      "id": "rating_3",
+      "label": "Bewertung",
+      "default": "4.7 (95)"
+    },
+    {
+      "type": "text",
+      "id": "feature_3_1",
+      "label": "Feature 1",
+      "default": "Bestes Preis-Leistungs-Verhältnis"
+    },
+    {
+      "type": "text",
+      "id": "feature_3_2",
+      "label": "Feature 2",
+      "default": "Sofort verfügbar"
+    },
+    {
+      "type": "text",
+      "id": "feature_3_3",
+      "label": "Feature 3",
+      "default": "30 Tage Rückgaberecht"
+    },
+    {
+      "type": "text",
+      "id": "old_price_3",
+      "label": "Alter Preis",
+      "default": "€899"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Produktauswahl"
+    }
+  ]
+}
 {% endschema %}
